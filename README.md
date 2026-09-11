@@ -10,8 +10,9 @@ developer help.
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in real values — see docs/SETUP.md
-npm run seed                 # once Appwrite is configured
+cp .env.example .env.local     # then fill in real values — see docs/SETUP.md
+npm run bootstrap-schema       # creates the Appwrite database/tables/indexes
+npm run seed                   # seeds categories, products, settings, admin user
 npm run dev
 ```
 

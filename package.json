@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
+    "bootstrap-schema": "tsx --env-file=.env.local scripts/bootstrap-schema.ts",
     "seed": "tsx --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {

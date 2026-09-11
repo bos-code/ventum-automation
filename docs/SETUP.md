@@ -1,13 +1,15 @@
 # Setup guide — Appwrite, Telegram, deployment
 
-This is the manual setup the application code assumes. Nothing here can
-be automated safely from the repo (schema and secrets), so follow it in
-order the first time you stand up the project.
+Two things here can't be scripted at all: creating the Appwrite project
+itself and the storage bucket/API key (console-only, and secrets). The
+database schema (tables, columns, indexes) *can* be scripted — see the
+shortcut below — but the manual steps are kept as the reference spec
+either way.
 
 ## 0. Order of operations
 
 1. Create an Appwrite project + database
-2. Create the four tables below with their columns
+2. Create the four tables (scripted shortcut available — see step 2)
 3. Create the storage bucket
 4. Create a server API key
 5. Copy `.env.example` to `.env.local` and fill it in
@@ -23,9 +25,24 @@ order the first time you stand up the project.
    `TablesDB` API).
 2. Note the **API endpoint** and **Project ID** →
    `NEXT_PUBLIC_APPWRITE_ENDPOINT`, `NEXT_PUBLIC_APPWRITE_PROJECT_ID`.
-3. Create a database (any name) → its ID is `APPWRITE_DATABASE_ID`.
+3. Create a database (any name) → its ID is `APPWRITE_DATABASE_ID`. (Or
+   let the schema script below create it for you — it will, if it
+   doesn't already exist.)
 
 ## 2. Tables
+
+**Shortcut:** once you have an API key (step 4) and `.env.local` filled
+in (step 5), run:
+
+```bash
+npm run bootstrap-schema
+```
+
+This creates the database (if missing) and all four tables below with
+their exact columns and indexes, via the Appwrite API. It's idempotent —
+safe to re-run, and it only creates what's missing. Then skip to step 3
+(storage bucket). Read on for the manual/reference version, or if you'd
+rather click through the console yourself.
 
 Create each table below (Databases → your database → Create Table). The
 column names must match exactly (case-sensitive) — the app reads them by
