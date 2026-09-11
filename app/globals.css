@@ -18,11 +18,9 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
-
   --radius-sm: calc(var(--radius) - 1px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 3px);
-
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
@@ -39,7 +37,6 @@
   --ventum-ivory: #f8f8f5;
   --ventum-ink: #111322;
   --ventum-steel: #717485;
-
   --background: #ffffff;
   --foreground: #111322;
   --card: #ffffff;
@@ -60,15 +57,8 @@
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  html {
-    scroll-behavior: smooth;
-    background: var(--background);
-  }
-
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; background: var(--background); }
   body {
     min-width: 320px;
     background-color: var(--color-background);
@@ -77,110 +67,99 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-  }
-
-  ::selection {
-    background: var(--ventum-red);
-    color: #fff;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--ventum-red);
-    outline-offset: 3px;
-  }
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+  ::selection { background: var(--ventum-red); color: #fff; }
+  :focus-visible { outline: 2px solid var(--ventum-red); outline-offset: 3px; }
 }
 
 @layer utilities {
-  .ventum-shell {
-    width: min(100% - 2rem, 82rem);
-    margin-inline: auto;
-  }
-
+  .ventum-shell { width: min(100% - 2rem, 82rem); margin-inline: auto; }
   .ventum-grid {
-    background-image:
-      linear-gradient(to right, rgba(6, 6, 92, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(6, 6, 92, 0.06) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(6,6,92,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(6,6,92,.06) 1px, transparent 1px);
     background-size: 52px 52px;
   }
-
   .ventum-grid-dark {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-image: linear-gradient(to right, rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.08) 1px, transparent 1px);
     background-size: 52px 52px;
   }
-
   .ventum-kicker {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
-    font-size: 0.67rem;
+    gap: .7rem;
+    font-size: .67rem;
     font-weight: 850;
-    letter-spacing: 0.18em;
+    letter-spacing: .18em;
     text-transform: uppercase;
   }
+  .ventum-kicker::before { content: ""; width: 2.1rem; height: 2px; background: var(--ventum-red); }
+  .ventum-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -.055em; line-height: .95; }
+  .ventum-section-rule { border-top: 1px solid var(--border); }
+  .ventum-technical-label { font-family: var(--font-mono); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 
-  .ventum-kicker::before {
-    content: "";
-    width: 2.1rem;
-    height: 2px;
-    background: var(--ventum-red);
-  }
-
-  .ventum-display {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.055em;
-    line-height: 0.95;
-  }
-
-  .ventum-section-rule {
-    border-top: 1px solid var(--border);
-  }
-
-  .ventum-technical-label {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
+  .ventum-reveal { opacity: 0; transform: translateY(28px); animation: ventum-reveal .8s cubic-bezier(.22,1,.36,1) forwards; }
+  .ventum-delay-1 { animation-delay: .08s; }
+  .ventum-delay-2 { animation-delay: .18s; }
+  .ventum-delay-3 { animation-delay: .28s; }
+  .ventum-delay-4 { animation-delay: .38s; }
+  .ventum-delay-5 { animation-delay: .52s; }
+  .ventum-delay-6 { animation-delay: .64s; }
+  .ventum-rule { width: 0; animation: ventum-rule .9s cubic-bezier(.22,1,.36,1) .14s forwards; }
+  .ventum-stage-in { opacity: 0; transform: translateX(38px) scale(.94); animation: ventum-stage-in 1.05s cubic-bezier(.22,1,.36,1) .14s forwards; }
+  .ventum-side-in { opacity: 0; transform: translateX(24px); animation: ventum-side-in .7s cubic-bezier(.22,1,.36,1) .65s forwards; }
+  .ventum-product-float { animation: ventum-product-float 7s ease-in-out 1.1s infinite; }
+  .ventum-tile-in { opacity: 0; transform: translateY(20px); animation: ventum-reveal .7s cubic-bezier(.22,1,.36,1) forwards; }
+  .ventum-orbit-a { animation: ventum-orbit 70s linear infinite; }
+  .ventum-orbit-b { animation: ventum-orbit-reverse 55s linear infinite; }
+  .ventum-bottom-line { transform: scaleX(0); animation: ventum-line 1.2s cubic-bezier(.22,1,.36,1) .4s forwards; }
 }
 
 @media (min-width: 640px) {
-  .ventum-shell {
-    width: min(100% - 3rem, 82rem);
-  }
+  .ventum-shell { width: min(100% - 3rem, 82rem); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+@keyframes ventum-reveal {
+  to { opacity: 1; transform: translateY(0); }
 }
-
+@keyframes ventum-rule {
+  to { width: 42px; }
+}
+@keyframes ventum-stage-in {
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes ventum-side-in {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes ventum-product-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes ventum-orbit {
+  to { transform: rotate(360deg); }
+}
+@keyframes ventum-orbit-reverse {
+  to { transform: rotate(-360deg); }
+}
+@keyframes ventum-line {
+  to { transform: scaleX(1); }
+}
 @keyframes ventum-overlay-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
 @keyframes ventum-content-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 @keyframes ventum-sheet-in {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }
