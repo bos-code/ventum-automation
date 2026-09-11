@@ -69,89 +69,97 @@ export default async function ProductDetailPage(
   const related = await getRelatedProducts(product, 4);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <nav
-        className="mb-6 flex flex-wrap items-center gap-1 text-sm text-muted-foreground"
-        aria-label="Breadcrumb"
-      >
-        <Link href="/products" className="hover:text-foreground">
-          Products
-        </Link>
-        {product.category && (
-          <>
-            <ChevronRight className="size-4" aria-hidden="true" />
-            <Link
-              href={`/products?category=${product.category.slug}`}
-              className="hover:text-foreground"
-            >
-              {product.category.name}
-            </Link>
-          </>
-        )}
-        <ChevronRight className="size-4" aria-hidden="true" />
-        <span className="text-foreground">{product.name}</span>
-      </nav>
+    <main className="bg-[#f7f7f9]">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <nav
+          className="mb-5 flex flex-wrap items-center gap-1 text-xs text-muted-foreground sm:text-sm"
+          aria-label="Breadcrumb"
+        >
+          <Link href="/products" className="hover:text-[#ed0101]">Products</Link>
+          {product.category && (
+            <>
+              <ChevronRight className="size-3.5" aria-hidden="true" />
+              <Link
+                href={`/products?category=${product.category.slug}`}
+                className="hover:text-[#ed0101]"
+              >
+                {product.category.name}
+              </Link>
+            </>
+          )}
+          <ChevronRight className="size-3.5" aria-hidden="true" />
+          <span className="max-w-[220px] truncate text-foreground sm:max-w-none">
+            {product.name}
+          </span>
+        </nav>
 
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <ProductGallery images={product.imageUrls} name={product.name} />
-
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">{product.brand}</Badge>
-            {product.featured && <Badge>Featured</Badge>}
-            <AvailabilityBadge inStock={product.inStock} />
+        <section className="grid gap-6 lg:grid-cols-[1.05fr_.95fr] lg:gap-10">
+          <div className="overflow-hidden rounded-[28px] border border-border bg-white p-3 sm:p-5">
+            <ProductGallery images={product.imageUrls} name={product.name} />
           </div>
 
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+          <div className="rounded-[28px] border border-border bg-white p-5 sm:p-7 lg:p-8">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline">{product.brand}</Badge>
+              {product.featured && <Badge>Featured</Badge>}
+              <AvailabilityBadge inStock={product.inStock} />
+            </div>
+
+            <h1 className="mt-5 text-3xl font-semibold leading-tight tracking-tight text-[#06065c] sm:text-4xl">
               {product.name}
             </h1>
             {product.model && (
-              <p className="text-sm text-muted-foreground">
-                Model / type: {product.model}
+              <p className="mt-2 text-sm text-muted-foreground">Model / type: {product.model}</p>
+            )}
+
+            <div className="mt-6 border-y border-border py-5">
+              <PriceTag
+                price={product.price}
+                currency={product.currency}
+                className="block text-2xl font-semibold text-[#06065c] sm:text-3xl"
+              />
+            </div>
+
+            {product.shortDescription && (
+              <p className="mt-5 text-sm leading-7 text-muted-foreground sm:text-base">
+                {product.shortDescription}
               </p>
             )}
-          </div>
 
-          <PriceTag
-            price={product.price}
-            currency={product.currency}
-            className="block text-2xl"
-          />
-
-          {product.shortDescription && (
-            <p className="text-muted-foreground">{product.shortDescription}</p>
-          )}
-
-          <ProductActions
-            productId={product.id}
-            name={product.name}
-            model={product.model}
-            price={product.price}
-            currency={product.currency}
-            whatsappNumber={settings.whatsapp}
-          />
-
-          {product.description && (
-            <div className="border-t border-border pt-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                Description
-              </h2>
-              <div className="mt-2 space-y-3 text-sm leading-relaxed text-foreground/90">
-                {product.description.split(/\n{2,}/).map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
+            <div className="mt-6">
+              <ProductActions
+                productId={product.id}
+                name={product.name}
+                model={product.model}
+                price={product.price}
+                currency={product.currency}
+                whatsappNumber={settings.whatsapp}
+              />
             </div>
-          )}
 
-          <ProductSpecs specifications={product.specifications} />
-        </div>
-      </div>
+            {product.description && (
+              <div className="mt-7 border-t border-border pt-6">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#ed0101]">
+                  Product details
+                </h2>
+                <div className="mt-3 space-y-3 text-sm leading-7 text-foreground/80">
+                  {product.description.split(/\n{2,}/).map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+              </div>
+            )}
 
-      <div className="mt-14">
-        <RelatedProducts products={related} />
+            <div className="mt-6">
+              <ProductSpecs specifications={product.specifications} />
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-12 sm:mt-16">
+          <RelatedProducts products={related} />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
