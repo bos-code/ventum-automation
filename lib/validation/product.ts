@@ -5,8 +5,8 @@ import type { Specification } from "@/types";
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const specificationSchema = z.object({
-  label: z.string().trim().max(120),
-  value: z.string().trim().max(500),
+  label: z.string().trim().max(100),
+  value: z.string().trim().max(250),
 });
 
 /**
@@ -31,7 +31,7 @@ export const productInputSchema = z.object({
   categoryId: z.string().trim().min(1, "Choose a category").max(64),
   model: z.string().trim().max(160).default(""),
   shortDescription: z.string().trim().max(400).default(""),
-  description: z.string().trim().max(8000).default(""),
+  description: z.string().trim().max(3000).default(""),
   price: z
     .union([z.null(), z.coerce.number().int().min(0).max(1_000_000_000)])
     .default(null),
@@ -40,7 +40,7 @@ export const productInputSchema = z.object({
   inStock: z.boolean().default(true),
   published: z.boolean().default(false),
   imageIds: z.array(z.string().trim().min(1).max(64)).max(12).default([]),
-  specifications: z.array(specificationSchema).max(40).default([]),
+  specifications: z.array(specificationSchema).max(20).default([]),
   sortOrder: z.coerce.number().int().min(0).max(100000).default(0),
 });
 

@@ -22,7 +22,7 @@ export const productFormSchema = z.object({
   categoryId: z.string().trim().min(1, "Choose a category").max(64),
   model: z.string().trim().max(160),
   shortDescription: z.string().trim().max(400),
-  description: z.string().trim().max(8000),
+  description: z.string().trim().max(3000),
   price: z.number().int().min(0).max(1_000_000_000).nullable(),
   currency: z.string().trim().min(1, "Required").max(8),
   featured: z.boolean(),
@@ -32,11 +32,11 @@ export const productFormSchema = z.object({
   specifications: z
     .array(
       z.object({
-        label: z.string().max(120),
-        value: z.string().max(500),
+        label: z.string().max(100),
+        value: z.string().max(250),
       }),
     )
-    .max(40),
+    .max(20),
   sortOrder: z.number().int().min(0).max(100000),
 });
 

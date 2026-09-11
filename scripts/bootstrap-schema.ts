@@ -189,14 +189,19 @@ const SCHEMA: TableSpec[] = [
       { key: "categoryId", kind: "string", size: 64 },
       { key: "model", kind: "string", size: 160 },
       { key: "shortDescription", kind: "string", size: 400 },
-      { key: "description", kind: "string", size: 8000 },
+      // Kept modest deliberately: Appwrite/MariaDB caps total declared
+      // row size (~65535 bytes, utf8mb4 = 4 bytes/char) across all
+      // string columns in a table. description + specifications are the
+      // two big ones here, sized to leave headroom — see product
+      // validation (lib/validation/product.ts) for the matching limits.
+      { key: "description", kind: "string", size: 3000 },
       { key: "price", kind: "integer" },
       { key: "currency", kind: "string", size: 8, default: "NGN" },
       { key: "featured", kind: "boolean", default: false },
       { key: "inStock", kind: "boolean", default: true },
       { key: "published", kind: "boolean", default: false },
       { key: "imageIds", kind: "string", size: 64, array: true },
-      { key: "specifications", kind: "string", size: 16000 },
+      { key: "specifications", kind: "string", size: 8000 },
       { key: "sortOrder", kind: "integer", default: 0 },
     ],
     indexes: [
