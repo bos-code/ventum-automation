@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { BUSINESS, SITE_URL } from "@/lib/constants";
 import "./globals.css";
@@ -12,6 +12,12 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
 });
@@ -55,7 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
         {children}
