@@ -1,62 +1,68 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export function StockGallery({ images }: { images: string[] }) {
   if (images.length < 3) return null;
 
-  const visible = images.slice(0, 7);
+  const visible = images.slice(0, 6);
 
   return (
-    <section className="border-b border-[#d9dbe4] bg-[#08082f] text-white">
-      <div className="ventum-shell py-16 sm:py-20 lg:py-24">
-        <div className="grid gap-6 border-b border-white/15 pb-8 lg:grid-cols-[1fr_auto] lg:items-end">
+    <section className="overflow-hidden bg-[#06065c] text-white">
+      <div className="ventum-shell py-18 sm:py-24 lg:py-30">
+        <div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-[#ed0101]">
-              A closer look
-            </p>
-            <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              Protection. Control. Automation.
+            <p className="ventum-kicker text-white/55">From the catalogue</p>
+            <h2 className="mt-6 max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-6xl">
+              Built around the equipment, not decoration.
             </h2>
           </div>
-          <Link
-            href="/products"
-            className="inline-flex h-11 items-center border border-white/25 px-4 text-sm font-medium text-white transition-colors hover:bg-white hover:text-[#06065c]"
-          >
-            Explore catalogue{" "}
-            <span className="ml-2 text-[#ed0101]" aria-hidden="true">
-              ↗
-            </span>
-          </Link>
+          <div className="lg:justify-self-end lg:text-right">
+            <p className="max-w-lg text-sm leading-7 text-white/62 lg:ml-auto">
+              Browse protection, switching, control and automation components
+              available through Ventum Global Automation.
+            </p>
+            <Link
+              href="/products"
+              className="group mt-5 inline-flex min-h-12 items-center gap-5 text-sm font-semibold"
+            >
+              Explore all products
+              <span className="flex size-10 items-center justify-center border border-white/22 transition-colors group-hover:bg-white group-hover:text-[#06065c]">
+                <ArrowRight size={17} />
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <ul className="grid auto-rows-[150px] grid-cols-2 border-l border-t border-white/12 sm:auto-rows-[190px] md:grid-cols-4 lg:auto-rows-[220px]">
+        <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-2 sm:auto-rows-[230px] md:grid-cols-4 lg:auto-rows-[250px]">
           {visible.map((src, index) => {
-            const featured = index === 0 || index === 3;
+            const large = index === 0 || index === 4;
+            const tall = index === 2;
+
             return (
-              <li
+              <div
                 key={`${src}-${index}`}
-                className={
-                  featured
-                    ? "relative col-span-2 row-span-2 overflow-hidden border-b border-r border-white/12 bg-[#f4f4f2]"
-                    : "relative overflow-hidden border-b border-r border-white/12 bg-[#f4f4f2]"
-                }
+                className={[
+                  "group relative overflow-hidden bg-[#f5f5f1]",
+                  large ? "col-span-2 row-span-2" : "",
+                  tall ? "row-span-2" : "",
+                ].join(" ")}
               >
                 <Image
                   src={src}
-                  alt="Electrical and automation product stock"
+                  alt="Electrical and automation equipment in the Ventum catalogue"
                   fill
-                  sizes={
-                    featured
-                      ? "(max-width: 768px) 100vw, 50vw"
-                      : "(max-width: 768px) 50vw, 25vw"
-                  }
-                  className="object-contain p-5 drop-shadow-[0_16px_24px_rgba(17,19,34,0.08)] transition-transform duration-500 hover:scale-[1.02] sm:p-7"
-                  loading={index < 4 ? "eager" : "lazy"}
+                  sizes={large ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                  className="object-contain p-[8%] transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  loading={index < 3 ? "eager" : "lazy"}
                 />
-              </li>
+                <span className="absolute bottom-3 left-3 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#777a88]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
             );
           })}
-        </ul>
+        </div>
       </div>
     </section>
   );
