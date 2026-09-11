@@ -1,13 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Search } from "lucide-react";
-import { PriceTag } from "@/components/catalog/price-tag";
-import { ProductImage } from "@/components/catalog/product-image";
+import { ArrowRight, Search } from "lucide-react";
 import { WhatsAppLink } from "@/components/site/whatsapp-link";
 import type { ProductView, Settings } from "@/types";
 
 export function Hero({
   settings,
   products,
+  productCount,
+  brandCount,
 }: {
   settings: Settings;
   productCount: number;
@@ -16,51 +17,54 @@ export function Hero({
 }) {
   const lead = products.find((product) => product.imageUrls.length > 0);
   const supporting = products
-    .filter(
-      (product) => product.id !== lead?.id && product.imageUrls.length > 0,
-    )
+    .filter((product) => product.id !== lead?.id && product.imageUrls.length > 0)
     .slice(0, 2);
+
   return (
-    <section className="bg-[#08082f] text-white">
-      <div className="ventum-shell grid gap-10 py-10 sm:py-14 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:gap-14 lg:py-16">
-        <div className="ventum-reveal">
-          <p className="mb-6 flex items-center gap-3 text-xs font-medium tracking-wide text-white/70">
+    <section className="relative isolate overflow-hidden bg-[#06065c] text-white">
+      <div className="pointer-events-none absolute inset-0 opacity-70" aria-hidden="true">
+        <div className="absolute -right-24 top-[-18rem] h-[44rem] w-[44rem] rounded-full border border-white/10" />
+        <div className="absolute -right-4 top-[-10rem] h-[31rem] w-[31rem] rounded-full border border-white/8" />
+        <div className="absolute bottom-0 left-[48%] h-px w-[42%] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      </div>
+
+      <div className="ventum-shell relative grid min-h-[680px] gap-12 py-14 sm:py-18 lg:min-h-[760px] lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-8 lg:py-20">
+        <div className="relative z-10 max-w-2xl ventum-reveal">
+          <p className="mb-7 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/62">
             <span className="h-2 w-2 bg-[#ed0101]" />
-            Electrical supply. Lagos, Nigeria.
+            Electrical • Control • Automation
           </p>
-          <h1 className="max-w-[12ch] text-[clamp(2.75rem,5.5vw,5.5rem)] font-semibold leading-[1.02] tracking-[-0.055em]">
-            The right parts.
-            <br />
-            <span className="text-white/55">For the work ahead.</span>
+
+          <h1 className="max-w-[10.5ch] text-[clamp(3.3rem,7vw,7.4rem)] font-semibold leading-[0.94] tracking-[-0.045em]">
+            Equipment for work that cannot stop.
           </h1>
-          <p className="mt-6 max-w-sm text-base leading-7 text-white/70">
-            Protection, control and automation equipment. Find your model and
-            talk directly with our sales team.
+
+          <p className="mt-7 max-w-xl text-base leading-7 text-white/72 sm:text-lg sm:leading-8">
+            Source protection, control and automation components from trusted
+            industrial brands, with direct sales support from Lagos.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href="/products"
-              className="inline-flex min-h-12 items-center gap-6 bg-[#ed0101] px-5 text-sm font-semibold transition-colors hover:bg-[#c90000]"
+              className="inline-flex min-h-13 items-center gap-8 bg-[#ed0101] px-6 text-sm font-semibold transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-[#c90000]"
             >
-              Browse catalogue <ArrowUpRight size={18} />
+              Browse catalogue <ArrowRight size={18} />
             </Link>
             <WhatsAppLink
               number={settings.whatsapp}
               variant="ghost"
-              className="min-h-12 rounded-none px-2 text-sm text-white hover:bg-white/10 hover:text-white"
+              className="min-h-13 rounded-none border border-white/25 px-6 text-sm text-white hover:bg-white hover:text-[#06065c]"
             >
-              Talk to sales
+              Request a quote
             </WhatsAppLink>
           </div>
+
           <form
             action="/products"
-            className="mt-10 flex max-w-md items-center border-b border-white/35 pb-2"
+            className="mt-11 flex max-w-xl items-center border-b border-white/30 transition-colors focus-within:border-white"
           >
-            <Search
-              size={18}
-              className="shrink-0 text-white/60"
-              aria-hidden="true"
-            />
+            <Search size={18} className="shrink-0 text-white/50" aria-hidden="true" />
             <label htmlFor="home-search" className="sr-only">
               Search products by name, brand or model
             </label>
@@ -69,122 +73,90 @@ export function Hero({
               name="search"
               type="search"
               maxLength={100}
-              placeholder="Search a product, brand or model"
-              className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-white placeholder:text-white/55"
+              placeholder="Search brand, model or product"
+              className="min-w-0 flex-1 bg-transparent px-3 py-4 text-sm text-white outline-none placeholder:text-white/45"
             />
             <button
               type="submit"
               aria-label="Search catalogue"
-              className="flex size-11 shrink-0 items-center justify-center hover:bg-white/10"
+              className="flex size-12 shrink-0 items-center justify-center transition-colors hover:bg-white/10"
             >
-              <ArrowUpRight size={20} />
+              <ArrowRight size={19} />
             </button>
           </form>
+
+          <div className="mt-9 flex flex-wrap gap-x-10 gap-y-4 text-xs text-white/50">
+            <span><strong className="mr-2 text-sm font-semibold text-white">{productCount || "—"}</strong> products</span>
+            <span><strong className="mr-2 text-sm font-semibold text-white">{brandCount || "—"}</strong> brands</span>
+            <span>Lagos, Nigeria</span>
+          </div>
         </div>
-        {lead ? (
-          <div className="ventum-reveal ventum-delay-2 min-w-0">
-            <Link
-              href={`/products/${lead.slug}`}
-              className="group block bg-[#f2f2f2] text-[#111322]"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2 px-5 pt-5 text-xs sm:px-7">
-                <span>{lead.brand}</span>
-                <span className="text-[#656879]">From our catalogue</span>
-              </div>
-              <ProductImage
-                src={lead.imageUrls[0]}
-                alt={lead.name}
-                priority
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="aspect-[4/3] max-h-[390px] bg-[#f2f2f2] [&_img]:p-6 [&_img]:transition-transform [&_img]:duration-500 group-hover:[&_img]:scale-[1.025]"
-              />
-              <div className="flex items-center justify-between gap-4 border-t border-black/10 p-5 sm:px-7">
-                <div className="min-w-0">
-                  <p className="text-lg font-semibold tracking-tight">
-                    {lead.name}
-                  </p>
-                  {lead.model && (
-                    <p className="mt-1 break-words font-mono text-xs text-[#656879]">
-                      {lead.model}
-                    </p>
-                  )}
-                </div>
-                <ArrowUpRight className="shrink-0" size={24} />
-              </div>
-            </Link>
-            {supporting.length > 0 && (
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                {supporting.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/products/${product.slug}`}
-                    className="group flex min-w-0 items-center gap-4 border border-white/20 p-3 transition-colors hover:bg-white/5"
-                  >
-                    <ProductImage
-                      src={product.imageUrls[0]}
-                      alt={product.name}
-                      sizes="72px"
-                      className="size-[72px] shrink-0 bg-white"
-                    />
-                    <div className="min-w-0">
-                      <p className="text-xs text-white/60">{product.brand}</p>
-                      <p className="mt-1 line-clamp-2 text-sm font-medium">
-                        {product.name}
-                      </p>
-                    </div>
-                    <ArrowUpRight
-                      size={16}
-                      className="ml-auto shrink-0 text-white/60"
-                    />
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="border-t border-white/20">
-            <p className="py-5 text-sm text-white/60">From the catalogue</p>
-            {products.length > 0 ? (
-              products.map((product) => (
-                <Link
-                  href={`/products/${product.slug}`}
-                  key={product.id}
-                  className="group flex items-center justify-between gap-5 border-b border-white/20 py-6"
-                >
-                  <div className="min-w-0">
-                    <p className="text-xs text-white/60">{product.brand}</p>
-                    <h2 className="mt-2 text-xl font-medium">{product.name}</h2>
-                    {product.model && (
-                      <p className="mt-2 break-words font-mono text-xs text-white/60">
-                        {product.model}
-                      </p>
-                    )}
-                    <PriceTag
-                      price={product.price}
-                      currency={product.currency}
-                      className="mt-3 block text-sm text-white"
-                    />
-                  </div>
-                  <ArrowUpRight
-                    size={22}
-                    className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
+
+        <div className="relative min-h-[420px] sm:min-h-[520px] lg:min-h-[640px] ventum-reveal ventum-delay-2">
+          {lead ? (
+            <>
+              <div className="absolute inset-x-[4%] bottom-[5%] top-[4%] bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,.16),rgba(255,255,255,.03)_38%,transparent_68%)]" />
+              <Link
+                href={`/products/${lead.slug}`}
+                className="group absolute inset-[3%_0_14%_0] flex items-center justify-center"
+                aria-label={`View ${lead.name}`}
+              >
+                <div className="relative h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.025]">
+                  <Image
+                    src={lead.imageUrls[0]}
+                    alt={lead.name}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 54vw"
+                    className="object-contain drop-shadow-[0_36px_48px_rgba(0,0,0,.28)]"
                   />
+                </div>
+              </Link>
+
+              <div className="absolute bottom-0 left-0 right-0 border-t border-white/16 pt-5 sm:left-[8%]">
+                <Link href={`/products/${lead.slug}`} className="group flex items-end justify-between gap-6">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ed0101]">Featured equipment</p>
+                    <p className="mt-2 line-clamp-1 text-base font-semibold sm:text-lg">{lead.name}</p>
+                    <p className="mt-1 text-xs text-white/50">{lead.brand}{lead.model ? ` • ${lead.model}` : ""}</p>
+                  </div>
+                  <span className="flex size-12 shrink-0 items-center justify-center border border-white/25 transition-colors group-hover:bg-white group-hover:text-[#06065c]">
+                    <ArrowRight size={18} />
+                  </span>
                 </Link>
-              ))
-            ) : (
-              <p className="py-6 text-lg leading-7">
-                Send us a brand and model for pricing and current availability.
-              </p>
-            )}
-          </div>
-        )}
+              </div>
+
+              {supporting.length > 0 && (
+                <div className="absolute right-0 top-[8%] hidden w-44 border-l border-white/18 pl-4 xl:block">
+                  <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/42">Also in stock</p>
+                  <div className="space-y-5">
+                    {supporting.map((product) => (
+                      <Link key={product.id} href={`/products/${product.slug}`} className="group block">
+                        <p className="text-[10px] text-white/45">{product.brand}</p>
+                        <p className="mt-1 line-clamp-2 text-xs font-medium leading-5 text-white/80 group-hover:text-white">{product.name}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center border border-white/12 bg-white/[0.035] p-10 text-center">
+              <div className="max-w-sm">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ed0101]">Catalogue ready</p>
+                <p className="mt-4 text-2xl font-semibold leading-tight">Add product photography to turn this stage into the visual centrepiece.</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="border-t border-white/15">
-        <div className="ventum-shell flex flex-wrap justify-between gap-x-8 gap-y-3 py-5 text-xs text-white/65">
-          <span>Circuit protection</span>
-          <span>Contactors & relays</span>
-          <span>Solar protection</span>
-          <span>Timers & controllers</span>
+
+      <div className="border-t border-white/12 bg-black/10">
+        <div className="ventum-shell flex gap-7 overflow-x-auto py-4 text-[11px] font-medium uppercase tracking-[0.1em] text-white/54 sm:justify-between">
+          <span className="shrink-0">Circuit protection</span>
+          <span className="shrink-0">Contactors & relays</span>
+          <span className="shrink-0">Solar protection</span>
+          <span className="shrink-0">Timers & controllers</span>
         </div>
       </div>
     </section>
