@@ -26,57 +26,57 @@ export default async function ProductsPage(props: PageProps<"/products">) {
   const filtered = hasActiveFilters(query);
 
   return (
-    <div>
-      <section className="border-b border-[#d9dbe4] bg-[#f2f2f2] text-[#111322]">
-        <div className="ventum-shell py-10 sm:py-14">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed0101]">
-            Ventum catalogue
-          </p>
-          <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-                {activeCategory ? activeCategory.name : "Electrical & automation products"}
-              </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#656879] sm:text-base">
-                Browse protection, control, switching, solar and related electrical equipment.
-              </p>
-            </div>
-            <p className="text-sm font-medium text-[#656879]">
-              {total === 0
-                ? "No matching products"
-                : `${total} product${total === 1 ? "" : "s"}${filtered ? " found" : ""}`}
+    <div className="bg-white text-[#111322]">
+      <section className="border-b border-[#d9dbe4] bg-[#f7f7f4]">
+        <div className="ventum-shell grid gap-8 py-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end lg:py-20">
+          <div>
+            <p className="ventum-kicker text-[#656879]">Product catalogue</p>
+            <h1 className="mt-5 max-w-4xl text-[clamp(2.35rem,5vw,4.8rem)] font-semibold leading-[.98] tracking-[-0.045em] text-[#06065c]">
+              {activeCategory ? activeCategory.name : "Electrical control, protection and automation."}
+            </h1>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#656879] sm:text-base">
+              Search by product, manufacturer or model. For exact availability or a hard-to-find part, send the model directly to our sales team.
+            </p>
+          </div>
+          <div className="border-l-2 border-[#ed0101] pl-4 lg:min-w-44">
+            <p className="text-2xl font-semibold tracking-tight text-[#06065c]">{total}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#656879]">
+              {total === 1 ? "product" : filtered ? "matching products" : "published products"}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="ventum-shell py-8 sm:py-10">
-        <div className="mb-8 border-y border-border bg-white py-5">
+      <section className="ventum-shell py-7 sm:py-10 lg:py-12">
+        <div className="sticky top-[72px] z-20 -mx-4 mb-10 border-y border-[#d9dbe4] bg-white/95 px-4 py-4 backdrop-blur sm:static sm:mx-0 sm:px-0 sm:py-0 sm:backdrop-blur-none">
           <CatalogueFilters categories={categories} brands={brands} />
         </div>
 
         {items.length === 0 ? (
-          <EmptyState
-            icon={SearchX}
-            title={filtered ? "Nothing found" : "No products yet"}
-            description={
-              filtered
-                ? "Try a different search term, brand or category."
-                : "Products will appear here once they are published."
-            }
-            action={
-              filtered ? (
-                <Link
-                  href="/products"
-                  className="text-sm font-semibold text-[#ed0101] hover:underline"
-                >
-                  Clear filters
-                </Link>
-              ) : null
-            }
-          />
+          <div className="border-t border-[#d9dbe4] py-16 sm:py-24">
+            <EmptyState
+              icon={SearchX}
+              title={filtered ? "Nothing matches those filters" : "No products yet"}
+              description={
+                filtered
+                  ? "Try a broader product name, remove a brand filter, or browse the full catalogue."
+                  : "Products will appear here once they are published."
+              }
+              action={
+                filtered ? (
+                  <Link href="/products" className="text-sm font-semibold text-[#ed0101] hover:underline">
+                    Clear all filters
+                  </Link>
+                ) : null
+              }
+            />
+          </div>
         ) : (
-          <div className="space-y-10">
+          <div className="space-y-12">
+            <div className="flex items-center justify-between border-b border-[#d9dbe4] pb-4 text-xs uppercase tracking-[0.12em] text-[#656879]">
+              <span>{activeCategory?.name ?? "All equipment"}</span>
+              <span>Page {page} of {pageCount}</span>
+            </div>
             <ProductGrid products={items} priorityCount={4} />
             <CataloguePagination
               page={page}
