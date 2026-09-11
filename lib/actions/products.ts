@@ -17,10 +17,26 @@ import {
   setProductFlag,
   updateProduct,
 } from "@/lib/appwrite/products";
+import { getCategoryById } from "@/lib/appwrite/categories";
 import { deleteProductImages } from "@/lib/appwrite/storage";
 
 function invalidateProducts() {
   revalidateTag(CACHE_TAGS.products, "max");
+}
+
+/** Reject a categoryId that doesn't correspond to a real category. */
+async function validCategoryOrError(
+  categoryId: string,
+): Promise<Extract<ActionResult<never>, { ok: false }> | null> {
+  const category = await getCategoryById(categoryId);
+  if (!category) {
+    return {
+      ok: false,
+      error: "Please choose a valid category.",
+      fieldErrors: { categoryId: ["Unknown category"] },
+    };
+  }
+  return null;
 }
 
 export async function createProductAction(
@@ -45,6 +61,9 @@ export async function createProductAction(
       fieldErrors: { slug: ["Slug already in use"] },
     };
   }
+
+  const categoryError = await validCategoryOrError(parsed.data.categoryId);
+  if (categoryError) return categoryError;
 
   try {
     const product = await createProduct(parsed.data);
@@ -79,6 +98,9 @@ export async function updateProductAction(
       fieldErrors: { slug: ["Slug already in use"] },
     };
   }
+
+  const categoryError = await validCategoryOrError(parsed.data.categoryId);
+  if (categoryError) return categoryError;
 
   try {
     const product = await updateProduct(id, parsed.data);

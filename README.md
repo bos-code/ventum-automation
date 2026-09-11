@@ -1,31 +1,63 @@
 # Ventum Global Automation
 
-This repository is the implementation and project-source repository for the Ventum Global Automation catalogue website.
+A product-catalogue and lead-generation website for Ventum Global
+Automation: browse products, submit enquiries (saved to Appwrite and
+sent to Telegram instantly), or continue on WhatsApp. A small admin area
+lets the owner manage products, categories and enquiries without
+developer help.
 
-## Start here
+## Getting started
 
-Read these files before implementation:
+```bash
+npm install
+cp .env.example .env.local   # then fill in real values — see docs/SETUP.md
+npm run seed                 # once Appwrite is configured
+npm run dev
+```
 
-- `docs/PROJECT_BRIEF.md`
-- `docs/CLAUDE_IMPLEMENTATION_BRIEF.md`
-- `docs/CONTENT_INVENTORY.md`
-- `docs/ASSET_GUIDE.md`
+- **`docs/SETUP.md`** — Appwrite (database/collections/storage/auth),
+  Telegram bot, environment variables, deployment. Read this first if
+  you're standing the project up from scratch.
+- **`docs/PROJECT_BRIEF.md`**, **`docs/CONTENT_INVENTORY.md`**,
+  **`docs/ASSET_GUIDE.md`** — original project brief, seed content and
+  brand/asset handling rules.
 
-Reference material belongs under `reference/`.
+Other scripts: `npm run build`, `npm run lint`, `npm run typecheck`.
+
+Reference material (Figma exports, client photos, brand source files)
+belongs under `reference/` (gitignored-by-convention working files, not
+committed unless small).
 
 ## Stack
 
-- Next.js App Router + TypeScript
-- Appwrite: admin auth, database and product image storage
-- Tailwind CSS
-- shadcn/ui / Radix only where useful
-- React Hook Form + Zod
-- Telegram Bot API for server-side enquiry notifications
-- WhatsApp deep links for direct conversation
+- Next.js 16 (App Router) + TypeScript, Tailwind CSS v4
+- Appwrite (`node-appwrite` / TablesDB): admin auth, database, product
+  image storage — all access is server-mediated, no client-side SDK
+- React Hook Form + Zod for every form, Sonner for notifications
+- Telegram Bot API for server-side enquiry alerts
+- WhatsApp deep links (`wa.me`) for direct conversation
 
 ## Product scope
 
-This is a lightweight product catalogue and lead-generation website, not a full e-commerce system. Visitors browse products, submit product enquiries, and optionally continue directly on WhatsApp. The owner gets a minimal admin interface to add, edit, publish/unpublish and remove products.
+This is a lightweight product catalogue and lead-generation website, not
+a full e-commerce system: no cart, checkout, payments or customer
+accounts. Visitors browse products, submit product enquiries, and
+optionally continue directly on WhatsApp. The owner gets a minimal admin
+interface to add, edit, publish/unpublish and remove products and
+categories, and to track enquiries.
+
+## Routes
+
+| Route | Purpose |
+|---|---|
+| `/` | Homepage — hero, categories, featured products, brands, about, contact |
+| `/products` | Catalogue with search, category/brand filters, pagination |
+| `/products/[slug]` | Product detail — gallery, specs, enquiry + WhatsApp |
+| `/admin/login` | Admin sign-in |
+| `/admin` | Dashboard |
+| `/admin/products`, `/admin/products/new`, `/admin/products/[id]/edit` | Product CRUD |
+| `/admin/categories` | Category CRUD + reorder |
+| `/admin/enquiries` | Enquiry list + status |
 
 ## Business
 
@@ -41,4 +73,4 @@ This is a lightweight product catalogue and lead-generation website, not a full 
 
 ## Brand rule
 
-The client-supplied Ventum logo must not be redesigned, recoloured, distorted, redrawn or stylistically reinterpreted. It may only be sharpened/cleaned while preserving the original artwork.
+The client-supplied Ventum logo must not be redesigned, recoloured, distorted, redrawn or stylistically reinterpreted. It may only be sharpened/cleaned while preserving the original artwork. Drop the supplied files into `public/brand/` (see that folder's README) — the header currently renders a plain wordmark placeholder until they're added.
