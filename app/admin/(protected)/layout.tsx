@@ -16,32 +16,36 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const admin = await requireAdmin();
 
   return (
-    <div className="flex min-h-dvh flex-col bg-muted/20">
+    <div className="min-h-dvh bg-[#f5f6f9]">
       {!isAppwriteConfigured() && <ConfigBanner />}
 
-      <header className="border-b border-border bg-background">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/admin" className="text-sm font-semibold">
-              {BUSINESS.name} <span className="text-muted-foreground">Admin</span>
+      <header className="sticky top-0 z-40 border-b border-[#06065c]/10 bg-white/95 backdrop-blur">
+        <div className="border-b border-[#06065c]/8 bg-[#06065c] text-white">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
+            <Link href="/admin" className="min-w-0">
+              <p className="truncate text-xs font-black uppercase tracking-[0.12em]">
+                {BUSINESS.name}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.14em] text-white/55">
+                Administration
+              </p>
             </Link>
-            <div className="sm:hidden">
-              <LogoutButton />
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <AdminNav className="overflow-x-auto" />
-            <span className="hidden text-sm text-muted-foreground sm:inline">
-              {admin.email}
-            </span>
-            <div className="hidden sm:block">
+
+            <div className="flex items-center gap-3">
+              <span className="hidden max-w-[14rem] truncate text-xs text-white/60 md:inline">
+                {admin.email}
+              </span>
               <LogoutButton />
             </div>
           </div>
         </div>
+
+        <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6">
+          <AdminNav />
+        </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+      <main className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:py-10">
         {children}
       </main>
     </div>
