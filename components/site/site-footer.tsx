@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./logo";
 import type { Settings } from "@/types";
 import { BUSINESS } from "@/lib/constants";
@@ -9,92 +8,105 @@ export function SiteFooter({ settings }: { settings: Settings }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-border bg-muted/30">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-3">
-          <Logo />
-          <p className="text-sm text-muted-foreground">{settings.tagline}</p>
-        </div>
+    <footer className="mt-auto border-t border-white/12 bg-[#03033b] text-white">
+      <div className="ventum-shell">
+        <div className="grid border-x border-white/12 lg:grid-cols-[1.15fr_.85fr_.85fr_1.15fr]">
+          <div className="border-b border-white/12 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+            <Logo className="text-white" />
+            <p className="mt-6 max-w-sm text-sm leading-7 text-white/55">{settings.tagline}</p>
+            <p className="mt-8 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/32">
+              Electrical · Automation · Protection
+            </p>
+          </div>
 
-        <div className="space-y-2 text-sm">
-          <h2 className="font-semibold text-foreground">Catalogue</h2>
-          <ul className="space-y-1.5 text-muted-foreground">
-            <li>
-              <Link href="/products" className="hover:text-foreground">
-                All products
-              </Link>
-            </li>
-            <li>
-              <Link href="/#categories" className="hover:text-foreground">
-                Categories
-              </Link>
-            </li>
-            <li>
-              <Link href="/#brands" className="hover:text-foreground">
-                Brands we sell
-              </Link>
-            </li>
-          </ul>
-        </div>
+          <FooterGroup title="Catalogue">
+            <FooterLink href="/products">All products</FooterLink>
+            <FooterLink href="/#categories">Categories</FooterLink>
+            <FooterLink href="/#brands">Brands</FooterLink>
+          </FooterGroup>
 
-        <div className="space-y-2 text-sm">
-          <h2 className="font-semibold text-foreground">Company</h2>
-          <ul className="space-y-1.5 text-muted-foreground">
-            <li>
-              <Link href="/#about" className="hover:text-foreground">
-                About Ventum
-              </Link>
-            </li>
-            <li>
-              <Link href="/#contact" className="hover:text-foreground">
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
+          <FooterGroup title="Company">
+            <FooterLink href="/#about">About Ventum</FooterLink>
+            <FooterLink href="/#contact">Contact</FooterLink>
+            <FooterLink href="/products">Request a product</FooterLink>
+          </FooterGroup>
 
-        <div className="space-y-2 text-sm">
-          <h2 className="font-semibold text-foreground">Get in touch</h2>
-          <ul className="space-y-2 text-muted-foreground">
-            <li className="flex gap-2">
-              <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-              <span>{settings.address}</span>
-            </li>
-            <li className="flex gap-2">
-              <Phone className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-              <a
+          <div className="border-b border-white/12 p-6 sm:p-8 lg:border-b-0 lg:border-l">
+            <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/35">Sales desk</p>
+            <div className="mt-5 space-y-5">
+              <FooterContact label="Address" value={settings.address} />
+              <FooterContact
+                label="WhatsApp"
+                value={settings.phone || settings.whatsapp}
                 href={`https://wa.me/${toWhatsAppDigits(settings.whatsapp)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground"
-              >
-                {settings.phone} (WhatsApp)
-              </a>
-            </li>
-            <li className="flex gap-2">
-              <Phone className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-              <a href={`tel:${settings.secondaryPhone}`} className="hover:text-foreground">
-                {settings.secondaryPhone}
-              </a>
-            </li>
-            <li className="flex gap-2">
-              <Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-              <a href={`mailto:${settings.email}`} className="hover:text-foreground">
-                {settings.email}
-              </a>
-            </li>
-          </ul>
+                external
+              />
+              {settings.secondaryPhone ? (
+                <FooterContact label="Phone" value={settings.secondaryPhone} href={`tel:${settings.secondaryPhone}`} />
+              ) : null}
+              <FooterContact label="Email" value={settings.email} href={`mailto:${settings.email}`} />
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-4 py-5 text-xs text-muted-foreground">
-          <p>
-            &copy; {year} {settings.legalName}. RC {BUSINESS.rc}. Trading as{" "}
-            {settings.businessName}.
-          </p>
+        <div className="grid gap-4 border-x border-t border-white/12 px-6 py-5 font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-white/32 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <p>&copy; {year} {settings.legalName}. RC {BUSINESS.rc}. Trading as {settings.businessName}.</p>
+          <p>Lagos · Nigeria / VGA_SYS</p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="border-b border-white/12 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+      <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/35">{title}</p>
+      <div className="mt-5 flex flex-col">{children}</div>
+    </div>
+  );
+}
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="group flex min-h-11 items-center justify-between border-b border-white/10 text-sm font-semibold text-white/68 transition-colors hover:text-white"
+    >
+      {children}
+      <span className="text-[#ed0101] transition-transform group-hover:translate-x-0.5" aria-hidden="true">↗</span>
+    </Link>
+  );
+}
+
+function FooterContact({
+  label,
+  value,
+  href,
+  external = false,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}) {
+  const content = (
+    <>
+      <span className="block font-mono text-[8px] font-bold uppercase tracking-[0.12em] text-white/30">{label}</span>
+      <span className="mt-1 block text-sm leading-6 text-white/68">{value}</span>
+    </>
+  );
+
+  if (!href) return <div>{content}</div>;
+
+  return (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="block transition-colors hover:[&_span:last-child]:text-white"
+    >
+      {content}
+    </a>
   );
 }
