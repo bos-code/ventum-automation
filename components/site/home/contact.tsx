@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppLink } from "@/components/site/whatsapp-link";
 import type { Settings } from "@/types";
@@ -10,94 +9,108 @@ export function Contact({ settings }: { settings: Settings }) {
 
   return (
     <section id="contact" className="bg-[#ed0101] text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.1fr_.9fr] lg:px-8">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/65">
-            Need a product?
+      <div className="ventum-shell grid min-h-[560px] lg:grid-cols-[1.05fr_.95fr]">
+        <div className="flex flex-col justify-center border-white/18 py-14 sm:py-18 lg:border-r lg:pr-12 lg:py-20">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/58">
+            Sales desk / Direct enquiry
           </p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
-            Tell us what you need. We’ll help you find the right equipment.
+          <h2 className="mt-5 max-w-3xl text-[clamp(2.7rem,7vw,5.8rem)] font-bold leading-[0.94] tracking-[-0.055em]">
+            Tell us what the job needs.
           </h2>
-          <p className="mt-4 max-w-xl text-sm leading-7 text-white/80 sm:text-base">
-            Browse the catalogue, request a specific product, or speak directly
-            with Ventum on WhatsApp.
+          <p className="mt-6 max-w-xl text-sm leading-7 text-white/76 sm:text-base">
+            Send the product, model or requirement. Ventum can confirm pricing,
+            availability and the next practical step directly with you.
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-[#06065c] text-white hover:bg-[#06065c]/90">
-              <Link href="/products">
-                Browse products <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <WhatsAppLink
               number={settings.whatsapp}
               size="lg"
               variant="secondary"
-              className="border-white/30 bg-white text-[#06065c] hover:bg-white/90"
-            />
+              className="h-12 rounded-[1px] border-0 bg-[#06065c] px-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white hover:bg-[#03033b]"
+            >
+              Start WhatsApp enquiry <span aria-hidden="true">↗</span>
+            </WhatsAppLink>
+            <Button
+              asChild
+              size="lg"
+              variant="ghost"
+              className="h-12 rounded-[1px] border border-white/35 bg-transparent px-6 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white hover:bg-white hover:text-[#ed0101]"
+            >
+              <Link href="/products">Browse catalogue <span aria-hidden="true">↗</span></Link>
+            </Button>
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-          <ContactCard icon={MapPin} label="Visit us">
-            <a
+        <div className="border-t border-white/18 py-8 lg:border-t-0 lg:pl-10 lg:py-12">
+          <div className="h-full border border-white/22">
+            <ContactRow
+              index="01"
+              label="Visit"
+              value={settings.address}
               href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {settings.address}
-            </a>
-          </ContactCard>
-          <ContactCard icon={Phone} label="Call / WhatsApp">
-            <div className="space-y-1">
-              <a
-                className="block"
-                href={`https://wa.me/${toWhatsAppDigits(settings.whatsapp)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {settings.phone}
-              </a>
-              {settings.secondaryPhone && (
-                <a className="block" href={`tel:${settings.secondaryPhone}`}>
-                  {settings.secondaryPhone}
-                </a>
-              )}
+              external
+            />
+            <ContactRow
+              index="02"
+              label="WhatsApp"
+              value={settings.phone || settings.whatsapp}
+              href={`https://wa.me/${toWhatsAppDigits(settings.whatsapp)}`}
+              external
+            />
+            {settings.secondaryPhone ? (
+              <ContactRow
+                index="03"
+                label="Call"
+                value={settings.secondaryPhone}
+                href={`tel:${settings.secondaryPhone}`}
+              />
+            ) : null}
+            <ContactRow
+              index={settings.secondaryPhone ? "04" : "03"}
+              label="Email"
+              value={settings.email}
+              href={`mailto:${settings.email}`}
+            />
+
+            <div className="flex min-h-32 items-end justify-between gap-6 border-t border-white/22 bg-[#06065c] p-5 sm:p-6">
+              <div>
+                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/42">Location</p>
+                <p className="mt-2 text-lg font-bold">Lagos · Nigeria</p>
+              </div>
+              <span className="text-3xl text-[#ed0101]" aria-hidden="true">+</span>
             </div>
-          </ContactCard>
-          <ContactCard icon={Mail} label="Email">
-            <a href={`mailto:${settings.email}`}>{settings.email}</a>
-          </ContactCard>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function ContactCard({
-  icon: Icon,
+function ContactRow({
+  index,
   label,
-  children,
+  value,
+  href,
+  external = false,
 }: {
-  icon: typeof MapPin;
+  index: string;
   label: string;
-  children: React.ReactNode;
+  value: string;
+  href: string;
+  external?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-white/20 bg-white/[0.08] p-5 backdrop-blur-sm">
-      <div className="flex gap-4">
-        <div className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#ed0101]">
-          <Icon className="size-5" aria-hidden="true" />
-        </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">
-            {label}
-          </p>
-          <div className="mt-1 text-sm leading-6 text-white/90 [&_a:hover]:text-white">
-            {children}
-          </div>
-        </div>
-      </div>
-    </div>
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="group grid min-h-24 grid-cols-[42px_90px_1fr_auto] items-center gap-3 border-b border-white/22 px-4 transition-colors hover:bg-white hover:text-[#06065c] sm:grid-cols-[52px_110px_1fr_auto] sm:px-5"
+    >
+      <span className="font-mono text-[9px] font-bold text-current/42">{index}</span>
+      <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-current/55">{label}</span>
+      <span className="min-w-0 break-words text-sm font-semibold leading-5">{value}</span>
+      <span className="text-lg transition-transform group-hover:translate-x-0.5" aria-hidden="true">↗</span>
+    </a>
   );
 }
