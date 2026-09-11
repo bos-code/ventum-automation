@@ -1,0 +1,16 @@
+# Normalise line endings: LF in the repo, checkout native on Windows.
+* text=auto eol=lf
+
+# Binary assets — never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+
+# Generated / vendored — collapse in diffs and skip language stats.
+package-lock.json -diff linguist-generated
