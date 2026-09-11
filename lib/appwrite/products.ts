@@ -135,6 +135,15 @@ export async function getRelatedProducts(
     .map((p) => toProductView(p, categories));
 }
 
+/** Public image URLs across published products, for the stock gallery. */
+export async function getStockGalleryImages(limit = 8): Promise<string[]> {
+  const products = await getPublishedProducts();
+  return products
+    .flatMap((p) => p.imageIds)
+    .slice(0, limit)
+    .map(fileViewUrl);
+}
+
 /** Distinct brand names across published products, alphabetical. */
 export async function getPublishedBrands(): Promise<string[]> {
   const products = await getPublishedProducts();
