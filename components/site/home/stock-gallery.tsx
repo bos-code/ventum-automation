@@ -1,38 +1,57 @@
 import Image from "next/image";
-import { Section, SectionHeading } from "@/components/site/section";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-/**
- * Real stock imagery. Currently sourced from product photos; when the
- * client's shop/stock photographs are added they can be passed in here
- * instead (see docs/ASSET_GUIDE.md).
- */
 export function StockGallery({ images }: { images: string[] }) {
   if (images.length < 3) return null;
 
+  const visible = images.slice(0, 7);
+
   return (
-    <Section>
-      <SectionHeading
-        eyebrow="From the shop"
-        title="Real stock"
-        description="A sample of equipment currently held and supplied."
-      />
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-        {images.slice(0, 8).map((src, index) => (
-          <li
-            key={src}
-            className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted"
+    <section className="bg-[#f6f6f8]">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed0101]">
+              In stock
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[#06065c] sm:text-4xl">
+              Products you can actually see.
+            </h2>
+          </div>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#06065c] hover:text-[#ed0101]"
           >
-            <Image
-              src={src}
-              alt=""
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 260px"
-              className="object-cover"
-              loading={index < 4 ? "eager" : "lazy"}
-            />
-          </li>
-        ))}
-      </ul>
-    </Section>
+            Explore catalogue <ArrowUpRight className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
+
+        <ul className="grid auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[190px] md:grid-cols-4 lg:auto-rows-[220px]">
+          {visible.map((src, index) => {
+            const featured = index === 0 || index === 3;
+            return (
+              <li
+                key={`${src}-${index}`}
+                className={
+                  featured
+                    ? "relative col-span-2 row-span-2 overflow-hidden rounded-[24px] bg-white"
+                    : "relative overflow-hidden rounded-[20px] bg-white"
+                }
+              >
+                <Image
+                  src={src}
+                  alt="Electrical and automation product stock"
+                  fill
+                  sizes={featured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                  className="object-contain p-4 transition-transform duration-500 hover:scale-[1.035]"
+                  loading={index < 4 ? "eager" : "lazy"}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
   );
 }
