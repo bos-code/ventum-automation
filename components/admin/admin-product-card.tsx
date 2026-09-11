@@ -34,7 +34,10 @@ export function AdminProductCard({
         field,
         value: !product[field],
       });
-      if (!result.ok) return toast.error(result.error);
+      if (!result.ok) {
+        toast.error(result.error);
+        return;
+      }
       router.refresh();
     });
   }
@@ -43,7 +46,10 @@ export function AdminProductCard({
     if (!window.confirm(`Delete "${product.name}"? This cannot be undone.`)) return;
     startTransition(async () => {
       const result = await deleteProductAction({ id: product.id });
-      if (!result.ok) return toast.error(result.error);
+      if (!result.ok) {
+        toast.error(result.error);
+        return;
+      }
       toast.success("Product deleted");
       router.refresh();
     });
