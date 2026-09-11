@@ -3,32 +3,24 @@ import { BUSINESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 /**
- * Wordmark placeholder for the Ventum logo.
- *
- * The client-supplied logo artwork is the source of truth and must not be
- * redesigned. Once `public/brand/ventum-horizontal.(svg|png)` is added,
- * swap the span below for:
- *   <Image src="/brand/ventum-horizontal.svg" alt={BUSINESS.name} width={150} height={32} priority />
+ * Text-only fallback until the client-supplied Ventum artwork is physically
+ * present in the repository. Do not recreate or approximate the actual mark.
  */
 export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={cn(
-        "inline-flex items-center gap-2 font-semibold tracking-tight",
-        className,
-      )}
+      className={cn("inline-flex items-center gap-3", className)}
       aria-label={`${BUSINESS.name} — home`}
     >
-      <span
-        aria-hidden="true"
-        className="grid size-8 place-items-center rounded-md bg-primary text-sm font-bold text-primary-foreground"
-      >
-        VG
-      </span>
-      <span className="text-base leading-tight">
-        Ventum
-        <span className="text-muted-foreground"> Global Automation</span>
+      <span aria-hidden="true" className="h-9 w-[3px] bg-[#ed0101]" />
+      <span className="flex flex-col leading-none">
+        <span className="font-[var(--font-display)] text-[1.05rem] font-bold uppercase tracking-[-0.035em] text-current sm:text-[1.15rem]">
+          Ventum
+        </span>
+        <span className="mt-1 text-[8px] font-bold uppercase tracking-[0.22em] opacity-55 sm:text-[9px]">
+          Global Automation
+        </span>
       </span>
     </Link>
   );
