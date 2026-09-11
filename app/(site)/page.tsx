@@ -26,14 +26,23 @@ export default async function HomePage() {
       getStockGalleryImages(8),
     ]);
 
-  const categoriesWithCounts = categories.map((category) => ({
-    ...category,
-    productCount: products.filter((p) => p.categoryId === category.id).length,
-  }));
+  const categoriesWithCounts = categories.map((category) => {
+    const categoryProducts = products.filter((p) => p.categoryId === category.id);
+    const preview = categoryProducts.find((p) => p.imageUrls.length > 0);
+
+    return {
+      ...category,
+      productCount: categoryProducts.length,
+      previewImage: preview?.imageUrls[0],
+      previewAlt: preview?.name ?? category.name,
+    };
+  });
 
   const brands = [
     ...new Set(products.map((p) => p.brand).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b));
+
+  const heroProducts = (featured.length > 0 ? featured : products).slice(0, 3);
 
   return (
     <>
@@ -41,6 +50,7 @@ export default async function HomePage() {
         settings={settings}
         productCount={products.length}
         brandCount={brands.length}
+        products={heroProducts}
       />
       <CategoryGrid categories={categoriesWithCounts} />
       <FeaturedProducts products={featured} />
