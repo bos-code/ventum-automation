@@ -10,6 +10,7 @@ import {
   getFeaturedProducts,
   getPublishedProducts,
   getStockGalleryImages,
+  toProductView,
 } from "@/lib/appwrite/products";
 import { getPublishedCategories } from "@/lib/appwrite/categories";
 import { getSettings } from "@/lib/appwrite/settings";
@@ -26,9 +27,17 @@ export default async function HomePage() {
       getStockGalleryImages(10),
     ]);
 
+  const productViews = products.map((product) =>
+    toProductView(product, categories),
+  );
+
   const categoriesWithCounts = categories.map((category) => {
-    const categoryProducts = products.filter((p) => p.categoryId === category.id);
-    const preview = categoryProducts.find((p) => p.imageUrls.length > 0);
+    const categoryProducts = productViews.filter(
+      (product) => product.categoryId === category.id,
+    );
+    const preview = categoryProducts.find(
+      (product) => product.imageUrls.length > 0,
+    );
 
     return {
       ...category,
@@ -42,7 +51,7 @@ export default async function HomePage() {
     ...new Set(products.map((p) => p.brand).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b));
 
-  const heroProducts = (featured.length > 0 ? featured : products).slice(0, 3);
+  const heroProducts = (featured.length > 0 ? featured : productViews).slice(0, 3);
 
   return (
     <>
