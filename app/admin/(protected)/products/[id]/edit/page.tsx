@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ProductForm } from "@/components/forms/product-form";
 import { getAllCategories } from "@/lib/appwrite/categories";
@@ -23,8 +25,25 @@ export default async function EditProductPage(
   );
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-xl font-semibold">Edit product</h1>
+    <div className="space-y-7">
+      <div>
+        <Link
+          href="/admin/products"
+          className="mb-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-[#06065c]"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          Back to products
+        </Link>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#ed0101]">
+          Catalogue
+        </p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-[#06065c]">
+          Edit product
+        </h1>
+        <p className="mt-1 max-w-xl text-sm leading-6 text-muted-foreground">
+          Update {product.name}. Changes become visible on the customer catalogue according to its published status.
+        </p>
+      </div>
       <ProductForm
         mode="edit"
         productId={product.id}
