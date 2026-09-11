@@ -9,13 +9,6 @@ import Link from "next/link";
  * the source manifest).
  */
 const BRAND_LOGOS: Record<string, string> = {
-  "Schneider Electric": "/brand-logos/schneider-electric-logo.png",
-  ABB: "/brand-logos/abb-logo.png",
-  Joyelec: "/brand-logos/joyelec-logo.png",
-  JOYELEC: "/brand-logos/joyelec-logo.png",
-  Legrand: "/brand-logos/legrand-logo.png",
-  Posmith: "/brand-logos/posmith-logo.png",
-  Siemens: "/brand-logos/siemens-logo.png",
   "schneider electric": "/brand-logos/schneider-electric-logo.png",
   schneider: "/brand-logos/schneider-electric-logo.png",
   abb: "/brand-logos/abb-logo.png",
@@ -35,7 +28,6 @@ export function BrandList({ brands }: { brands: string[] }) {
         </h2>
         <ul className="flex flex-wrap items-center gap-x-9 gap-y-4">
           {brands.map((brand) => {
-            const logo = BRAND_LOGOS[brand];
             const logo = BRAND_LOGOS[brand.trim().toLowerCase()];
             return (
               <li key={brand}>

@@ -86,12 +86,22 @@ export function AdminProductCard({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
-        <button type="button" onClick={() => toggle("published")} disabled={isPending}>
+        <button
+          type="button"
+          onClick={() => toggle("published")}
+          disabled={isPending}
+          aria-label={`Toggle published status for ${product.name}`}
+        >
           <Badge variant={product.published ? "success" : "outline"}>
             {product.published ? "Published" : "Draft"}
           </Badge>
         </button>
-        <button type="button" onClick={() => toggle("inStock")} disabled={isPending}>
+        <button
+          type="button"
+          onClick={() => toggle("inStock")}
+          disabled={isPending}
+          aria-label={`Toggle stock status for ${product.name}`}
+        >
           <Badge variant={product.inStock ? "outline" : "warning"}>
             {product.inStock ? "In stock" : "Out of stock"}
           </Badge>

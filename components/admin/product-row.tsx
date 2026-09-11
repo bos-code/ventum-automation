@@ -84,12 +84,22 @@ export function ProductRow({
       </TD>
       <TD>
         <div className="flex flex-wrap gap-1.5">
-          <button type="button" onClick={() => toggle("published")} disabled={isPending}>
+          <button
+            type="button"
+            onClick={() => toggle("published")}
+            disabled={isPending}
+            aria-label={`Toggle published status for ${product.name}`}
+          >
             <Badge variant={product.published ? "success" : "outline"}>
               {product.published ? "Published" : "Draft"}
             </Badge>
           </button>
-          <button type="button" onClick={() => toggle("inStock")} disabled={isPending}>
+          <button
+            type="button"
+            onClick={() => toggle("inStock")}
+            disabled={isPending}
+            aria-label={`Toggle stock status for ${product.name}`}
+          >
             <Badge variant={product.inStock ? "outline" : "warning"}>
               {product.inStock ? "In stock" : "Out of stock"}
             </Badge>

@@ -28,7 +28,11 @@ export function LoginForm() {
       toast.error("Couldn't sign in", { description: result.error });
       return;
     }
-    const destination = searchParams.get("from") || "/admin";
+    const rawDestination = searchParams.get("from") || "/admin";
+    const destination =
+      rawDestination.startsWith("/") && !rawDestination.startsWith("//")
+        ? rawDestination
+        : "/admin";
     router.replace(destination);
     router.refresh();
   }

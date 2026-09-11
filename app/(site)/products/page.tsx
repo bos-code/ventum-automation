@@ -26,7 +26,7 @@ export default async function ProductsPage(props: PageProps<"/products">) {
   const filtered = hasActiveFilters(query);
 
   return (
-    <main>
+    <div>
       <section className="border-b border-[#d9dbe4] bg-[#f2f2f2] text-[#111322]">
         <div className="ventum-shell py-10 sm:py-14">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed0101]">
@@ -86,6 +86,6 @@ export default async function ProductsPage(props: PageProps<"/products">) {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

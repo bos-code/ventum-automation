@@ -3,6 +3,7 @@ import { CategoryGrid } from "@/components/site/home/category-grid";
 import { FeaturedProducts } from "@/components/catalog/featured-products";
 import { BrandList } from "@/components/site/home/brand-list";
 import { About } from "@/components/site/home/about";
+import { WhyVentum } from "@/components/site/home/why-ventum";
 import { StockGallery } from "@/components/site/home/stock-gallery";
 import { Contact } from "@/components/site/home/contact";
 import {
@@ -65,6 +66,7 @@ export default async function HomePage() {
       <FeaturedProducts products={featured} />
       <StockGallery images={galleryImages} />
       <About settings={settings} image={galleryImages[0]} />
+      <WhyVentum />
       <Contact settings={settings} />
     </>
   );

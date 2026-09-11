@@ -69,7 +69,7 @@ export default async function ProductDetailPage(
   const related = await getRelatedProducts(product, 4);
 
   return (
-    <main className="bg-white">
+    <div className="bg-white pb-20 sm:pb-0">
       <div className="ventum-shell py-6 sm:py-8">
         <nav
           className="mb-5 flex flex-wrap items-center gap-1 text-xs text-muted-foreground sm:text-sm"
@@ -160,6 +160,6 @@ export default async function ProductDetailPage(
           <RelatedProducts products={related} />
         </section>
       </div>
-    </main>
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import { WHATSAPP_NUMBER } from "@/lib/constants";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, toWhatsAppDigits } from "@/lib/utils";
 
 /** Build a wa.me deep link with a prefilled message. */
 export function whatsappLink(message: string, number: string = WHATSAPP_NUMBER) {
-  const digits = number.replace(/\D/g, "");
+  const digits = toWhatsAppDigits(number);
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
