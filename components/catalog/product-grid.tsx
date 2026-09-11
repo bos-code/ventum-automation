@@ -15,12 +15,12 @@ export function ProductGrid({
   return (
     <ul
       className={cn(
-        "grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-4",
+        "grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 sm:gap-y-12 xl:grid-cols-4 xl:gap-x-6",
         className,
       )}
     >
       {products.map((product, index) => (
-        <li key={product.id} className="flex">
+        <li key={product.id} className="flex min-w-0">
           <ProductCard
             product={product}
             priority={index < priorityCount}
