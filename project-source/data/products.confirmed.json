@@ -1,0 +1,34 @@
+[
+  {
+    "brand": "Telemecanique / Schneider",
+    "name": "D0910 Contactor",
+    "model": "LC1-D0910 M7C",
+    "priceNGN": 3000,
+    "confirmedSpecs": ["25A contactor relay", "220V", "3-phase"],
+    "sourceImage": "project-source/assets/source-images/raw/telemecanique-d0910-contactors.jpg"
+  },
+  {
+    "brand": "Schneider Electric",
+    "name": "SUL 181 h",
+    "model": "SUL 181 h",
+    "priceNGN": 10000,
+    "confirmedSpecs": ["24-hour analogue timer / horloge"],
+    "sourceImage": "project-source/assets/source-images/raw/schneider-sul181h-timer.jpg"
+  },
+  {
+    "brand": "Joyelec",
+    "name": "DJO Solar Protection Box",
+    "model": null,
+    "priceNGN": 30000,
+    "confirmedSpecs": ["63A PV breaker", "DC & AC surge protection", "AC AVR", "63A output", "12-way enclosure"],
+    "sourceImage": "project-source/assets/source-images/raw/joyelec-distribution-box-closed.jpg"
+  },
+  {
+    "brand": "Posmith",
+    "name": "DPO Solar Protection Box",
+    "model": null,
+    "priceNGN": 30000,
+    "confirmedSpecs": ["63A PV breaker", "DC & AC surge protection", "AC AVR", "63A output", "12-way enclosure"],
+    "sourceImage": "project-source/assets/source-images/raw/posmith-distribution-box-open.jpg"
+  }
+]
