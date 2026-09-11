@@ -51,9 +51,9 @@ export function Hero({
             </Button>
             <WhatsAppLink
               number={settings.whatsapp}
-              variant="outline"
+              variant="secondary"
               size="lg"
-              className="h-12 rounded-sm border-white/25 bg-white/5 px-6 text-white hover:bg-white hover:text-[#06065c]"
+              className="h-12 rounded-sm border border-white/25 bg-white/5 px-6 text-white hover:bg-white hover:text-[#06065c]"
             >
               Talk to sales
             </WhatsAppLink>
