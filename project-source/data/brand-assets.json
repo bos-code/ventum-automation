@@ -1,0 +1,18 @@
+{
+  "company": "Ventum Global Automation",
+  "companyAssets": [
+    "project-source/assets/source-images/raw/ventum-logo-square.jpg",
+    "project-source/assets/source-images/raw/ventum-logo-horizontal.jpg",
+    "project-source/assets/source-images/raw/ventum-business-card-info.jpg"
+  ],
+  "brandsWeSell": [
+    "Siemens",
+    "CHINT",
+    "ABB",
+    "Schneider Electric",
+    "Posmith",
+    "Legrand",
+    "Joyelec",
+    "Telemecanique"
+  ]
+}
