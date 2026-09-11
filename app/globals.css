@@ -58,7 +58,7 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; background: var(--background); }
+  html { scroll-behavior: smooth; scroll-padding-top: 8rem; background: var(--background); }
   body {
     min-width: 320px;
     background-color: var(--color-background);
@@ -86,15 +86,15 @@
     display: inline-flex;
     align-items: center;
     gap: .7rem;
-    font-size: .67rem;
-    font-weight: 850;
-    letter-spacing: .18em;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
     text-transform: uppercase;
   }
   .ventum-kicker::before { content: ""; width: 2.1rem; height: 2px; background: var(--ventum-red); }
   .ventum-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -.055em; line-height: .95; }
   .ventum-section-rule { border-top: 1px solid var(--border); }
-  .ventum-technical-label { font-family: var(--font-mono); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .ventum-technical-label { font-family: var(--font-sans); font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 
   .ventum-reveal { opacity: 0; transform: translateY(28px); animation: ventum-reveal .8s cubic-bezier(.22,1,.36,1) forwards; }
   .ventum-delay-1 { animation-delay: .08s; }

@@ -25,14 +25,13 @@ export function ProductImage({
     >
       {src ? (
         <>
-          <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_right,rgba(6,6,92,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(6,6,92,0.035)_1px,transparent_1px)] bg-[size:32px_32px]" />
           <Image
             src={src}
             alt={alt}
             fill
             sizes={sizes}
-            priority={priority}
-            className="object-contain p-[3%] drop-shadow-[0_12px_18px_rgba(17,19,34,0.08)]"
+            preload={priority}
+            className="object-contain p-[3%]"
           />
         </>
       ) : (

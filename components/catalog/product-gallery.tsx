@@ -16,7 +16,7 @@ export function ProductGallery({
 
   if (images.length === 0) {
     return (
-      <div className="grid aspect-square w-full place-items-center rounded-lg border border-border bg-muted text-muted-foreground">
+      <div className="grid aspect-square w-full place-items-center bg-muted text-muted-foreground">
         <ImageOff className="size-10" aria-hidden="true" />
         <span className="sr-only">No image available</span>
       </div>
@@ -25,13 +25,13 @@ export function ProductGallery({
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-muted">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         <Image
           key={images[active]}
           src={images[active]}
           alt={`${name} — image ${active + 1}`}
           fill
-          priority
+          preload
           sizes="(max-width: 1024px) 100vw, 560px"
           className="object-contain"
         />
@@ -47,7 +47,7 @@ export function ProductGallery({
                 aria-label={`Show image ${index + 1}`}
                 aria-current={index === active}
                 className={cn(
-                  "relative size-16 overflow-hidden rounded-md border bg-muted transition-colors",
+                  "relative size-16 overflow-hidden border bg-muted transition-colors",
                   index === active
                     ? "border-primary ring-1 ring-primary"
                     : "border-border hover:border-foreground/30",
@@ -58,7 +58,7 @@ export function ProductGallery({
                   alt=""
                   fill
                   sizes="64px"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </button>
             </li>

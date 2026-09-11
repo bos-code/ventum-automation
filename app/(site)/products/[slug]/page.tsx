@@ -69,8 +69,8 @@ export default async function ProductDetailPage(
   const related = await getRelatedProducts(product, 4);
 
   return (
-    <main className="bg-[#f7f7f9]">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <main className="bg-white">
+      <div className="ventum-shell py-6 sm:py-8">
         <nav
           className="mb-5 flex flex-wrap items-center gap-1 text-xs text-muted-foreground sm:text-sm"
           aria-label="Breadcrumb"
@@ -93,12 +93,12 @@ export default async function ProductDetailPage(
           </span>
         </nav>
 
-        <section className="grid gap-6 lg:grid-cols-[1.05fr_.95fr] lg:gap-10">
-          <div className="overflow-hidden rounded-[28px] border border-border bg-white p-3 sm:p-5">
+        <section className="grid items-start gap-8 lg:grid-cols-[1.2fr_.8fr] lg:gap-14">
+          <div className="min-w-0 overflow-hidden bg-[#f2f2f2] p-3 sm:p-5 lg:sticky lg:top-36">
             <ProductGallery images={product.imageUrls} name={product.name} />
           </div>
 
-          <div className="rounded-[28px] border border-border bg-white p-5 sm:p-7 lg:p-8">
+          <div className="min-w-0 bg-white py-3 sm:py-5">
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline">{product.brand}</Badge>
               {product.featured && <Badge>Featured</Badge>}
@@ -109,7 +109,7 @@ export default async function ProductDetailPage(
               {product.name}
             </h1>
             {product.model && (
-              <p className="mt-2 text-sm text-muted-foreground">Model / type: {product.model}</p>
+              <p className="mt-2 break-words font-mono text-sm text-muted-foreground">Model / type: {product.model}</p>
             )}
 
             <div className="mt-6 border-y border-border py-5">

@@ -3,7 +3,6 @@ import { CategoryGrid } from "@/components/site/home/category-grid";
 import { FeaturedProducts } from "@/components/catalog/featured-products";
 import { BrandList } from "@/components/site/home/brand-list";
 import { About } from "@/components/site/home/about";
-import { WhyVentum } from "@/components/site/home/why-ventum";
 import { StockGallery } from "@/components/site/home/stock-gallery";
 import { Contact } from "@/components/site/home/contact";
 import {
@@ -51,7 +50,7 @@ export default async function HomePage() {
     ...new Set(products.map((p) => p.brand).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b));
 
-  const heroProducts = (featured.length > 0 ? featured : productViews).slice(0, 3);
+  const heroProducts = [...featured, ...productViews.filter((product) => !featured.some((item) => item.id === product.id))].slice(0, 3);
 
   return (
     <>
@@ -61,12 +60,11 @@ export default async function HomePage() {
         brandCount={brands.length}
         products={heroProducts}
       />
-      <CategoryGrid categories={categoriesWithCounts} />
+      <BrandList brands={brands} />
+      <CategoryGrid categories={categoriesWithCounts.filter((category) => category.productCount > 0)} />
       <FeaturedProducts products={featured} />
       <StockGallery images={galleryImages} />
-      <BrandList brands={brands} />
       <About settings={settings} image={galleryImages[0]} />
-      <WhyVentum />
       <Contact settings={settings} />
     </>
   );

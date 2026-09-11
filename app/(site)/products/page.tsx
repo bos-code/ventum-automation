@@ -27,8 +27,8 @@ export default async function ProductsPage(props: PageProps<"/products">) {
 
   return (
     <main>
-      <section className="border-b border-[#06065c]/10 bg-[#06065c] text-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <section className="border-b border-[#d9dbe4] bg-[#f2f2f2] text-[#111322]">
+        <div className="ventum-shell py-10 sm:py-14">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ed0101]">
             Ventum catalogue
           </p>
@@ -37,11 +37,11 @@ export default async function ProductsPage(props: PageProps<"/products">) {
               <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
                 {activeCategory ? activeCategory.name : "Electrical & automation products"}
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#656879] sm:text-base">
                 Browse protection, control, switching, solar and related electrical equipment.
               </p>
             </div>
-            <p className="text-sm font-medium text-white/60">
+            <p className="text-sm font-medium text-[#656879]">
               {total === 0
                 ? "No matching products"
                 : `${total} product${total === 1 ? "" : "s"}${filtered ? " found" : ""}`}
@@ -50,8 +50,8 @@ export default async function ProductsPage(props: PageProps<"/products">) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-        <div className="mb-8 rounded-2xl border border-border bg-white p-3 shadow-sm sm:p-4">
+      <section className="ventum-shell py-8 sm:py-10">
+        <div className="mb-8 border-y border-border bg-white py-5">
           <CatalogueFilters categories={categories} brands={brands} />
         </div>
 

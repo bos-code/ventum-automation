@@ -2,7 +2,15 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Search, X } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
 import type { Category } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -83,7 +91,7 @@ export function CatalogueFilters({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:flex sm:w-auto">
+      <div className="hidden gap-3 sm:flex sm:w-auto">
         <Select
           value={currentCategory}
           onChange={(e) => apply({ category: e.target.value })}
@@ -113,11 +121,70 @@ export function CatalogueFilters({
         </Select>
       </div>
 
+      <Dialog>
+        <DialogTrigger asChild>
+          <button
+            type="button"
+            className="inline-flex min-h-11 items-center justify-center gap-2 border border-border px-4 text-sm font-medium sm:hidden"
+          >
+            <SlidersHorizontal size={16} /> Filters
+            {(currentCategory || currentBrand) && (
+              <span
+                className="size-2 rounded-full bg-[#ed0101]"
+                aria-label="Filters active"
+              />
+            )}
+          </button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogTitle>Filter products</DialogTitle>
+          <DialogDescription>
+            Choose a category or brand to narrow the catalogue.
+          </DialogDescription>
+          <label className="grid gap-2 text-sm font-medium">
+            Category
+            <Select
+              value={currentCategory}
+              onChange={(e) => apply({ category: e.target.value })}
+            >
+              <option value="">All categories</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.slug}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
+          </label>
+          <label className="grid gap-2 text-sm font-medium">
+            Brand
+            <Select
+              value={currentBrand}
+              onChange={(e) => apply({ brand: e.target.value })}
+            >
+              <option value="">All brands</option>
+              {brands.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand}
+                </option>
+              ))}
+            </Select>
+          </label>
+          <DialogClose asChild>
+            <button
+              type="button"
+              className="mt-3 min-h-12 bg-[#06065c] px-5 text-sm font-semibold text-white"
+            >
+              View products
+            </button>
+          </DialogClose>
+        </DialogContent>
+      </Dialog>
+
       {hasFilters && (
         <button
           type="button"
           onClick={() => apply({ search: "", category: "", brand: "" })}
-          className="inline-flex items-center gap-1 self-start rounded-md px-2 py-1 text-sm text-muted-foreground hover:text-foreground sm:self-auto"
+          className="inline-flex min-h-11 items-center gap-1 self-start px-2 py-1 text-sm text-muted-foreground hover:text-foreground sm:self-auto"
         >
           <X className="size-4" aria-hidden="true" />
           Clear
