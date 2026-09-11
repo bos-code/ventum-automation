@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight, MessageCircle, Send } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -39,25 +38,37 @@ export function ProductActions({
     <div className="flex flex-col gap-3 sm:flex-row">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button size="lg" className="sm:flex-1">
-            <Send aria-hidden="true" />
-            Request product
-          </Button>
+          <button
+            type="button"
+            className="group inline-flex min-h-12 items-center justify-between gap-5 bg-[#ed0101] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#c90000] sm:flex-1"
+          >
+            <span className="inline-flex items-center gap-3">
+              <Send size={16} aria-hidden="true" />
+              Request product
+            </span>
+            <ArrowUpRight size={17} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </button>
         </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Request {name}</DialogTitle>
-            <DialogDescription>
-              Send us your details and we&apos;ll confirm price and availability.
-            </DialogDescription>
-          </DialogHeader>
-          <EnquiryForm
-            productId={productId}
-            productName={name}
-            whatsappNumber={whatsappNumber}
-            whatsappMessage={whatsappMessage}
-            onSuccess={() => setOpen(false)}
-          />
+        <DialogContent className="max-h-[88dvh] overflow-y-auto rounded-none border-0 p-0 sm:max-w-xl sm:rounded-none">
+          <div className="bg-[#06065c] px-6 py-7 text-white sm:px-8">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-semibold tracking-tight text-white">
+                Request {name}
+              </DialogTitle>
+              <DialogDescription className="mt-2 text-sm leading-6 text-white/65">
+                Send us your details and the sales team will confirm price and availability.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+          <div className="p-6 sm:p-8">
+            <EnquiryForm
+              productId={productId}
+              productName={name}
+              whatsappNumber={whatsappNumber}
+              whatsappMessage={whatsappMessage}
+              onSuccess={() => setOpen(false)}
+            />
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -66,32 +77,31 @@ export function ProductActions({
         message={whatsappMessage}
         variant="secondary"
         size="lg"
-        className="sm:flex-1"
+        className="min-h-12 rounded-none border border-[#d9dbe4] bg-white px-5 text-[#111322] hover:border-[#06065c] hover:bg-white sm:flex-1"
         showIcon={false}
       >
-        <MessageCircle aria-hidden="true" />
+        <MessageCircle size={16} aria-hidden="true" />
         Chat on WhatsApp
       </WhatsAppLink>
 
-      {/* Mobile-only sticky bottom action bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 flex items-center gap-2 border-t border-border bg-white/95 p-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur sm:hidden">
-        <Button
-          size="md"
-          className="flex-1"
+      <div className="fixed bottom-0 left-0 right-0 z-30 grid grid-cols-2 gap-2 border-t border-[#d9dbe4] bg-white/96 px-3 pb-[max(.75rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_-10px_30px_rgba(3,3,59,0.08)] backdrop-blur sm:hidden">
+        <button
+          type="button"
+          className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#ed0101] px-3 text-sm font-semibold text-white"
           onClick={() => setOpen(true)}
         >
-          <Send aria-hidden="true" />
+          <Send size={15} aria-hidden="true" />
           Request
-        </Button>
+        </button>
         <WhatsAppLink
           number={whatsappNumber}
           message={whatsappMessage}
           variant="secondary"
           size="md"
-          className="flex-1"
+          className="min-h-12 rounded-none border border-[#06065c]/15 bg-[#06065c] text-white hover:bg-[#03033b] hover:text-white"
           showIcon={false}
         >
-          <MessageCircle aria-hidden="true" />
+          <MessageCircle size={15} aria-hidden="true" />
           WhatsApp
         </WhatsAppLink>
       </div>
