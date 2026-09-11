@@ -23,7 +23,7 @@ export default async function HomePage() {
       getPublishedProducts(),
       getPublishedCategories(),
       getFeaturedProducts(8),
-      getStockGalleryImages(8),
+      getStockGalleryImages(10),
     ]);
 
   const categoriesWithCounts = categories.map((category) => {
@@ -54,10 +54,10 @@ export default async function HomePage() {
       />
       <CategoryGrid categories={categoriesWithCounts} />
       <FeaturedProducts products={featured} />
-      <BrandList brands={brands} />
-      <About settings={settings} />
-      <WhyVentum />
       <StockGallery images={galleryImages} />
+      <BrandList brands={brands} />
+      <About settings={settings} image={galleryImages[0]} />
+      <WhyVentum />
       <Contact settings={settings} />
     </>
   );
