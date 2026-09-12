@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export function StockGallery({ images }: { images: string[] }) {
   if (images.length < 3) return null;
@@ -8,33 +8,29 @@ export function StockGallery({ images }: { images: string[] }) {
   const visible = images.slice(0, 6);
 
   return (
-    <section className="overflow-hidden bg-[#06065c] text-white">
-      <div className="ventum-shell py-18 sm:py-24 lg:py-30">
-        <div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
+    <section className="overflow-hidden bg-white py-16 sm:py-22 lg:py-26">
+      <div className="ventum-shell">
+        <div className="grid gap-7 border-b border-[#d9dbe4] pb-7 lg:grid-cols-[.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="ventum-kicker text-white/55">From the catalogue</p>
-            <h2 className="mt-6 max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.04em] sm:text-6xl">
-              Built around the equipment, not decoration.
+            <p className="text-sm font-semibold text-[#ed0101]">Available equipment</p>
+            <h2 className="mt-3 max-w-2xl text-4xl font-semibold leading-[1.02] tracking-[-0.04em] text-[#111322] sm:text-5xl">
+              See the equipment, not a wall of decoration.
             </h2>
           </div>
           <div className="lg:justify-self-end lg:text-right">
-            <p className="max-w-lg text-sm leading-7 text-white/62 lg:ml-auto">
-              Browse protection, switching, control and automation components
-              available through Ventum Global Automation.
+            <p className="max-w-lg text-sm leading-7 text-[#656879] lg:ml-auto">
+              Protection, switching, control and automation components available through Ventum Global Automation.
             </p>
             <Link
               href="/products"
-              className="group mt-5 inline-flex min-h-12 items-center gap-5 text-sm font-semibold"
+              className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#06065c] hover:text-[#ed0101]"
             >
-              Explore all products
-              <span className="flex size-10 items-center justify-center border border-white/22 transition-colors group-hover:bg-white group-hover:text-[#06065c]">
-                <ArrowRight size={17} />
-              </span>
+              Explore the catalogue <ArrowUpRight size={16} />
             </Link>
           </div>
         </div>
 
-        <div className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-2 sm:auto-rows-[230px] md:grid-cols-4 lg:auto-rows-[250px]">
+        <div className="mt-8 grid auto-rows-[180px] grid-cols-2 gap-2 sm:auto-rows-[230px] md:grid-cols-4 lg:auto-rows-[250px]">
           {visible.map((src, index) => {
             const large = index === 0 || index === 4;
             const tall = index === 2;
@@ -43,7 +39,7 @@ export function StockGallery({ images }: { images: string[] }) {
               <div
                 key={`${src}-${index}`}
                 className={[
-                  "group relative overflow-hidden bg-[#f5f5f1]",
+                  "group relative overflow-hidden bg-[#f3f3ef]",
                   large ? "col-span-2 row-span-2" : "",
                   tall ? "row-span-2" : "",
                 ].join(" ")}
@@ -53,12 +49,9 @@ export function StockGallery({ images }: { images: string[] }) {
                   alt="Electrical and automation equipment in the Ventum catalogue"
                   fill
                   sizes={large ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
-                  className="object-contain p-[8%] transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                  className="object-contain p-[8%] transition-transform duration-500 ease-out group-hover:scale-[1.025]"
                   loading={index < 3 ? "eager" : "lazy"}
                 />
-                <span className="absolute bottom-3 left-3 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#777a88]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
               </div>
             );
           })}
