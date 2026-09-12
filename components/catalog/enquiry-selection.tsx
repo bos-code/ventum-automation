@@ -44,17 +44,23 @@ export function EnquirySelectionProvider({ children }: { children: React.ReactNo
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved) as SelectedProduct[];
-        if (Array.isArray(parsed)) setItems(parsed.filter((item) => item && item.id && item.name));
+    const timer = window.setTimeout(() => {
+      try {
+        const saved = window.localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved) as SelectedProduct[];
+          if (Array.isArray(parsed)) {
+            setItems(parsed.filter((item) => item && item.id && item.name));
+          }
+        }
+      } catch {
+        // A broken local value should never block browsing.
+      } finally {
+        setHydrated(true);
       }
-    } catch {
-      // A broken local value should never block browsing.
-    } finally {
-      setHydrated(true);
-    }
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
