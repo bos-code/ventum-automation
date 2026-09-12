@@ -60,7 +60,6 @@ export default async function HomePage() {
   return (
     <>
       <Hero settings={settings} products={heroProducts} />
-      <BrandList brands={brands} />
       <CategoryGrid
         categories={categoriesWithCounts.filter(
           (category) => category.productCount > 0,
@@ -68,6 +67,7 @@ export default async function HomePage() {
       />
       <FeaturedProducts products={featured} />
       <StockGallery images={galleryImages} />
+      <BrandList brands={brands} />
       <About settings={settings} image={galleryImages[0]} />
       <Contact settings={settings} />
     </>
