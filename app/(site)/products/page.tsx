@@ -27,28 +27,26 @@ export default async function ProductsPage(props: PageProps<"/products">) {
 
   return (
     <div className="bg-white text-[#111322]">
-      <section className="border-b border-[#d9dbe4] bg-[#f7f7f4]">
-        <div className="ventum-shell grid gap-8 py-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end lg:py-20">
+      <section className="border-b border-[#d9dbe4] bg-[#f8f8f5]">
+        <div className="ventum-shell grid gap-7 py-11 sm:py-14 lg:grid-cols-[1fr_auto] lg:items-end lg:py-16">
           <div>
-            <p className="ventum-kicker text-[#656879]">Product catalogue</p>
-            <h1 className="mt-5 max-w-4xl text-[clamp(2.35rem,5vw,4.8rem)] font-semibold leading-[.98] tracking-[-0.045em] text-[#06065c]">
+            <p className="text-sm font-semibold text-[#ed0101]">Product catalogue</p>
+            <h1 className="mt-3 max-w-4xl text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[.98] tracking-[-0.045em] text-[#111322]">
               {activeCategory ? activeCategory.name : "Electrical control, protection and automation."}
             </h1>
             <p className="mt-5 max-w-2xl text-sm leading-7 text-[#656879] sm:text-base">
-              Search by product, manufacturer or model. For exact availability or a hard-to-find part, send the model directly to our sales team.
+              Search by product, manufacturer or model. Select several items as you browse and send the complete list to Ventum on WhatsApp.
             </p>
           </div>
-          <div className="border-l-2 border-[#ed0101] pl-4 lg:min-w-44">
-            <p className="text-2xl font-semibold tracking-tight text-[#06065c]">{total}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#656879]">
-              {total === 1 ? "product" : filtered ? "matching products" : "published products"}
-            </p>
+          <div className="text-sm text-[#656879] lg:text-right">
+            <span className="font-semibold text-[#111322]">{total}</span>{" "}
+            {total === 1 ? "product" : filtered ? "matching products" : "products"}
           </div>
         </div>
       </section>
 
       <section className="ventum-shell py-7 sm:py-10 lg:py-12">
-        <div className="sticky top-[72px] z-20 -mx-4 mb-10 border-y border-[#d9dbe4] bg-white/95 px-4 py-4 backdrop-blur sm:static sm:mx-0 sm:px-0 sm:py-0 sm:backdrop-blur-none">
+        <div className="sticky top-[72px] z-20 -mx-4 mb-9 border-y border-[#d9dbe4] bg-white/96 px-4 py-4 backdrop-blur sm:static sm:mx-0 sm:px-0 sm:py-0 sm:backdrop-blur-none">
           <CatalogueFilters categories={categories} brands={brands} />
         </div>
 
@@ -72,8 +70,8 @@ export default async function ProductsPage(props: PageProps<"/products">) {
             />
           </div>
         ) : (
-          <div className="space-y-12">
-            <div className="flex items-center justify-between border-b border-[#d9dbe4] pb-4 text-xs uppercase tracking-[0.12em] text-[#656879]">
+          <div className="space-y-10">
+            <div className="flex items-center justify-between border-b border-[#d9dbe4] pb-4 text-sm text-[#656879]">
               <span>{activeCategory?.name ?? "All equipment"}</span>
               <span>Page {page} of {pageCount}</span>
             </div>
