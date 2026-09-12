@@ -10,24 +10,24 @@ export function SiteFooter({ settings }: { settings: Settings }) {
   const whatsapp = `https://wa.me/${toWhatsAppDigits(settings.whatsapp)}`;
 
   return (
-    <footer className="mt-auto bg-[#03033b] text-white">
+    <footer className="mt-auto bg-white text-[#111322]">
       <div className="ventum-shell py-10 sm:py-14 lg:py-16">
-        <div className="grid gap-10 border-b border-white/15 pb-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end lg:pb-14">
+        <div className="grid gap-10 border-b border-[#d9dbe4] pb-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end lg:pb-14">
           <div>
-            <Logo className="text-white" />
+            <Logo />
             <h2 className="mt-8 max-w-[12ch] text-3xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-5xl">
               Source the right component. Speak directly with the sales desk.
             </h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-sm leading-7 text-white/60">
+            <p className="max-w-md text-sm leading-7 text-[#656879]">
               {settings.tagline}
             </p>
             <a
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex min-h-12 items-center gap-5 bg-[#ed0101] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#c90000]"
+              className="mt-6 inline-flex min-h-12 items-center gap-3 bg-[#06065c] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#03033b]"
             >
               Start an enquiry <ArrowUpRight size={17} />
             </a>
@@ -44,13 +44,11 @@ export function SiteFooter({ settings }: { settings: Settings }) {
           <FooterGroup title="Company">
             <FooterLink href="/#about">About Ventum</FooterLink>
             <FooterLink href="/#contact">Contact</FooterLink>
-            <FooterLink href="/products">Request a product</FooterLink>
+            <FooterLink href="/products">Product catalogue</FooterLink>
           </FooterGroup>
 
           <div>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">
-              Sales desk
-            </p>
+            <p className="text-sm font-semibold text-[#06065c]">Sales desk</p>
             <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
               <FooterContact label="Visit" value={settings.address} />
               <FooterContact
@@ -75,7 +73,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
           </div>
         </div>
 
-        <div className="grid gap-3 border-t border-white/15 pt-6 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/45 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div className="grid gap-3 border-t border-[#d9dbe4] pt-6 text-xs text-[#656879] sm:grid-cols-[1fr_auto] sm:items-center">
           <p>
             &copy; {year} {settings.legalName}. RC {BUSINESS.rc}. Trading as {settings.businessName}.
           </p>
@@ -89,9 +87,7 @@ export function SiteFooter({ settings }: { settings: Settings }) {
 function FooterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">
-        {title}
-      </p>
+      <p className="text-sm font-semibold text-[#06065c]">{title}</p>
       <div className="mt-4 flex flex-col">{children}</div>
     </div>
   );
@@ -101,7 +97,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
   return (
     <Link
       href={href}
-      className="group flex min-h-11 items-center justify-between border-b border-white/10 text-sm font-medium text-white/70 transition-colors hover:text-white"
+      className="group flex min-h-11 items-center justify-between border-b border-[#e1e2e7] text-sm font-medium text-[#555967] transition-colors hover:text-[#06065c]"
     >
       {children}
       <ArrowUpRight
@@ -125,10 +121,8 @@ function FooterContact({
 }) {
   const content = (
     <>
-      <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/40">
-        {label}
-      </span>
-      <span className="mt-1.5 block break-words text-sm leading-6 text-white/72">
+      <span className="block text-xs font-medium text-[#777a88]">{label}</span>
+      <span className="mt-1.5 block break-words text-sm leading-6 text-[#555967]">
         {value}
       </span>
     </>
@@ -141,7 +135,7 @@ function FooterContact({
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="block transition-colors hover:[&_span:last-child]:text-white"
+      className="block transition-colors hover:[&_span:last-child]:text-[#06065c]"
     >
       {content}
     </a>
