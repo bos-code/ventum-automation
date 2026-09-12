@@ -66,7 +66,7 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
     <div className="bg-white pb-20 text-[#111322] sm:pb-0">
       <div className="ventum-shell py-5 sm:py-8 lg:py-10">
         <nav
-          className="mb-7 flex min-w-0 items-center gap-1 overflow-hidden text-xs text-[#747785] sm:text-sm"
+          className="mb-7 flex min-w-0 items-center gap-1 overflow-hidden text-xs text-[#656879] sm:text-sm"
           aria-label="Breadcrumb"
         >
           <Link href="/products" className="shrink-0 hover:text-[#ed0101]">Products</Link>
@@ -88,24 +88,27 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
           </div>
 
           <div className="min-w-0 lg:pt-3">
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs uppercase tracking-[0.12em]">
-              <span className="font-bold text-[#06065c]">{product.brand}</span>
-              {product.category && <span className="text-[#747785]">{product.category.name}</span>}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+              <span className="font-semibold text-[#06065c]">{product.brand}</span>
+              {product.category && <span className="text-[#656879]">{product.category.name}</span>}
               <AvailabilityBadge inStock={product.inStock} />
             </div>
 
-            <h1 className="mt-5 max-w-[16ch] text-[clamp(2.1rem,4vw,4.25rem)] font-semibold leading-[.98] tracking-[-0.045em] text-[#06065c]">
+            <h1 className="mt-5 max-w-[16ch] text-[clamp(2.1rem,4vw,4.25rem)] font-semibold leading-[.98] tracking-[-0.045em] text-[#111322]">
               {product.name}
             </h1>
 
             {product.model && (
-              <p className="mt-4 border-l-2 border-[#ed0101] pl-3 font-mono text-xs leading-5 text-[#656879] sm:text-sm">
-                Model / type · {product.model}
-              </p>
+              <div className="mt-5 border-l-2 border-[#ed0101] pl-4">
+                <p className="text-xs font-medium text-[#656879]">Model / part number</p>
+                <p className="mt-1 break-words font-mono text-sm font-semibold text-[#111322] sm:text-base">
+                  {product.model}
+                </p>
+              </div>
             )}
 
             <div className="mt-7 border-y border-[#d9dbe4] py-5">
-              <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#747785]">Price</p>
+              <p className="mb-1 text-xs font-medium text-[#656879]">Price</p>
               <PriceTag
                 price={product.price}
                 currency={product.currency}
@@ -122,6 +125,8 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
             <div className="mt-7">
               <ProductActions
                 productId={product.id}
+                slug={product.slug}
+                brand={product.brand}
                 name={product.name}
                 model={product.model}
                 price={product.price}
@@ -132,8 +137,8 @@ export default async function ProductDetailPage(props: PageProps<"/products/[slu
 
             {product.description && (
               <section className="mt-9 border-t border-[#d9dbe4] pt-7">
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#ed0101]">Overview</p>
-                <h2 className="mt-2 text-xl font-semibold tracking-tight text-[#06065c]">Product details</h2>
+                <p className="text-sm font-semibold text-[#ed0101]">Overview</p>
+                <h2 className="mt-2 text-xl font-semibold tracking-tight text-[#111322]">Product details</h2>
                 <div className="mt-4 space-y-4 text-sm leading-7 text-[#555967] sm:text-[15px]">
                   {product.description.split(/\n{2,}/).map((para, i) => <p key={i}>{para}</p>)}
                 </div>
