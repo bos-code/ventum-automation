@@ -16,6 +16,9 @@ export const appwriteEnv = {
   get apiKey() {
     return required("APPWRITE_API_KEY");
   },
+  get adminEmail() {
+    return required("ADMIN_EMAIL");
+  },
   get databaseId() {
     return required("APPWRITE_DATABASE_ID");
   },
