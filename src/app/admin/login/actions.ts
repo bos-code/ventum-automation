@@ -51,7 +51,7 @@ export async function login(
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    path: "/admin",
+    path: "/",
     expires: new Date(sessionExpire),
   });
 
