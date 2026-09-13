@@ -3,12 +3,17 @@
 import { useActionState } from "react";
 import Image from "next/image";
 import { saveProduct, type ProductFormState } from "./actions";
-import { productImageUrl } from "@/lib/appwrite/images";
 import type { Product } from "@/lib/types";
 
 const initialProductState: ProductFormState = { status: "idle", message: "" };
 
-export function ProductRow({ product }: { product: Product }) {
+export function ProductRow({
+  product,
+  imageUrl,
+}: {
+  product: Product;
+  imageUrl: string | null;
+}) {
   const action = saveProduct.bind(null, product.id);
   const [state, formAction, pending] = useActionState(
     action,
@@ -21,9 +26,9 @@ export function ProductRow({ product }: { product: Product }) {
       className="flex flex-col gap-4 rounded-2xl border border-navy-950/10 bg-white p-5 sm:flex-row sm:items-center"
     >
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-mist-200">
-        {product.imageIds[0] && (
+        {imageUrl && (
           <Image
-            src={productImageUrl(product.imageIds[0])}
+            src={imageUrl}
             alt={product.name}
             fill
             sizes="64px"

@@ -1,4 +1,5 @@
 import { getAllProductsForAdmin } from "@/lib/data/products";
+import { productImageUrl } from "@/lib/appwrite/images";
 import { ProductRow } from "./product-row";
 
 export default async function AdminProductsPage() {
@@ -16,7 +17,11 @@ export default async function AdminProductsPage() {
 
       <div className="mt-8 flex flex-col gap-4">
         {products.map((product) => (
-          <ProductRow key={product.id} product={product} />
+          <ProductRow
+            key={product.id}
+            product={product}
+            imageUrl={product.imageIds[0] ? productImageUrl(product.imageIds[0]) : null}
+          />
         ))}
       </div>
     </div>
