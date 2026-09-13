@@ -43,7 +43,7 @@ export default async function AdminProtectedLayout({
               type="submit"
               className="text-sm font-semibold text-steel-600 hover:text-ventum-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
             >
-              Sign out ({user.email})
+              Sign out
             </button>
           </form>
         </div>
