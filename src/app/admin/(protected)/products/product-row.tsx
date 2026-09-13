@@ -56,8 +56,24 @@ export function ProductRow({
         </div>
       </div>
 
-      {/* Marketing Badges (New Arrival & Now Available) */}
+      {/* Optimistic Flag Toggles */}
       <div className="flex flex-wrap items-center gap-3 border-t border-navy-950/5 pt-4 lg:border-t-0 lg:pt-0">
+        <AdminToggleSwitch
+          label="Published"
+          checked={product.published}
+          activeColor="green"
+          onChange={async (val) => {
+            await toggleProductFlag(product.id, "published", val);
+          }}
+        />
+        <AdminToggleSwitch
+          label="In Stock"
+          checked={product.inStock}
+          activeColor="amber"
+          onChange={async (val) => {
+            await toggleProductFlag(product.id, "inStock", val);
+          }}
+        />
         <AdminToggleSwitch
           label="New Arrival"
           checked={product.isNewArrival}

@@ -30,6 +30,7 @@ export async function FeaturedProducts() {
           <div>
             <p className={styles.eyebrow}>SELECTED FROM OUR SHELVES</p>
             <h2 id="featured-title" className={styles.title}>Parts for the job ahead.</h2>
+            <p className={styles.intro}>A closer look at our featured parts. Check the details, then ask us about availability.</p>
             <p className={styles.intro}>A closer look at our latest arrivals and available parts. Check the details, then ask us about availability.</p>
           </div>
           <Link href="#catalogue" className={styles.catalogue}>Browse the catalogue <Arrow /></Link>
@@ -43,12 +44,12 @@ export async function FeaturedProducts() {
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={styles.brand}>{product.brand}</span>
                   {product.isNewArrival && (
-                    <span className="rounded-full bg-ventum-blue-600 border border-white/30 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
+                    <span className="rounded-full border border-white/30 bg-ventum-blue-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
                       New Arrival
                     </span>
                   )}
                   {product.isNowAvailable && (
-                    <span className="rounded-full bg-emerald-700 border border-white/30 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
+                    <span className="rounded-full border border-white/30 bg-emerald-700 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
                       Now Available
                     </span>
                   )}

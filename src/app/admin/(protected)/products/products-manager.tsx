@@ -30,6 +30,26 @@ export function ProductsManager({
     return [
       { id: "all", label: "All Products", count: products.length },
       {
+        id: "published",
+        label: "Published",
+        count: products.filter((p) => p.published).length,
+      },
+      {
+        id: "drafts",
+        label: "Drafts",
+        count: products.filter((p) => !p.published).length,
+      },
+      {
+        id: "in_stock",
+        label: "In Stock",
+        count: products.filter((p) => p.inStock).length,
+      },
+      {
+        id: "out_of_stock",
+        label: "Out of Stock",
+        count: products.filter((p) => !p.inStock).length,
+      },
+      {
         id: "new_arrival",
         label: "New Arrival",
         count: products.filter((p) => p.isNewArrival).length,
@@ -58,6 +78,10 @@ export function ProductsManager({
       }
 
       // Filter chip match
+      if (activeFilter === "published") return p.published;
+      if (activeFilter === "drafts") return !p.published;
+      if (activeFilter === "in_stock") return p.inStock;
+      if (activeFilter === "out_of_stock") return !p.inStock;
       if (activeFilter === "new_arrival") return p.isNewArrival;
       if (activeFilter === "now_available") return p.isNowAvailable;
 
