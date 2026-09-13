@@ -15,16 +15,18 @@ export async function login(
   _prevState: LoginState,
   formData: FormData
 ): Promise<LoginState> {
-  const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
-  if (!email || !password) {
-    return { status: "error", message: "Enter your email and password." };
+  if (!password) {
+    return { status: "error", message: "Enter your password." };
   }
 
+  // The admin identity is resolved only on the server. It is never sent
+  // to the browser or rendered into the login form.
+  const email = appwriteEnv.adminEmail;
+
   // Session secrets are only returned when the login request is made
-  // with an API key — so this must run server-side with the admin
-  // client, not the browser SDK.
+  // with an API key, so this remains server-side with the admin client.
   const client = new Client()
     .setEndpoint(appwriteEnv.endpoint)
     .setProject(appwriteEnv.projectId)
@@ -41,7 +43,7 @@ export async function login(
     sessionExpire = session.expire;
   } catch (error) {
     console.error("Admin login failed:", error);
-    return { status: "error", message: "Invalid email or password." };
+    return { status: "error", message: "Invalid password." };
   }
 
   const cookieStore = await cookies();
@@ -49,7 +51,7 @@ export async function login(
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    path: "/",
+    path: "/admin",
     expires: new Date(sessionExpire),
   });
 
@@ -61,11 +63,6 @@ export async function logout() {
   const sessionSecret = cookieStore.get(SESSION_COOKIE)?.value;
 
   if (sessionSecret) {
-    // Revoke the session on Appwrite's side too, not just the cookie —
-    // otherwise a leaked cookie value would stay valid for up to a
-    // year (the session's lifetime) even after "logging out". A user
-    // can always delete their own current session with just the
-    // session secret, no API key or special scope needed.
     const sessionClient = new Client()
       .setEndpoint(appwriteEnv.endpoint)
       .setProject(appwriteEnv.projectId)
