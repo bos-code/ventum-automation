@@ -19,7 +19,10 @@ export const siteConfig = {
   phoneSecondary: "07055595398",
   email: "ventumglobal@gmail.com",
   address: "F1626, Alaba International Market, Ojo, Lagos, Nigeria",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ventumautomation.com",
+  // `||` on purpose, not `??` — an env var set to an empty string (as
+  // opposed to unset) still needs to fall back, or `new URL(siteUrl)`
+  // in layout.tsx throws ERR_INVALID_URL at build time.
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://ventumautomation.com",
 } as const;
 
 export const navLinks = [
