@@ -14,20 +14,6 @@ export function LoginForm() {
   return (
     <form action={formAction} className="flex flex-col gap-5">
       <div>
-        <label htmlFor="email" className="block text-sm font-semibold text-navy-950">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          autoComplete="username"
-          className="mt-2 h-12 w-full rounded-lg border border-navy-950/15 px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
-        />
-      </div>
-
-      <div>
         <label htmlFor="password" className="block text-sm font-semibold text-navy-950">
           Password
         </label>
@@ -36,6 +22,7 @@ export function LoginForm() {
           name="password"
           type="password"
           required
+          autoFocus
           autoComplete="current-password"
           className="mt-2 h-12 w-full rounded-lg border border-navy-950/15 px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
         />
