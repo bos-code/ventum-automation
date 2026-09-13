@@ -6,6 +6,7 @@ import { productImageUrl } from "@/lib/appwrite/images";
 import { formatPrice } from "@/lib/format";
 import { whatsappLink } from "@/lib/site-config";
 import styles from "./featured-products.module.css";
+import { Reveal } from "@/components/reveal";
 
 export async function FeaturedProducts() {
   const [products, settings] = await Promise.all([getFeaturedProducts(), getSettings()]);
@@ -25,7 +26,8 @@ export async function FeaturedProducts() {
 
         <div className={styles.grid}>
           {products.map((product, index) => (
-            <article key={product.id} className={styles.card} aria-labelledby={`featured-${product.id}`}>
+            <Reveal key={product.id} delay={index * 0.1}>
+            <article className={styles.card} aria-labelledby={`featured-${product.id}`}>
               <div className={styles.cardTop}>
                 <span className={styles.brand}>{product.brand}</span>
                 <span className={styles.number} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -65,6 +67,7 @@ export async function FeaturedProducts() {
                 </a>
               </footer>
             </article>
+            </Reveal>
           ))}
         </div>
         <p className={styles.footnote}><span aria-hidden="true">↗</span> Buying for an installation? Confirm the model, rating and quantity with our team before ordering.</p>

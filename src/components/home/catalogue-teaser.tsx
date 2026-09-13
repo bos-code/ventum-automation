@@ -3,6 +3,7 @@ import { getPublishedProducts } from "@/lib/data/products";
 import { ProductCard } from "@/components/product-card";
 import { getSettings } from "@/lib/data/settings";
 import { whatsappLink } from "@/lib/site-config";
+import { Reveal } from "@/components/reveal";
 
 export async function CatalogueTeaser() {
   const products = await getPublishedProducts();
@@ -44,8 +45,10 @@ export async function CatalogueTeaser() {
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.map((product, index) => (
+            <Reveal key={product.id} delay={Math.min(index, 3) * 0.08}>
+              <ProductCard product={product} />
+            </Reveal>
           ))}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { getSettings } from "@/lib/data/settings";
 import { whatsappLink } from "@/lib/site-config";
+import { Reveal } from "@/components/reveal";
 
 export async function ContactCta() {
   const settings = await getSettings();
@@ -10,7 +11,7 @@ export async function ContactCta() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_80%_0%,var(--color-ventum-red-800)_0%,transparent_55%)] opacity-40"
       />
-      <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+      <Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="font-display text-display font-extrabold tracking-tight">
           Need a part today?
         </h2>
@@ -39,7 +40,7 @@ export async function ContactCta() {
           </a>
         </div>
         <p className="mt-8 text-sm text-steel-200">{settings.address}</p>
-      </div>
+      </Reveal>
     </section>
   );
 }

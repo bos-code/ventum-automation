@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSettings } from "@/lib/data/settings";
+import { Reveal } from "@/components/reveal";
 
 export async function AboutTeaser() {
   const settings = await getSettings();
@@ -10,7 +11,7 @@ export async function AboutTeaser() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_120%,var(--color-ventum-blue-800)_0%,transparent_60%)] opacity-30"
       />
-      <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+      <Reveal className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
         <p className="text-sm font-semibold uppercase tracking-widest text-ventum-red-400">
           About {settings.businessName}
         </p>
@@ -29,7 +30,7 @@ export async function AboutTeaser() {
         >
           More about us
         </Link>
-      </div>
+      </Reveal>
     </section>
   );
 }

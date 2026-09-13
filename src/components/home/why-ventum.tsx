@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/reveal";
+
 const POINTS = [
   {
     number: "01",
@@ -31,21 +33,20 @@ export function WhyVentum() {
         </h2>
 
         <div className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
-          {POINTS.map((point) => (
-            <div
-              key={point.number}
-              className="border-t border-white/15 pt-6"
-            >
-              <span className="font-display text-sm font-bold text-ventum-red-400">
-                {point.number}
-              </span>
-              <h3 className="mt-3 font-display text-xl font-bold">
-                {point.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-steel-200">
-                {point.description}
-              </p>
-            </div>
+          {POINTS.map((point, index) => (
+            <Reveal key={point.number} delay={index * 0.12}>
+              <div className="border-t border-white/15 pt-6">
+                <span className="font-display text-sm font-bold text-ventum-red-400">
+                  {point.number}
+                </span>
+                <h3 className="mt-3 font-display text-xl font-bold">
+                  {point.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-steel-200">
+                  {point.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
