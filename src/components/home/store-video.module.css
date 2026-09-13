@@ -1,0 +1,20 @@
+.section { background: #f2f3f1; color: #101827; padding: 72px 0; border-top: 1px solid #d8dcd9; }
+.container { max-width: 1152px; padding: 0 32px; margin: auto; display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 64px; }
+.eyebrow { color: #b50c11; font-size: 10px; letter-spacing: .16em; font-weight: 600; }
+.copy h2 { margin: 18px 0; font-size: clamp(38px, 4vw, 52px); line-height: 1.06; font-weight: 650; letter-spacing: -.045em; }
+.description { color: #58616b; font-size: 15px; line-height: 1.7; max-width: 350px; }
+.location { margin-top: 24px; padding-top: 20px; border-top: 1px solid #d8dcd9; }
+.location > span { font-size: 9px; letter-spacing: .1em; color: #65707a; }
+.location p { margin-top: 5px; font-size: 13px; line-height: 1.6; }
+.link { display: inline-flex; min-height: 44px; align-items: center; gap: 24px; margin-top: 14px; font-size: 13px; font-weight: 600; }
+.link:hover { color: #b50c11; }
+.link:focus-visible { outline: 2px solid #372adc; outline-offset: 4px; }
+.figure { min-width: 0; margin: 0; border-radius: 6px; overflow: hidden; background: #101827; }
+.figure video { display: block; width: 100%; height: auto; aspect-ratio: 848 / 478; }
+.figure figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 17px 20px; color: #c3c9d2; font-size: 10px; border-top: 2px solid #d30d12; }
+@media(max-width: 800px) {
+  .section { padding: 44px 0; }
+  .container { grid-template-columns: 1fr; gap: 28px; padding: 0 20px; }
+  .description { max-width: 500px; }
+  .figure figcaption { font-size: 9px; padding: 14px; }
+}

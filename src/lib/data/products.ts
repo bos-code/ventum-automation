@@ -89,3 +89,36 @@ export async function getProductsByCategory(
   const products = await getPublishedProducts();
   return products.filter((product) => product.categoryId === categoryId);
 }
+
+/** Admin-only: every product regardless of published status. */
+export async function getAllProductsForAdmin(): Promise<Product[]> {
+  const tablesDB = getTablesDB();
+  const { rows } = await tablesDB.listRows({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.products,
+    queries: [Query.orderAsc("sortOrder")],
+  });
+  return rows.map((row) => mapProduct(row as unknown as Record<string, unknown>));
+}
+
+export interface ProductUpdate {
+  price?: number | null;
+  inStock?: boolean;
+  published?: boolean;
+  featured?: boolean;
+  shortDescription?: string | null;
+  description?: string | null;
+}
+
+export async function updateProduct(
+  id: string,
+  data: ProductUpdate
+): Promise<void> {
+  const tablesDB = getTablesDB();
+  await tablesDB.updateRow({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.products,
+    rowId: id,
+    data,
+  });
+}

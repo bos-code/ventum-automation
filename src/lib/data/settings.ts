@@ -52,3 +52,13 @@ export const getSettings = cache(async (): Promise<Settings> => {
     return fallbackSettings();
   }
 });
+
+export async function updateSettings(data: Partial<Settings>): Promise<void> {
+  const tablesDB = getTablesDB();
+  await tablesDB.updateRow({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.settings,
+    rowId: SETTINGS_ROW_ID,
+    data,
+  });
+}

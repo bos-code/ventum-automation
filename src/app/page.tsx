@@ -5,6 +5,7 @@ import { CatalogueTeaser } from "@/components/home/catalogue-teaser";
 import { BrandsStrip } from "@/components/home/brands-strip";
 import { AboutTeaser } from "@/components/home/about-teaser";
 import { ContactCta } from "@/components/home/contact-cta";
+import { StoreVideo } from "@/components/home/store-video";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <BrandsStrip />
       <AboutTeaser />
       <ContactCta />
+      <StoreVideo />
     </>
   );
 }

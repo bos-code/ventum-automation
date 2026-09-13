@@ -4,6 +4,7 @@ import { getSettings } from "@/lib/data/settings";
 import { whatsappLink } from "@/lib/site-config";
 import protectionParts from "../../../assets/products/client_photos/enhanced_full/1000420738_enhanced.jpg";
 import styles from "./hero.module.css";
+import { HeroVideo } from "./hero-video";
 
 // Curated real stock photography, bundled locally for a reliable first paint.
 const brands = [
@@ -18,6 +19,7 @@ export async function Hero() {
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
+      <HeroVideo />
       <div className={styles.container}>
        <div className={styles.main}>
         <div className={styles.copy}>

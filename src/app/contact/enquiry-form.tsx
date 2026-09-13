@@ -1,8 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
-import { submitEnquiry, initialEnquiryState } from "./actions";
+import { submitEnquiry, type EnquiryFormState } from "./actions";
 import type { Product } from "@/lib/types";
+
+const initialEnquiryState: EnquiryFormState = { status: "idle", message: "" };
 
 export function EnquiryForm({ products }: { products: Product[] }) {
   const [state, formAction, pending] = useActionState(

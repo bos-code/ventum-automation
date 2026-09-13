@@ -59,3 +59,19 @@ export interface EnquiryInput {
   message?: string | null;
   source: EnquirySource;
 }
+
+export interface Enquiry {
+  id: string;
+  createdAt: string;
+  productId: string | null;
+  productName: string;
+  productModel: string | null;
+  productPrice: number | null;
+  productCurrency: string | null;
+  customerName: string;
+  phone: string;
+  quantity: number;
+  message: string | null;
+  source: EnquirySource;
+  status: EnquiryStatus;
+}

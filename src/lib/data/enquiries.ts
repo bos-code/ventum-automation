@@ -1,9 +1,9 @@
 import "server-only";
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { getTablesDB } from "@/lib/appwrite/client";
 import { appwriteEnv } from "@/lib/appwrite/env";
 import { notifyTelegram } from "@/lib/telegram";
-import type { EnquiryInput } from "@/lib/types";
+import type { Enquiry, EnquiryInput, EnquiryStatus } from "@/lib/types";
 
 function formatTelegramMessage(input: EnquiryInput): string {
   const lines = [
@@ -48,4 +48,46 @@ export async function createEnquiry(input: EnquiryInput): Promise<string> {
   await notifyTelegram(formatTelegramMessage(input));
 
   return (row as unknown as { $id: string }).$id;
+}
+
+function mapEnquiry(row: Record<string, unknown>): Enquiry {
+  return {
+    id: row.$id as string,
+    createdAt: row.$createdAt as string,
+    productId: (row.productId as string | null) ?? null,
+    productName: row.productName as string,
+    productModel: (row.productModel as string | null) ?? null,
+    productPrice: (row.productPrice as number | null) ?? null,
+    productCurrency: (row.productCurrency as string | null) ?? null,
+    customerName: row.customerName as string,
+    phone: row.phone as string,
+    quantity: row.quantity as number,
+    message: (row.message as string | null) ?? null,
+    source: row.source as Enquiry["source"],
+    status: row.status as EnquiryStatus,
+  };
+}
+
+/** Admin-only: every enquiry, most recent first. */
+export async function getAllEnquiries(): Promise<Enquiry[]> {
+  const tablesDB = getTablesDB();
+  const { rows } = await tablesDB.listRows({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.enquiries,
+    queries: [Query.orderDesc("$createdAt"), Query.limit(100)],
+  });
+  return rows.map((row) => mapEnquiry(row as unknown as Record<string, unknown>));
+}
+
+export async function updateEnquiryStatus(
+  id: string,
+  status: EnquiryStatus
+): Promise<void> {
+  const tablesDB = getTablesDB();
+  await tablesDB.updateRow({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.enquiries,
+    rowId: id,
+    data: { status },
+  });
 }

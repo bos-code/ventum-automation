@@ -8,11 +8,6 @@ export interface EnquiryFormState {
   message: string;
 }
 
-export const initialEnquiryState: EnquiryFormState = {
-  status: "idle",
-  message: "",
-};
-
 export async function submitEnquiry(
   _prevState: EnquiryFormState,
   formData: FormData
