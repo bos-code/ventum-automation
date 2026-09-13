@@ -1,0 +1,68 @@
+.hero { background: #0b111e; color: var(--color-offwhite); border-bottom: 1px solid #ffffff16; }
+.container { max-width: 1152px; margin: 0 auto; padding: 0 32px; }
+.main { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; padding: 42px 0 36px; }
+.copy { min-width: 0; }
+.eyebrow { display: flex; align-items: center; gap: 10px; color: #c3c9d2; font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
+.eyebrow > span { width: 7px; height: 7px; background: #f0454a; }
+.title { margin: 22px 0 20px; font-size: clamp(40px, 4.35vw, 60px); line-height: 1.08; font-weight: 650; letter-spacing: -.055em; }
+.title > span { display: block; color: #a7b1c2; }
+.description { max-width: 430px; color: #c3c9d2; font-size: 16px; line-height: 1.65; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 25px; }
+.actions a { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; font-size: 13px; font-weight: 600; transition: background .18s, color .18s; }
+.actions a:focus-visible { outline: 2px solid #f5f6f8; outline-offset: 5px; }
+.actions svg { width: 18px; height: 18px; flex-shrink: 0; }
+.primary { padding: 0 20px; border-radius: 4px; background: #d30d12; color: white; }
+.primary:hover { background: #b80b10; }
+.secondary { color: #e2e7ef; }
+.secondary:hover { color: #ff7478; }
+.note { margin-top: 12px; color: #9aa6b8; font-size: 12px; }
+.showcase { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #ffffff24; border-radius: 6px; background: #e8ebeb; color: #111a27; box-shadow: 0 18px 50px #00000020; }
+.figureHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; font-size: 10px; letter-spacing: .12em; font-weight: 600; }
+.photoLabel { font-size: 10px; font-weight: 400; letter-spacing: 0; color: #4b5563; }
+.imageFrame { padding: 10px 0 0; }
+.productImage { display: block; width: 100%; height: auto; }
+.caption { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 19px 20px; background: #171f2d; color: #f5f6f8; border-top: 2px solid #d30d12; }
+.captionLabel { color: #a7b1c2; font-size: 9px; letter-spacing: .11em; }
+.caption p { margin-top: 5px; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -.03em; }
+.figureNumber { font-size: 32px; line-height: 1; font-weight: 300; color: #657185; }
+.trust { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 23px 0; border-top: 1px solid #ffffff20; }
+.location { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.location svg { width: 23px; height: 23px; color: #f0454a; }
+.location strong { display: block; font-size: 12px; font-weight: 500; }
+.location span { display: block; margin-top: 3px; color: #a7b1c2; font-size: 11px; }
+.brands { display: flex; align-items: center; gap: 28px; }
+.brandsLabel { font-size: 9px; letter-spacing: .1em; line-height: 1.5; color: #a7b1c2; }
+.brand { width: auto; max-width: 100px; height: 22px; object-fit: contain; opacity: .7; }
+@media (min-width: 900px) and (max-width: 1100px) {
+  .main { gap: 30px; }
+  .actions { gap: 8px 12px; }
+  .actions a { font-size: 12px; }
+  .primary { padding: 0 14px; }
+  .brands { gap: 18px; }
+  .brand { max-width: 85px; }
+}
+@media (max-width: 899px) {
+  .container { padding: 0 24px; }
+  .main { grid-template-columns: 1fr; gap: 32px; padding: 36px 0 28px; }
+  .title { font-size: clamp(38px, 7.5vw, 58px); }
+  .copy, .showcase { width: 100%; max-width: 560px; margin-inline: auto; }
+  .description { max-width: 470px; }
+  .trust { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .brands { width: 100%; justify-content: space-between; gap: 16px; }
+}
+@media (max-width: 479px) {
+  .container { padding: 0 20px; }
+  .eyebrow { font-size: 9px; letter-spacing: .12em; }
+  .title { margin-top: 20px; font-size: clamp(32px, 9.5vw, 44px); }
+  .description { font-size: 15px; }
+  .actions { align-items: stretch; gap: 4px; }
+  .actions a { width: 100%; font-size: 13px; }
+  .note { margin-top: 4px; text-align: center; font-size: 11px; }
+  .figureHeader { padding: 14px; font-size: 9px; letter-spacing: .08em; }
+  .photoLabel { font-size: 9px; }
+  .caption { padding: 16px; }
+  .brands { flex-wrap: wrap; justify-content: flex-start; gap: 22px; }
+  .brandsLabel { width: 100%; }
+  .brandsLabel br { display: inline; }
+  .brand { max-width: 110px; height: 20px; }
+}
