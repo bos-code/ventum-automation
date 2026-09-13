@@ -15,7 +15,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/brand/ventum-mark.png",
         sizes: "any",
         type: "image/png",
-        purpose: "any maskable",
+        purpose: "maskable",
       },
     ],
   };
