@@ -1,6 +1,7 @@
 import { getAllEnquiries } from "@/lib/data/enquiries";
 import { changeEnquiryStatus } from "./actions";
 import { formatPrice } from "@/lib/format";
+import { EnquiryWhatsAppAction } from "@/components/admin/enquiry-whatsapp-action";
 import type { EnquiryStatus } from "@/lib/types";
 
 const STATUS_STYLES: Record<EnquiryStatus, string> = {
@@ -85,7 +86,16 @@ export default async function AdminEnquiriesPage() {
               </p>
             )}
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <EnquiryWhatsAppAction
+                enquiryId={enquiry.id}
+                customerName={enquiry.customerName}
+                phone={enquiry.phone}
+                productName={enquiry.productName}
+                quantity={enquiry.quantity}
+                currentStatus={enquiry.status}
+                onStatusChange={changeEnquiryStatus}
+              />
               {NEXT_STATUS[enquiry.status].map((nextStatus) => (
                 <form
                   key={nextStatus}

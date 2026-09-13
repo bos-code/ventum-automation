@@ -1,15 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getFeaturedProducts } from "@/lib/data/products";
+import { getNewArrivals, getNowAvailable } from "@/lib/data/products";
 import { getSettings } from "@/lib/data/settings";
 import { productImageUrl } from "@/lib/appwrite/images";
 import { formatPrice } from "@/lib/format";
 import { whatsappLink } from "@/lib/site-config";
 import styles from "./featured-products.module.css";
 import { Reveal } from "@/components/reveal";
+import type { Product } from "@/lib/types";
 
 export async function FeaturedProducts() {
-  const [products, settings] = await Promise.all([getFeaturedProducts(), getSettings()]);
+  const [newArrivals, nowAvailable, settings] = await Promise.all([
+    getNewArrivals(),
+    getNowAvailable(),
+    getSettings(),
+  ]);
+
+  const productMap = new Map<string, Product>();
+  for (const p of [...newArrivals, ...nowAvailable]) {
+    productMap.set(p.id, p);
+  }
+  const products = Array.from(productMap.values());
   if (products.length === 0) return null;
 
   return (
@@ -19,7 +30,7 @@ export async function FeaturedProducts() {
           <div>
             <p className={styles.eyebrow}>SELECTED FROM OUR SHELVES</p>
             <h2 id="featured-title" className={styles.title}>Parts for the job ahead.</h2>
-            <p className={styles.intro}>A closer look at our featured parts. Check the details, then ask us about availability.</p>
+            <p className={styles.intro}>A closer look at our latest arrivals and available parts. Check the details, then ask us about availability.</p>
           </div>
           <Link href="#catalogue" className={styles.catalogue}>Browse the catalogue <Arrow /></Link>
         </header>
@@ -29,7 +40,19 @@ export async function FeaturedProducts() {
             <Reveal key={product.id} delay={index * 0.1}>
             <article className={styles.card} aria-labelledby={`featured-${product.id}`}>
               <div className={styles.cardTop}>
-                <span className={styles.brand}>{product.brand}</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={styles.brand}>{product.brand}</span>
+                  {product.isNewArrival && (
+                    <span className="rounded-full bg-ventum-blue-600 border border-white/30 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
+                      New Arrival
+                    </span>
+                  )}
+                  {product.isNowAvailable && (
+                    <span className="rounded-full bg-emerald-700 border border-white/30 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
+                      Now Available
+                    </span>
+                  )}
+                </div>
                 <span className={styles.number} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               </div>
               <div className={styles.cardBody}>

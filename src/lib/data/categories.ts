@@ -30,3 +30,19 @@ export const getPublishedCategories = cache(async (): Promise<Category[]> => {
     return [];
   }
 });
+
+export async function getAllCategoriesForAdmin(): Promise<Category[]> {
+  try {
+    const tablesDB = getTablesDB();
+    const { rows } = await tablesDB.listRows({
+      databaseId: appwriteEnv.databaseId,
+      tableId: appwriteEnv.tables.categories,
+      queries: [Query.orderAsc("sortOrder")],
+    });
+    return rows.map((row) => mapCategory(row as unknown as Record<string, unknown>));
+  } catch (error) {
+    console.error("getAllCategoriesForAdmin failed:", error);
+    return [];
+  }
+}
+

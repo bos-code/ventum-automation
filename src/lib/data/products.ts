@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { getTablesDB } from "@/lib/appwrite/client";
 import { appwriteEnv } from "@/lib/appwrite/env";
 import type { Product, ProductSpec } from "@/lib/types";
@@ -27,7 +27,8 @@ function mapProduct(row: Record<string, unknown>): Product {
     description: (row.description as string | null) ?? null,
     price: (row.price as number | null) ?? null,
     currency: (row.currency as string) ?? "NGN",
-    featured: Boolean(row.featured),
+    isNewArrival: Boolean(row.isNewArrival),
+    isNowAvailable: Boolean(row.isNowAvailable),
     inStock: row.inStock !== false,
     published: Boolean(row.published),
     imageIds: (row.imageIds as string[]) ?? [],
@@ -58,9 +59,14 @@ export const getPublishedProducts = cache(async (): Promise<Product[]> => {
   }
 });
 
-export async function getFeaturedProducts(): Promise<Product[]> {
+export async function getNewArrivals(): Promise<Product[]> {
   const products = await getPublishedProducts();
-  return products.filter((product) => product.featured);
+  return products.filter((product) => product.isNewArrival);
+}
+
+export async function getNowAvailable(): Promise<Product[]> {
+  const products = await getPublishedProducts();
+  return products.filter((product) => product.isNowAvailable);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -101,13 +107,80 @@ export async function getAllProductsForAdmin(): Promise<Product[]> {
   return rows.map((row) => mapProduct(row as unknown as Record<string, unknown>));
 }
 
-export interface ProductUpdate {
-  price?: number | null;
-  inStock?: boolean;
-  published?: boolean;
-  featured?: boolean;
+export interface CreateProductInput {
+  name: string;
+  slug: string;
+  brand: string;
+  categoryId?: string | null;
+  model?: string | null;
   shortDescription?: string | null;
   description?: string | null;
+  price?: number | null;
+  currency?: string;
+  isNewArrival?: boolean;
+  isNowAvailable?: boolean;
+  inStock?: boolean;
+  published?: boolean;
+  imageIds?: string[];
+  specifications?: ProductSpec[] | string;
+  sortOrder?: number;
+}
+
+export interface ProductUpdate {
+  name?: string;
+  slug?: string;
+  brand?: string;
+  categoryId?: string | null;
+  model?: string | null;
+  price?: number | null;
+  currency?: string;
+  inStock?: boolean;
+  published?: boolean;
+  isNewArrival?: boolean;
+  isNowAvailable?: boolean;
+  shortDescription?: string | null;
+  description?: string | null;
+  imageIds?: string[];
+  specifications?: ProductSpec[] | string;
+  sortOrder?: number;
+}
+
+export async function createProduct(input: CreateProductInput): Promise<string> {
+  const tablesDB = getTablesDB();
+  const id = ID.unique();
+
+  const specsString =
+    typeof input.specifications === "string"
+      ? input.specifications
+      : Array.isArray(input.specifications)
+      ? JSON.stringify(input.specifications)
+      : "[]";
+
+  const row = await tablesDB.createRow({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.products,
+    rowId: id,
+    data: {
+      name: input.name.trim(),
+      slug: input.slug.trim(),
+      brand: input.brand.trim(),
+      categoryId: input.categoryId || null,
+      model: input.model ? input.model.trim() : null,
+      shortDescription: input.shortDescription ? input.shortDescription.trim() : null,
+      description: input.description ? input.description.trim() : null,
+      price: input.price != null ? input.price : null,
+      currency: input.currency || "NGN",
+      isNewArrival: Boolean(input.isNewArrival),
+      isNowAvailable: Boolean(input.isNowAvailable),
+      inStock: input.inStock !== false,
+      published: Boolean(input.published),
+      imageIds: input.imageIds ?? [],
+      specifications: specsString,
+      sortOrder: input.sortOrder ?? 0,
+    },
+  });
+
+  return (row as unknown as { $id: string }).$id;
 }
 
 export async function updateProduct(
@@ -115,10 +188,26 @@ export async function updateProduct(
   data: ProductUpdate
 ): Promise<void> {
   const tablesDB = getTablesDB();
+
+  const payload: Record<string, unknown> = { ...data };
+  if (Array.isArray(payload.specifications)) {
+    payload.specifications = JSON.stringify(payload.specifications);
+  }
+
   await tablesDB.updateRow({
     databaseId: appwriteEnv.databaseId,
     tableId: appwriteEnv.tables.products,
     rowId: id,
-    data,
+    data: payload,
   });
 }
+
+export async function deleteProduct(id: string): Promise<void> {
+  const tablesDB = getTablesDB();
+  await tablesDB.deleteRow({
+    databaseId: appwriteEnv.databaseId,
+    tableId: appwriteEnv.tables.products,
+    rowId: id,
+  });
+}
+

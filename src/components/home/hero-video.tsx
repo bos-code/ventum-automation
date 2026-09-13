@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./hero.module.css";
 
+const PLAYBACK_RATE = 0.6;
+
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const userPaused = useRef(false);
@@ -11,6 +13,7 @@ export function HeroVideo() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    video.playbackRate = PLAYBACK_RATE;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     let visible = true;
@@ -20,6 +23,7 @@ export function HeroVideo() {
         return;
       }
       if (!video.getAttribute("src")) video.src = "/video/hero-loop.mp4";
+      video.playbackRate = PLAYBACK_RATE;
       void video.play().catch(() => { /* Poster and manual play remain available. */ });
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -46,6 +50,7 @@ export function HeroVideo() {
     } else {
       userPaused.current = false;
       if (!video.getAttribute("src")) video.src = "/video/hero-loop.mp4";
+      video.playbackRate = PLAYBACK_RATE;
       void video.play().catch(() => {});
     }
   }
@@ -55,6 +60,25 @@ export function HeroVideo() {
       <video ref={videoRef} className={styles.backgroundVideo} muted loop playsInline
         preload="none" poster="/video/shop-poster.jpg" aria-hidden="true" tabIndex={-1}
         onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+      <video
+        ref={videoRef}
+        className={styles.backgroundVideo}
+        muted
+        loop
+        playsInline
+        preload="none"
+        poster="/video/shop-poster.jpg"
+        aria-hidden="true"
+        tabIndex={-1}
+        onLoadedMetadata={(e) => {
+          e.currentTarget.playbackRate = PLAYBACK_RATE;
+        }}
+        onPlay={(e) => {
+          e.currentTarget.playbackRate = PLAYBACK_RATE;
+          setPlaying(true);
+        }}
+        onPause={() => setPlaying(false)}
+      />
       <div className={styles.videoScrim} aria-hidden="true" />
       <button type="button" className={styles.videoToggle} onClick={togglePlayback}
         aria-label={playing ? "Pause hero background video" : "Play hero background video"}>

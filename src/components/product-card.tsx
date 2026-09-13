@@ -22,11 +22,18 @@ export function ProductCard({ product }: { product: Product }) {
             className="object-cover transition-transform duration-500 ease-editorial group-hover:scale-105"
           />
         ) : null}
-        {product.featured && (
-          <span className="absolute left-3 top-3 rounded-full bg-ventum-red-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-offwhite">
-            Featured
-          </span>
-        )}
+        <div className="absolute left-3 top-3 z-10 flex flex-col items-start gap-1.5">
+          {product.isNewArrival && (
+            <span className="rounded-full bg-ventum-blue-600 border border-white/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/40 backdrop-blur-xs">
+              New Arrival
+            </span>
+          )}
+          {product.isNowAvailable && (
+            <span className="rounded-full bg-emerald-700 border border-white/30 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/40 backdrop-blur-xs">
+              Now Available
+            </span>
+          )}
+        </div>
       </div>
       <div className="flex flex-1 flex-col gap-1 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-steel-600">

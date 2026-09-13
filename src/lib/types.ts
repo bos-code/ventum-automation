@@ -14,7 +14,8 @@ export interface Product {
   description: string | null;
   price: number | null;
   currency: string;
-  featured: boolean;
+  isNewArrival: boolean;
+  isNowAvailable: boolean;
   inStock: boolean;
   published: boolean;
   imageIds: string[];

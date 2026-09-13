@@ -122,3 +122,39 @@ Public site: home, /products, /products/[slug], /about, /brands,
 /contact — all live on `main`. If you're picking this up, claim a
 stage above before editing anything under `src/app/admin/` or the
 product/category data layer so we don't collide again.
+
+**2026-09-13 — Antigravity (this session)**
+Stage 1 — claimed by Antigravity, data model update completed:
+- `src/lib/types.ts`: Replaced `featured: boolean` with `isNewArrival: boolean` and `isNowAvailable: boolean`.
+- `src/lib/data/products.ts`: Updated `mapProduct` and `ProductUpdate`. Replaced `getFeaturedProducts()` with `getNewArrivals()` and `getNowAvailable()`.
+- `src/app/admin/(protected)/products/product-row.tsx`: Replaced featured checkbox with independent "New Arrival" and "Now Available" checkboxes.
+- `src/app/admin/(protected)/products/actions.ts`: Updated `saveProduct` Server Action to persist `isNewArrival` and `isNowAvailable`.
+- `src/components/product-card.tsx`: Updated badges to render "New Arrival" (blue) and "Now Available" (green).
+- `src/components/home/featured-products.tsx`: Replaced `getFeaturedProducts()` with combined query for `getNewArrivals()` and `getNowAvailable()`, displaying corresponding badge indicators on each card.
+- Added `scripts/stage1-migration.ts` (executable via `npm run migrate:stage1` or `pnpm migrate:stage1`) to ensure Appwrite boolean attributes are created and existing product rows receive initial values.
+
+**2026-09-13 — Antigravity (this session)**
+Claimed: Admin Custom Components upgrade (Stage 9 fast-track elements requested by user):
+- Building `<AdminToggleSwitch />` for optimistic instant toggles on Published, In Stock, New Arrival, and Now Available.
+- Building `<AdminTableToolbar />` for real-time search & filter chips on `/admin/products`.
+- Building `<EnquiryWhatsAppAction />` for 1-click customer WhatsApp responses on `/admin/enquiries`.
+Shipped: Admin Custom Components upgrade:
+- Built and wired `<AdminToggleSwitch />` (`src/components/admin/toggle-switch.tsx`) for accessible, optimistic instant toggling of Published, In Stock, New Arrival, and Now Available.
+- Built `<AdminTableToolbar />` (`src/components/admin/table-toolbar.tsx`) for real-time search, count badges, and filter chips.
+- Built and wired `<EnquiryWhatsAppAction />` (`src/components/admin/enquiry-whatsapp-action.tsx`) into `/admin/enquiries` for 1-click Nigerian B2B WhatsApp replies with automated status progression.
+
+
+
+**2026-09-13 — Antigravity (this session)**
+Stage 2 — completed by Antigravity (Full product CRUD in admin):
+- `src/lib/data/products.ts`: Added `createProduct`, `deleteProduct`, and expanded `updateProduct` to support all schema fields, automatic slug generation/sanitization, and specifications JSON serialization.
+- `src/lib/data/categories.ts`: Added `getAllCategoriesForAdmin` for populating the product category selector.
+- `src/app/admin/(protected)/products/actions.ts`: Created `createProductAction`, `updateProductFullAction`, and `deleteProductAction` Server Actions with path revalidation (`/admin/products`, `/admin`, `/`, `/products`, `/products/[slug]`).
+- `src/components/admin/specs-editor.tsx`: Built dynamic technical specifications editor component for managing key-value pairs (e.g. Poles, Current, Voltage, Breaking Capacity).
+- `src/components/admin/delete-confirm-dialog.tsx`: Built accessible delete confirmation modal preventing accidental deletions.
+- `src/components/admin/product-form-modal.tsx`: Built complete product creation and editing modal covering all catalog fields, category picker, marketing badges, and specs.
+- `src/app/admin/(protected)/products/products-manager.tsx`: Built interactive manager container with `<AdminTableToolbar />`, live search, filter chips with counts, empty state, and dialog coordination.
+- `src/app/admin/(protected)/products/product-row.tsx`: Enhanced row with Edit button, Delete button, view public page link, and optimistic switches.
+- `src/app/admin/(protected)/products/page.tsx`: Updated to fetch categories and pass precomputed secure image URLs to `ProductsManager`.
+- TypeScript verification passed with 0 errors (`npx tsc --noEmit`).
+

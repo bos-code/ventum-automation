@@ -1,29 +1,26 @@
 import { getAllProductsForAdmin } from "@/lib/data/products";
+import { getAllCategoriesForAdmin } from "@/lib/data/categories";
 import { productImageUrl } from "@/lib/appwrite/images";
-import { ProductRow } from "./product-row";
+import { ProductsManager } from "./products-manager";
 
 export default async function AdminProductsPage() {
-  const products = await getAllProductsForAdmin();
+  const [products, categories] = await Promise.all([
+    getAllProductsForAdmin(),
+    getAllCategoriesForAdmin(),
+  ]);
+
+  const imageUrls: Record<string, string | null> = {};
+  for (const product of products) {
+    imageUrls[product.id] = product.imageIds[0]
+      ? productImageUrl(product.imageIds[0])
+      : null;
+  }
 
   return (
-    <div>
-      <h1 className="font-display text-2xl font-extrabold tracking-tight text-navy-950">
-        Products
-      </h1>
-      <p className="mt-2 text-sm text-steel-600">
-        Edit price, stock, and visibility. Adding new products or changing
-        photos still needs a developer for now.
-      </p>
-
-      <div className="mt-8 flex flex-col gap-4">
-        {products.map((product) => (
-          <ProductRow
-            key={product.id}
-            product={product}
-            imageUrl={product.imageIds[0] ? productImageUrl(product.imageIds[0]) : null}
-          />
-        ))}
-      </div>
-    </div>
+    <ProductsManager
+      products={products}
+      categories={categories}
+      imageUrls={imageUrls}
+    />
   );
 }

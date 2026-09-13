@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:stage1": "tsx --env-file=.env.local scripts/stage1-migration.ts"
   },
   "dependencies": {
     "gsap": "^3.15.0",
