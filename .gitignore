@@ -1,5 +1,6 @@
 # dependencies
 node_modules/
+.video-tools/
 
 # next.js
 .next/

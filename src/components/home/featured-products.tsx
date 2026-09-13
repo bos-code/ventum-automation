@@ -61,7 +61,7 @@ export async function FeaturedProducts() {
                   href={whatsappLink(settings.whatsapp, `Hi Ventum, I'm interested in ${product.name} by ${product.brand}${product.model ? ` (model: ${product.model})` : ""}. Please confirm availability and current pricing.`)}
                   target="_blank" rel="noopener noreferrer"
                   aria-label={`Ask on WhatsApp about ${product.name}${product.model ? `, ${product.model}` : ""}`}>
-                  Ask about this part <Arrow />
+                  Ask on WhatsApp <Arrow />
                 </a>
               </footer>
             </article>
