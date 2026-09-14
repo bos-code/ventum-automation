@@ -6,6 +6,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 640px; /* fallback where svh is unsupported */
   min-height: clamp(580px, 92svh, 920px);
   background: #0b111e;
   color: var(--color-offwhite);
@@ -114,7 +115,7 @@
 }
 
 @media (max-width: 899px) {
-  .hero { min-height: clamp(540px, 86svh, 780px); }
+  .hero { min-height: 560px; min-height: clamp(540px, 86svh, 780px); }
   .container { padding: 0 24px; }
   .main { padding: 64px 0 40px; }
   .copy { max-width: 560px; }
