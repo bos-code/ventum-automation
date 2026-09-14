@@ -1,8 +1,9 @@
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { getSettings } from "@/lib/data/settings";
 import { whatsappLink } from "@/lib/site-config";
 import protectionParts from "../../../assets/products/client_photos/enhanced_full/1000420738_enhanced.jpg";
+import protectionBox from "../../../assets/products/client_photos/enhanced_full/1000420740_enhanced.jpg";
 import styles from "./hero.module.css";
 import { HeroVideo } from "./hero-video";
 
@@ -16,6 +17,23 @@ const brands = [
 
 export async function Hero() {
   const settings = await getSettings();
+  const imageProps = {
+    alt: "JOYELEC circuit breakers, surge protection devices and voltage protector photographed at Ventum",
+    quality: 95,
+    loading: "eager" as const,
+    fetchPriority: "high" as const,
+    className: styles.productImage,
+  };
+  const { props: desktopImage } = getImageProps({
+    ...imageProps,
+    src: protectionParts,
+    sizes: "(min-width: 1152px) 516px, (min-width: 1101px) calc((100vw - 120px) / 2), calc((100vw - 98px) / 2)",
+  });
+  const { props: mobileImage } = getImageProps({
+    ...imageProps,
+    src: protectionBox,
+    sizes: "(min-width: 608px) 558px, (min-width: 480px) calc(100vw - 50px), calc(100vw - 42px)",
+  });
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
@@ -37,7 +55,7 @@ export async function Hero() {
 
           <div className={styles.actions}>
             <Link
-              href="#catalogue"
+              href="/products"
               className={styles.primary}
             >
               Browse Products <Arrow />
@@ -63,14 +81,17 @@ export async function Hero() {
             <span className={styles.photoLabel}>Our product photography</span>
           </div>
           <div className={styles.imageFrame}>
-          <Image
-            src={protectionParts}
-            alt="JOYELEC circuit breakers, surge protection devices and adjustable voltage protector photographed at Ventum"
-            preload
-            placeholder="blur"
-            sizes="(min-width: 1152px) 510px, (min-width: 900px) 46vw, (min-width: 600px) 560px, 100vw"
-            className={styles.productImage}
-          />
+            <picture>
+              <source
+                media="(min-width: 900px)"
+                srcSet={desktopImage.srcSet}
+                sizes={desktopImage.sizes}
+                width={desktopImage.width}
+                height={desktopImage.height}
+              />
+              {/* Next.js generates optimized sources; picture downloads only the matching photo. */}
+              <img {...mobileImage} alt={imageProps.alt} />
+            </picture>
           </div>
           <figcaption className={styles.caption}>
             <div>

@@ -7,6 +7,7 @@ import { getSettings } from "@/lib/data/settings";
 import { productImageUrl } from "@/lib/appwrite/images";
 import { formatPrice } from "@/lib/format";
 import { whatsappLink } from "@/lib/site-config";
+import { ProductPhoto } from "@/components/product-photo";
 
 export async function generateMetadata(
   props: PageProps<"/products/[slug]">
@@ -34,7 +35,7 @@ export default async function ProductDetailPage(
 
   if (!product) notFound();
 
-  const [mainImage, ...otherImages] = product.imageIds;
+  const otherImages = product.imageIds.slice(1);
   const enquiryMessage = `Hi Ventum, I'd like to enquire about the ${product.name}${
     product.model ? ` (${product.model})` : ""
   }.`;
@@ -51,17 +52,8 @@ export default async function ProductDetailPage(
 
         <div className="mt-6 grid gap-10 md:grid-cols-2 md:gap-16">
           <div className="flex flex-col gap-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist-200">
-              {mainImage && (
-                <Image
-                  src={productImageUrl(mainImage)}
-                  alt={product.name}
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              )}
+            <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-[#e9ece9]">
+              <ProductPhoto product={product} preload sizes="(min-width: 768px) 50vw, 100vw" />
             </div>
             {otherImages.length > 0 && (
               <div className="grid grid-cols-3 gap-4">
@@ -75,7 +67,7 @@ export default async function ProductDetailPage(
                       alt={product.name}
                       fill
                       sizes="200px"
-                      className="object-cover"
+                      className="object-contain p-2"
                     />
                   </div>
                 ))}

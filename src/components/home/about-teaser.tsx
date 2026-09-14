@@ -16,8 +16,7 @@ export async function AboutTeaser() {
           About {settings.businessName}
         </p>
         <p className="mt-6 font-display text-display font-extrabold leading-tight tracking-tight">
-          A real electrical supplier at Alaba International Market — not a
-          drop-shipper, not a reseller of stock photos.
+          Local knowledge. Practical support.
         </p>
         <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-steel-200">
           {settings.legalName} sells, installs and supports electrical

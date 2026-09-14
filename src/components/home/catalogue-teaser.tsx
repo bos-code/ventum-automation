@@ -25,7 +25,7 @@ export async function CatalogueTeaser() {
   }
 
   return (
-    <section id="catalogue" aria-labelledby="catalogue-title" className="scroll-mt-20 bg-white py-16 sm:py-24">
+    <section id="catalogue" aria-labelledby="catalogue-title" className="scroll-mt-20 bg-[#f2f3f1] py-14 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -33,19 +33,19 @@ export async function CatalogueTeaser() {
               Catalogue
             </p>
             <h2 id="catalogue-title" className="mt-2 font-display text-display font-extrabold tracking-tight text-navy-950">
-              The full lineup.
+              Explore the range.
             </h2>
           </div>
           <Link
             href="/products"
             className="rounded-full border border-navy-950/15 px-5 py-2.5 text-sm font-semibold text-navy-950 transition-colors hover:bg-navy-950 hover:text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
           >
-            View all products
+            View all {products.length} products &rarr;
           </Link>
         </div>
 
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product, index) => (
+          {products.slice(0, 4).map((product, index) => (
             <Reveal key={product.id} delay={Math.min(index, 3) * 0.08}>
               <ProductCard product={product} />
             </Reveal>

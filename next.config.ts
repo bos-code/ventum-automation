@@ -7,6 +7,7 @@ const appwriteHostname = appwriteEndpoint
 
 const nextConfig: NextConfig = {
   images: {
+    qualities: [75, 95],
     remotePatterns: appwriteHostname
       ? [
           {

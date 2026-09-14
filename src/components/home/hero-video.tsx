@@ -13,6 +13,7 @@ export function HeroVideo() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    video.defaultPlaybackRate = PLAYBACK_RATE;
     video.playbackRate = PLAYBACK_RATE;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;

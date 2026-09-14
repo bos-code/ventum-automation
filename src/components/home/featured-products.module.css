@@ -9,7 +9,7 @@
 .catalogue:hover { color: #b50c11; border-color: #b50c11; }
 .section a:focus-visible { outline: 2px solid #372adc; outline-offset: 5px; }
 .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-.card { display: flex; flex-direction: column; min-width: 0; border: 1px solid #d8dcd9; border-radius: 6px; background: #fff; overflow: hidden; }
+.card { display: flex; flex-direction: column; min-width: 0; height: 100%; border: 1px solid #d8dcd9; border-radius: 6px; background: #fff; overflow: hidden; }
 .cardTop { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 17px 22px; border-bottom: 1px solid #e4e6e3; }
 .brand { font-size: 10px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; overflow-wrap: anywhere; }
 .number { color: #7c858d; font-family: ui-monospace, monospace; font-size: 11px; }

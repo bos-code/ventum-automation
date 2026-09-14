@@ -30,7 +30,6 @@ export async function FeaturedProducts() {
           <div>
             <p className={styles.eyebrow}>SELECTED FROM OUR SHELVES</p>
             <h2 id="featured-title" className={styles.title}>Parts for the job ahead.</h2>
-            <p className={styles.intro}>A closer look at our featured parts. Check the details, then ask us about availability.</p>
             <p className={styles.intro}>A closer look at our latest arrivals and available parts. Check the details, then ask us about availability.</p>
           </div>
           <Link href="#catalogue" className={styles.catalogue}>Browse the catalogue <Arrow /></Link>
@@ -38,7 +37,7 @@ export async function FeaturedProducts() {
 
         <div className={styles.grid}>
           {products.map((product, index) => (
-            <Reveal key={product.id} delay={index * 0.1}>
+            <Reveal key={product.id} delay={index * 0.1} className="h-full">
             <article className={styles.card} aria-labelledby={`featured-${product.id}`}>
               <div className={styles.cardTop}>
                 <div className="flex flex-wrap items-center gap-2">

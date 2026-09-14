@@ -6,7 +6,7 @@ export async function ContactCta() {
   const settings = await getSettings();
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-navy-950 via-navy-900 to-ventum-blue-950 py-20 text-offwhite sm:py-28">
+    <section className="relative overflow-hidden border-t border-white/10 bg-navy-950 py-14 text-offwhite sm:py-16">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_80%_0%,var(--color-ventum-red-800)_0%,transparent_55%)] opacity-40"
@@ -16,9 +16,8 @@ export async function ContactCta() {
           Need a part today?
         </h2>
         <p className="mx-auto mt-4 max-w-md text-subhead text-steel-200">
-          Message us on WhatsApp for stock checks, pricing or technical
-          questions — most replies come within the hour during business
-          hours.
+          Send a model number or a photo of the part you need.
+          We’ll help you check specifications, pricing and availability.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a

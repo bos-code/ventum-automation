@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { navLinks, whatsappLink } from "@/lib/site-config";
 import type { Settings } from "@/lib/types";
 
@@ -10,6 +11,8 @@ const ENQUIRY_MESSAGE = "Hi Ventum, I'd like to enquire about a product.";
 
 export function SiteHeader({ settings }: { settings: Settings }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href);
   const waLink = whatsappLink(settings.whatsapp, ENQUIRY_MESSAGE);
 
   return (
@@ -26,9 +29,9 @@ export function SiteHeader({ settings }: { settings: Settings }) {
             width={40}
             height={40}
             className="h-10 w-10"
-            priority
+            preload
           />
-          <span className="hidden font-display text-lg font-bold tracking-tight text-offwhite sm:inline">
+          <span className="font-display text-lg font-bold tracking-tight text-offwhite">
             Ventum
           </span>
         </Link>
@@ -38,7 +41,8 @@ export function SiteHeader({ settings }: { settings: Settings }) {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-sm text-sm font-medium text-steel-200 transition-colors hover:text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className="rounded-sm text-sm font-medium text-steel-200 transition-colors hover:text-offwhite aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-ventum-red-500 aria-[current=page]:underline-offset-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
             >
               {link.label}
             </Link>
@@ -79,6 +83,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  aria-current={isActive(link.href) ? "page" : undefined}
                   onClick={() => setOpen(false)}
                   className="block rounded-md px-3 py-3 text-base font-medium text-offwhite hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-ventum-blue-500"
                 >
