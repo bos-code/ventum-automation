@@ -1,13 +1,10 @@
-import Image, { getImageProps } from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { getSettings } from "@/lib/data/settings";
 import { whatsappLink } from "@/lib/site-config";
-import protectionParts from "../../../assets/products/client_photos/enhanced_full/1000420738_enhanced.jpg";
-import protectionBox from "../../../assets/products/client_photos/enhanced_full/1000420740_enhanced.jpg";
 import styles from "./hero.module.css";
 import { HeroVideo } from "./hero-video";
 
-// Curated real stock photography, bundled locally for a reliable first paint.
 const brands = [
   { name: "Schneider Electric", file: "schneider-electric-white.png" },
   { name: "JOYELEC", file: "joyelec-white.png" },
@@ -17,25 +14,6 @@ const brands = [
 
 export async function Hero() {
   const settings = await getSettings();
-  const imageProps = {
-    alt: "JOYELEC circuit breakers, surge protection devices and voltage protector photographed at Ventum",
-    quality: 95,
-    loading: "eager" as const,
-    fetchPriority: "high" as const,
-    className: styles.productImage,
-  };
-  const { props: desktopImage } = getImageProps({
-    ...imageProps,
-    src: protectionParts,
-    sizes:
-      "(min-width: 1152px) 516px, (min-width: 1101px) calc((100vw - 120px) / 2), calc((100vw - 98px) / 2)",
-  });
-  const { props: mobileImage } = getImageProps({
-    ...imageProps,
-    src: protectionBox,
-    sizes:
-      "(min-width: 608px) 558px, (min-width: 480px) calc(100vw - 50px), calc(100vw - 42px)",
-  });
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
@@ -52,7 +30,7 @@ export async function Hero() {
             </h1>
             <p className={styles.description}>
               Quality breakers, contactors, solar protection and industrial
-              components.
+              components — stocked at Alaba and ready to collect today.
             </p>
 
             <div className={styles.actions}>
@@ -99,38 +77,8 @@ export async function Hero() {
               </span>
             </a>
           </div>
-
-          <figure className={styles.showcase}>
-            <div className={styles.figureHeader}>
-              <span>IN FOCUS / JOYELEC</span>
-              <span className={styles.photoLabel}>Our product photography</span>
-            </div>
-            <div className={styles.imageFrame}>
-              <picture>
-                <source
-                  media="(min-width: 900px)"
-                  srcSet={desktopImage.srcSet}
-                  sizes={desktopImage.sizes}
-                  width={desktopImage.width}
-                  height={desktopImage.height}
-                />
-                {/* Next.js generates optimized sources; picture downloads only the matching photo. */}
-                <img {...mobileImage} alt={imageProps.alt} />
-              </picture>
-            </div>
-            <figcaption className={styles.caption}>
-              <div>
-                <span className={styles.captionLabel}>
-                  BUILT AROUND YOUR INSTALLATION
-                </span>
-                <p>Protection. From the start.</p>
-              </div>
-              <span className={styles.figureNumber} aria-hidden="true">
-                01
-              </span>
-            </figcaption>
-          </figure>
         </div>
+
         <div className={styles.trust}>
           <div className={styles.location}>
             <svg

@@ -2,26 +2,27 @@
 
 import { useEffect, useRef, type CSSProperties } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 import { siteConfig, whatsappLink } from "@/lib/site-config";
 import styles from "./who-we-serve.module.css";
 
 interface AudienceItem {
   id: string;
-  number: string;
   title: string;
-  summary: string;
   query: string;
+  /** Optional backdrop photo. Cards without one keep the plain frosted panel. */
+  image?: string;
 }
 
 const AUDIENCES: AudienceItem[] = [
-  { id: "electrical-contractors", number: "01", title: "Electrical Contractors", summary: "Boards, MCBs, MCCBs and isolators.", query: "breaker" },
-  { id: "solar-installers", number: "02", title: "Solar Installers", summary: "DC breakers, SPDs and changeovers.", query: "solar" },
-  { id: "engineers", number: "03", title: "Engineers", summary: "Contactors, overloads, DIN-rail gear.", query: "contactor" },
-  { id: "industrial-technicians", number: "04", title: "Industrial Technicians", summary: "Motor starters and phase relays.", query: "contactor" },
-  { id: "businesses", number: "05", title: "Businesses", summary: "Transfer switches and surge protection.", query: "changeover" },
-  { id: "retailers", number: "06", title: "Retailers", summary: "Carton lots at trade pricing.", query: "protection" },
-  { id: "homeowners", number: "07", title: "Homeowners", summary: "Voltage protectors and domestic MCBs.", query: "protector" },
+  { id: "electrical-contractors", title: "Electrical Contractors", query: "breaker" },
+  { id: "solar-installers", title: "Solar Installers", query: "solar", image: "/audiences/solar-installers.jpeg" },
+  { id: "engineers", title: "Engineers", query: "contactor", image: "/audiences/engineers.jpeg" },
+  { id: "industrial-technicians", title: "Industrial Technicians", query: "contactor", image: "/audiences/industrial-technicians.jpeg" },
+  { id: "businesses", title: "Businesses", query: "changeover", image: "/audiences/businesses.jpeg" },
+  { id: "retailers", title: "Retailers", query: "protection", image: "/audiences/retailers.jpeg" },
+  { id: "homeowners", title: "Homeowners", query: "protector" },
 ];
 
 export function WhoWeServe() {
@@ -110,14 +111,18 @@ export function WhoWeServe() {
                 {AUDIENCES.map((item, index) => (
                   <li key={item.id} className={styles.slot} style={{ "--i": index } as CSSProperties}>
                     <Link href={`/products?q=${encodeURIComponent(item.query)}`} className={styles.card}>
-                      <span className={styles.number}>
-                        {item.number}
-                      </span>
-                      <span className={styles.cardTitle}>
-                        {item.title}
-                      </span>
-                      <span className={styles.cardSummary}>
-                        {item.summary}
+                      <span className={styles.cardTitle}>{item.title}</span>
+                      <span className={styles.cardMedia}>
+                        {item.image && (
+                          /* Decorative: the title above already names the audience. */
+                          <Image
+                            src={item.image}
+                            alt=""
+                            fill
+                            sizes="(min-width: 1024px) 240px, (min-width: 640px) 214px, 172px"
+                            className={styles.cardImage}
+                          />
+                        )}
                       </span>
                     </Link>
                   </li>

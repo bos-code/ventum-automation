@@ -47,6 +47,8 @@
 
 /* Frosted and solid, not see-through. */
 .card {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,7 +56,7 @@
   text-align: center;
   gap: 6px;
   height: 100%;
-  padding: 16px 17px;
+  padding: 12px;
   border: 1px solid color-mix(in oklab, var(--color-offwhite) 14%, transparent);
   border-radius: 12px;
   background:#1a2338e1;
@@ -106,7 +108,6 @@
 @media (min-width: 640px) {
   .stage { --card-w: 214px; --card-h: 174px; --radius: 226px; --stage-h: 300px; }
   .cardTitle { font-size: 17px; }
-  .cardSummary { font-size: 13px; }
 }
 
 @media (min-width: 1024px) {
@@ -139,4 +140,35 @@
     height: auto;
     backface-visibility: visible;
   }
+}
+
+
+/* The photo fills the lower half of the card, shown clear. */
+.cardImage {
+  object-fit: cover;
+}
+
+.cardScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-navy-950) 74%, transparent) 0%,
+    color-mix(in oklab, var(--color-navy-950) 92%, transparent) 100%
+  );
+}
+
+
+
+/* Media box below the name; flex-1 + min-height:0 lets it take the
+   remaining card height without pushing the title out. */
+.cardMedia {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-offwhite) 8%, transparent);
 }

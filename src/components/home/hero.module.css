@@ -1,77 +1,154 @@
-.hero { position: relative; isolation: isolate; overflow: hidden; background: #0b111e; color: var(--color-offwhite); border-bottom: 1px solid #ffffff16; }
-.container { position: relative; max-width: 1152px; margin: 0 auto; padding: 0 32px; }
+/* Full-height stage so the footage has real presence instead of sitting in a
+   letterbox. svh avoids the jump when mobile browser chrome collapses. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(580px, 92svh, 920px);
+  background: #0b111e;
+  color: var(--color-offwhite);
+  border-bottom: 1px solid #ffffff16;
+}
+
+/* Fine grain over the footage — stops compressed video from reading flat and
+   grey, and costs nothing over the wire. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
 .backgroundVideo { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
-.videoScrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, #0b111ef2 0%, #0b111ed9 45%, #0b111e99 100%); }
-.videoToggle { position: absolute; top: 10px; right: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border: 1px solid #ffffff40; border-radius: 4px; background: #0b111ecc; color: #fff; font-size: 11px; cursor: pointer; }
-.videoToggle:hover { background: #263145; }
+
+/* Three layers: a horizontal fade holding contrast under the copy, a vertical
+   one anchoring the top bar and trust row, and a brand tint so the footage
+   belongs to Ventum rather than reading as generic stock. */
+.videoScrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(100deg, #0b111ef7 0%, #0b111edb 40%, #0b111e94 70%, #0b111e5c 100%),
+    linear-gradient(180deg, #0b111ee6 0%, transparent 26%, transparent 58%, #0b111ef2 100%),
+    radial-gradient(ellipse 70% 60% at 88% 78%, color-mix(in oklab, var(--color-ventum-red-600) 26%, transparent) 0%, transparent 70%);
+}
+
+.videoToggle { position: absolute; top: 14px; right: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; border: 1px solid #ffffff33; border-radius: 999px; background: #0b111ea6; backdrop-filter: blur(8px); color: #fff; font-size: 11px; cursor: pointer; transition: background .18s, border-color .18s; }
+.videoToggle:hover { background: #0b111ee6; border-color: #ffffff66; }
 .videoToggle:focus-visible { outline: 2px solid white; outline-offset: 3px; }
-.main { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; padding: 56px 0 36px; }
-.copy { min-width: 0; }
+
+/* Copy sits vertically centred in the remaining space, with the trust row
+   pinned to the bottom edge of the stage. */
+.main { display: flex; flex: 1; align-items: center; padding: 96px 0 56px; }
+.copy { position: relative; min-width: 0; max-width: 680px; padding-left: 26px; }
+
+/* Thin rail marking the copy block — quiet technical detail, no ornament. */
+.copy::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent-red-highlight) 0%, #f0454a33 55%, transparent 100%);
+}
+
 .eyebrow { display: flex; align-items: center; gap: 10px; color: #c3c9d2; font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
 .eyebrow > span { width: 7px; height: 7px; background: #f0454a; }
-.title { margin: 22px 0 20px; font-size: clamp(34px, 3.5vw, 48px); line-height: 1.1; font-weight: 650; letter-spacing: -.045em; text-wrap: balance; }
-.title > span { display: block; color: #a7b1c2; }
-.description { max-width: 430px; color: #c3c9d2; font-size: 16px; line-height: 1.65; }
-.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 25px; }
-.actions a { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; font-size: 13px; font-weight: 600; transition: background .18s, color .18s; }
+.title { margin: 24px 0 22px; font-size: clamp(40px, 5.8vw, 76px); line-height: 1.02; font-weight: 650; letter-spacing: -.045em; text-wrap: balance; }
+.title > span { display: block; color: #97a3b6; }
+.description { max-width: 520px; color: #ccd4df; font-size: 17px; line-height: 1.6; }
+
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 32px; }
+.actions a { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 50px; font-size: 13px; font-weight: 600; transition: background .18s, color .18s, transform .18s; }
 .actions a:focus-visible { outline: 2px solid #f5f6f8; outline-offset: 5px; }
-.actions svg { width: 18px; height: 18px; flex-shrink: 0; }
-.primary { padding: 0 20px; border-radius: 4px; background: #d30d12; color: white; }
+.actions svg { width: 18px; height: 18px; flex-shrink: 0; transition: transform .18s; }
+.primary { padding: 0 24px; border-radius: 4px; background: #d30d12; color: white; box-shadow: 0 10px 30px #d30d1240; }
 .primary:hover { background: #b80b10; }
+.primary:hover svg { transform: translateX(3px); }
 .secondary { color: #e2e7ef; }
 .secondary:hover { color: #ff7478; }
-.photoNote { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 10px 14px; border-left: 2px solid var(--accent-red-highlight); background: color-mix(in oklab, var(--color-offwhite) 6%, transparent); color: var(--color-mist-200); font-size: 13px; line-height: 1.55; text-decoration: none; border-radius: 0 4px 4px 0; transition: background .18s, color .18s; }
-.photoNote:hover { background: color-mix(in oklab, var(--color-offwhite) 11%, transparent); color: var(--color-offwhite); }
+.secondary:hover svg { transform: translateX(3px); }
+
+.photoNote { display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; padding: 11px 15px; border: 1px solid #ffffff1a; border-left: 2px solid var(--accent-red-highlight); background: color-mix(in oklab, var(--color-offwhite) 7%, transparent); backdrop-filter: blur(10px); color: var(--color-mist-200); font-size: 13px; line-height: 1.55; text-decoration: none; border-radius: 0 6px 6px 0; transition: background .18s, color .18s; }
+.photoNote:hover { background: color-mix(in oklab, var(--color-offwhite) 12%, transparent); color: var(--color-offwhite); }
 .photoNote:focus-visible { outline: 2px solid #f5f6f8; outline-offset: 4px; }
 .photoNote strong { color: var(--color-offwhite); font-weight: 600; }
 .photoNote svg { flex-shrink: 0; color: var(--accent-red-highlight); }
-.showcase { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #ffffff24; border-radius: 6px; background: #e8ebeb; color: #111a27; box-shadow: 0 18px 50px #00000020; }
-.figureHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; font-size: 10px; letter-spacing: .12em; font-weight: 600; }
-.photoLabel { font-size: 10px; font-weight: 400; letter-spacing: 0; color: #4b5563; }
-.imageFrame { padding: 10px 0 0; }
-.productImage { display: block; width: 100%; height: auto; }
-.caption { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 19px 20px; background: #171f2d; color: #f5f6f8; border-top: 2px solid #d30d12; }
-.captionLabel { color: #a7b1c2; font-size: 9px; letter-spacing: .11em; }
-.caption p { margin-top: 5px; font-family: var(--font-display); font-weight: 500; font-size: 17px; letter-spacing: -.03em; }
-.figureNumber { font-size: 32px; line-height: 1; font-weight: 300; color: #657185; }
-.trust { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 23px 0; border-top: 1px solid #ffffff20; }
+
+.trust { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 22px 0 26px; border-top: 1px solid #ffffff20; }
 .location { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .location svg { width: 23px; height: 23px; color: #f0454a; }
 .location strong { display: block; font-size: 12px; font-weight: 500; }
 .location span { display: block; margin-top: 3px; color: #a7b1c2; font-size: 11px; }
 .brands { display: flex; align-items: center; gap: 28px; }
 .brandsLabel { font-size: 9px; letter-spacing: .1em; line-height: 1.5; color: #a7b1c2; }
-.brand { width: auto; max-width: 100px; height: 22px; object-fit: contain; opacity: .7; }
+.brand { width: auto; max-width: 100px; height: 22px; object-fit: contain; opacity: .65; transition: opacity .18s; }
+.brands:hover .brand { opacity: .9; }
+
 @media (min-width: 900px) and (max-width: 1100px) {
-  .main { gap: 30px; }
+  .main { padding: 80px 0 48px; }
   .actions { gap: 8px 12px; }
   .actions a { font-size: 12px; }
-  .primary { padding: 0 14px; }
+  .primary { padding: 0 18px; }
   .brands { gap: 18px; }
   .brand { max-width: 85px; }
 }
+
 @media (max-width: 899px) {
+  .hero { min-height: clamp(540px, 86svh, 780px); }
   .container { padding: 0 24px; }
-  .main { grid-template-columns: 1fr; gap: 32px; padding: 64px 0 28px; }
-  .title { font-size: clamp(34px, 6.4vw, 46px); }
-  .copy, .showcase { width: 100%; max-width: 560px; margin-inline: auto; }
+  .main { padding: 64px 0 40px; }
+  .copy { max-width: 560px; }
+  .title { font-size: clamp(36px, 6.8vw, 54px); }
   .description { max-width: 470px; }
-  .trust { flex-direction: column; align-items: flex-start; gap: 24px; }
+  /* Copy spans the width here, so the horizontal fade stops being useful. */
+  .videoScrim {
+    background:
+      linear-gradient(180deg, #0b111ee6 0%, #0b111ec4 42%, #0b111ef7 100%),
+      radial-gradient(ellipse 90% 40% at 50% 100%, color-mix(in oklab, var(--color-ventum-red-600) 20%, transparent) 0%, transparent 70%);
+  }
+  .trust { flex-direction: column; align-items: flex-start; gap: 22px; }
   .brands { width: 100%; justify-content: space-between; gap: 16px; }
 }
+
 @media (max-width: 479px) {
   .container { padding: 0 20px; }
+  .main { padding: 48px 0 32px; }
+  .copy { padding-left: 18px; }
   .eyebrow { font-size: 9px; letter-spacing: .12em; }
-  .title { margin-top: 20px; font-size: clamp(32px, 9.5vw, 44px); }
+  .title { margin-top: 20px; font-size: clamp(32px, 9.8vw, 46px); }
   .description { font-size: 15px; }
-  .actions { align-items: stretch; gap: 4px; }
+  .actions { align-items: stretch; gap: 8px; }
   .actions a { width: 100%; font-size: 13px; }
-  .photoNote { max-width: none; margin-top: 16px; }
-  .figureHeader { padding: 14px; font-size: 9px; letter-spacing: .08em; }
-  .photoLabel { font-size: 9px; }
-  .caption { padding: 16px; }
+  .photoNote { max-width: none; margin-top: 18px; }
   .brands { flex-wrap: wrap; justify-content: flex-start; gap: 22px; }
   .brandsLabel { width: 100%; }
   .brandsLabel br { display: inline; }
   .brand { max-width: 110px; height: 20px; }
+}
+
+/* The grain is static, but keep the motion budget honest for anyone who has
+   asked for less of it. */
+@media (prefers-reduced-motion: reduce) {
+  .actions a,
+  .actions svg { transition: none; }
 }
