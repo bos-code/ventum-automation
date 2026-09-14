@@ -24,7 +24,7 @@ export async function FeaturedProducts() {
   if (products.length === 0) return null;
 
   return (
-    <section id="featured" aria-labelledby="featured-title" className={styles.section}>
+    <section id="featured" aria-labelledby="featured-title" className={`glass-section ${styles.section}`}>
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
@@ -38,20 +38,15 @@ export async function FeaturedProducts() {
         <div className={styles.grid}>
           {products.map((product, index) => (
             <Reveal key={product.id} delay={index * 0.1} className="h-full">
-            <article className={styles.card} aria-labelledby={`featured-${product.id}`}>
+            <article className={`glass-card ${styles.card}`} aria-labelledby={`featured-${product.id}`}>
               <div className={styles.cardTop}>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={styles.brand}>{product.brand}</span>
-                  {product.isNewArrival && (
-                    <span className="rounded-full border border-white/30 bg-ventum-blue-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
-                      New Arrival
-                    </span>
-                  )}
-                  {product.isNowAvailable && (
-                    <span className="rounded-full border border-white/30 bg-emerald-700 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-navy-950/20">
-                      Now Available
-                    </span>
-                  )}
+                  {product.isNewArrival ? (
+                    <span className={styles.tag}>New</span>
+                  ) : product.isNowAvailable ? (
+                    <span className={`${styles.tag} ${styles.tagStock}`}>In stock</span>
+                  ) : null}
                 </div>
                 <span className={styles.number} aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               </div>

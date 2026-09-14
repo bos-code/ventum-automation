@@ -195,3 +195,21 @@ user request," but the current file still has all four toggles
 (Published, In Stock, New Arrival, Now Available). Not sure if that's
 a change still in flight or a merge that didn't take — flagging rather
 than acting on it since I don't know which is actually wanted.
+
+**2026-09-14 — Antigravity (this session)**
+Shipped: Premium "Who We Serve" section on homepage:
+- Designed and built `<WhoWeServe />` (`src/components/home/who-we-serve.tsx`) following industrial + modern + engineered design mandate (`VENTUM_STARTER.md`).
+- Left column: Controlled sticky editorial column with bold Manrope headline ("Built for the people who keep things running."), supporting copy, industrial "Supply Standards" specification box, and direct engineer WhatsApp consultation CTA.
+- Right column: Architectural, numbered roster of the 7 core sectors (01 Electrical Contractors, 02 Solar Installers, 03 Engineers, 04 Industrial Technicians, 05 Businesses, 06 Retailers, 07 Homeowners).
+- Each audience row features real hardware specs, trade tags, hairline borders, active left-accent illumination, hover translation, and semantic links filtering the catalogue.
+- GSAP scroll-triggered entrance timeline with staggered reveals and full `prefers-reduced-motion` compliance.
+- Integrated into `src/app/page.tsx` right after `WhyVentum` and before `CatalogueTeaser`.
+
+**2026-09-14 — Antigravity (this session)**
+Shipped: Hero "Photo Identification" conversion card upgrade:
+- Replaced passive `.note` paragraph in `<Hero />` (`src/components/home/hero.tsx` & `src/components/home/hero.module.css`) with a prominent, high-contrast interactive callout card.
+- Added camera identification icon, bold title ("Don't know the name of the part?"), monospace action pill ("SEND A PHOTO"), tactile drop-shadow, and a red spine accent line.
+- Wired directly into WhatsApp with a prefilled photo identification prompt so customers can 1-tap snap and send unit photos for immediate stock verification.
+
+
+

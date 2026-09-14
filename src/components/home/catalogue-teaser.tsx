@@ -25,31 +25,45 @@ export async function CatalogueTeaser() {
   }
 
   return (
-    <section id="catalogue" aria-labelledby="catalogue-title" className="scroll-mt-20 bg-[#f2f3f1] py-14 sm:py-16">
+    <section
+      id="catalogue"
+      aria-labelledby="catalogue-title"
+      className="scroll-mt-20 bg-navy-950 bg-[radial-gradient(ellipse_60%_50%_at_15%_0%,rgb(55_42_220/0.18)_0%,transparent_70%)] py-16 sm:py-20"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-ventum-blue-600">
-              Catalogue
-            </p>
-            <h2 id="catalogue-title" className="mt-2 font-display text-display font-extrabold tracking-tight text-navy-950">
-              Explore the range.
-            </h2>
+        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-ventum-red-400">
+          Catalogue
+        </p>
+        <h2
+          id="catalogue-title"
+          className="mt-2 max-w-xl font-display text-display font-extrabold tracking-tight text-offwhite"
+        >
+          Industrial &amp; electrical products.
+        </h2>
+
+        {/* Thin technical rule ties the header to the grid below it. */}
+        <div className="mt-8 border-t border-white/10" />
+
+        <Reveal>
+          {/* gap-px over a hairline ground: cards share dividers instead of
+              each being its own floating grey box. */}
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+            {products.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
+        </Reveal>
+
+        <div className="mt-6 flex justify-end">
           <Link
             href="/products"
-            className="rounded-full border border-navy-950/15 px-5 py-2.5 text-sm font-semibold text-navy-950 transition-colors hover:bg-navy-950 hover:text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+            className="group inline-flex min-h-11 items-center gap-2 border-b border-white/25 text-sm font-semibold text-offwhite transition-colors hover:border-ventum-red-400 hover:text-ventum-red-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ventum-blue-400"
           >
-            View all {products.length} products &rarr;
+            View all {products.length} products
+            <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+              &rarr;
+            </span>
           </Link>
-        </div>
-
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.slice(0, 4).map((product, index) => (
-            <Reveal key={product.id} delay={Math.min(index, 3) * 0.08}>
-              <ProductCard product={product} />
-            </Reveal>
-          ))}
         </div>
       </div>
     </section>

@@ -9,7 +9,7 @@
 .copy { min-width: 0; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: #c3c9d2; font-size: 11px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase; }
 .eyebrow > span { width: 7px; height: 7px; background: #f0454a; }
-.title { margin: 22px 0 20px; font-size: clamp(40px, 4.35vw, 60px); line-height: 1.08; font-weight: 650; letter-spacing: -.055em; }
+.title { margin: 22px 0 20px; font-size: clamp(34px, 3.5vw, 48px); line-height: 1.1; font-weight: 650; letter-spacing: -.045em; text-wrap: balance; }
 .title > span { display: block; color: #a7b1c2; }
 .description { max-width: 430px; color: #c3c9d2; font-size: 16px; line-height: 1.65; }
 .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 25px; }
@@ -20,7 +20,11 @@
 .primary:hover { background: #b80b10; }
 .secondary { color: #e2e7ef; }
 .secondary:hover { color: #ff7478; }
-.note { margin-top: 12px; color: #9aa6b8; font-size: 12px; }
+.photoNote { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; padding: 10px 14px; border-left: 2px solid var(--accent-red-highlight); background: color-mix(in oklab, var(--color-offwhite) 6%, transparent); color: var(--color-mist-200); font-size: 13px; line-height: 1.55; text-decoration: none; border-radius: 0 4px 4px 0; transition: background .18s, color .18s; }
+.photoNote:hover { background: color-mix(in oklab, var(--color-offwhite) 11%, transparent); color: var(--color-offwhite); }
+.photoNote:focus-visible { outline: 2px solid #f5f6f8; outline-offset: 4px; }
+.photoNote strong { color: var(--color-offwhite); font-weight: 600; }
+.photoNote svg { flex-shrink: 0; color: var(--accent-red-highlight); }
 .showcase { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #ffffff24; border-radius: 6px; background: #e8ebeb; color: #111a27; box-shadow: 0 18px 50px #00000020; }
 .figureHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; font-size: 10px; letter-spacing: .12em; font-weight: 600; }
 .photoLabel { font-size: 10px; font-weight: 400; letter-spacing: 0; color: #4b5563; }
@@ -49,7 +53,7 @@
 @media (max-width: 899px) {
   .container { padding: 0 24px; }
   .main { grid-template-columns: 1fr; gap: 32px; padding: 64px 0 28px; }
-  .title { font-size: clamp(38px, 7.5vw, 58px); }
+  .title { font-size: clamp(34px, 6.4vw, 46px); }
   .copy, .showcase { width: 100%; max-width: 560px; margin-inline: auto; }
   .description { max-width: 470px; }
   .trust { flex-direction: column; align-items: flex-start; gap: 24px; }
@@ -62,7 +66,7 @@
   .description { font-size: 15px; }
   .actions { align-items: stretch; gap: 4px; }
   .actions a { width: 100%; font-size: 13px; }
-  .note { margin-top: 4px; text-align: center; font-size: 11px; }
+  .photoNote { max-width: none; margin-top: 16px; }
   .figureHeader { padding: 14px; font-size: 9px; letter-spacing: .08em; }
   .photoLabel { font-size: 9px; }
   .caption { padding: 16px; }

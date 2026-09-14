@@ -19,14 +19,16 @@ export function ProductPhoto({ product, sizes, preload = false }: { product: Pro
   const focus = componentFocus[product.slug];
   if (focus?.file === id) {
     return (
-      <div className="relative mx-auto h-full w-[46%] overflow-hidden">
+      // Fill the frame and zoom in, so the chosen component reads at the same
+      // visual scale as a whole-product photo instead of a narrow centre strip.
+      <div className="relative h-full w-full overflow-hidden">
         <Image src={productImageUrl(id)} alt={`${product.brand} ${product.name}`} width={2048} height={1185}
           preload={preload} sizes="850px"
-          className="absolute top-0 h-full w-auto max-w-none"
-          style={{ left: "50%", transform: `translateX(-${focus.center}%)` }} />
+          className="absolute top-1/2 h-[200%] w-auto max-w-none"
+          style={{ left: "50%", transform: `translate(-${focus.center}%, -50%)` }} />
       </div>
     );
   }
   return <Image src={productImageUrl(id)} alt={`${product.brand} ${product.name}`} fill preload={preload}
-    sizes={sizes} className="object-contain p-4" />;
+    sizes={sizes} className="object-cover" />;
 }

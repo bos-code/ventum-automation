@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { navLinks, whatsappLink } from "@/lib/site-config";
 import type { Settings } from "@/lib/types";
@@ -14,6 +14,21 @@ export function SiteHeader({ settings }: { settings: Settings }) {
   const pathname = usePathname();
   const isActive = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href);
   const waLink = whatsappLink(settings.whatsapp, ENQUIRY_MESSAGE);
+
+  // Close on Escape and hold the page still while the drawer is over it.
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/95 backdrop-blur">
@@ -31,8 +46,8 @@ export function SiteHeader({ settings }: { settings: Settings }) {
             className="h-10 w-10"
             preload
           />
-          <span className="font-display text-lg font-bold tracking-tight text-offwhite">
-            Ventum
+          <span className="font-display text-lg font-bold  tracking-tight text-offwhite">
+          Ventum Global Automation LTD
           </span>
         </Link>
 
@@ -64,44 +79,71 @@ export function SiteHeader({ settings }: { settings: Settings }) {
             className="inline-flex h-11 w-11 items-center justify-center rounded-md text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 md:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((v) => !v)}
+            aria-label="Open menu"
+            onClick={() => setOpen(true)}
           >
-            {open ? <XIcon /> : <MenuIcon />}
+            <MenuIcon />
           </button>
         </div>
       </div>
 
-      {open && (
-        <nav
-          id="mobile-nav"
-          aria-label="Primary"
-          className="border-t border-white/10 bg-navy-950 px-4 pb-6 pt-2 md:hidden"
-        >
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={isActive(link.href) ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-3 text-base font-medium text-offwhite hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-ventum-blue-500"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 flex h-12 items-center justify-center rounded-full bg-ventum-red-600 text-base font-semibold text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+      {/* Scrim: closes on tap and frosts the page behind the drawer. */}
+      <div
+        aria-hidden="true"
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 z-40 bg-navy-950/60 backdrop-blur-sm transition-opacity duration-300 motion-reduce:transition-none md:hidden ${
+          open ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
+      {/* Translucent side drawer. inert keeps its links out of the tab order
+          while closed, so it can stay mounted and animate both ways. */}
+      <nav
+        id="mobile-nav"
+        aria-label="Primary"
+        inert={!open}
+        className={`fixed right-0 top-0 z-50 flex h-dvh w-[min(82vw,320px)] flex-col border-l border-white/12 bg-navy-950/80 px-4 pb-6 pt-4 backdrop-blur-xl transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-steel-400">
+            Menu
+          </span>
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
           >
-            WhatsApp Us
-          </a>
-        </nav>
-      )}
+            <XIcon />
+          </button>
+        </div>
+
+        <ul className="mt-4 flex flex-col gap-1 border-t border-white/10 pt-4">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className="block rounded-md px-3 py-3 text-base font-medium text-offwhite transition-colors hover:bg-white/5 aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-ventum-red-500 aria-[current=page]:underline-offset-8 focus-visible:outline-2 focus-visible:outline-ventum-blue-500"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href={waLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-auto flex h-12 items-center justify-center rounded-full bg-ventum-red-600 text-base font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+        >
+          WhatsApp Us
+        </a>
+      </nav>
     </header>
   );
 }

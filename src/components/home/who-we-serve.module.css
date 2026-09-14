@@ -1,0 +1,142 @@
+/*
+ * 3D audience ring. Cards sit on a cylinder and face outward, so the ring
+ * reads as a solid carousel rather than a flat fan.
+ *
+ * --radius = (--card-w / 2) / tan(180deg / 7) keeps the seven cards
+ * edge-to-edge. Change --card-w and --radius together or they will overlap.
+ */
+.stage {
+  --card-w: 172px;
+  --card-h: 152px;
+  --radius: 182px;
+  --stage-h: 250px;
+  position: relative;
+  height: var(--stage-h);
+  perspective: 1100px;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+  will-change: transform;
+  animation: ringSpin 44s linear infinite;
+}
+
+/* Pause while the viewer is reading or tabbing through, so links are never
+   a moving target under the cursor. */
+.ring:hover,
+.ring:focus-within,
+.paused {
+  animation-play-state: paused;
+}
+
+.slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--card-w);
+  height: var(--card-h);
+  margin-left: calc(var(--card-w) / -2);
+  margin-top: calc(var(--card-h) / -2);
+  transform: rotateY(calc(var(--i) * (360deg / var(--count)))) translateZ(var(--radius));
+}
+
+/* Frosted and solid, not see-through. */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  gap: 6px;
+  height: 100%;
+  padding: 16px 17px;
+  border: 1px solid color-mix(in oklab, var(--color-offwhite) 14%, transparent);
+  border-radius: 12px;
+  background:#1a2338e1;
+
+  backdrop-filter: blur(318px) saturate(130%);
+  -webkit-backdrop-filter: blur(318px) saturate(130%);
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.719);
+  backface-visibility: hidden;
+  transition: border-color .2s, background .2s;
+}
+
+.card:hover {
+  border-color: var(--color-ventum-blue-400);
+  background: var(--color-navy-900);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-ventum-blue-400);
+  outline-offset: 2px;
+}
+
+.number {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-steel-400);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--color-offwhite);
+}
+
+.cardSummary {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-steel-200);
+}
+
+@keyframes ringSpin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-360deg); }
+}
+
+@media (min-width: 640px) {
+  .stage { --card-w: 214px; --card-h: 174px; --radius: 226px; --stage-h: 300px; }
+  .cardTitle { font-size: 17px; }
+  .cardSummary { font-size: 13px; }
+}
+
+@media (min-width: 1024px) {
+  .stage { --card-w: 240px; --card-h: 188px; --radius: 252px; --stage-h: 330px; }
+}
+
+/* No spin, no 3D, no depth-hidden links: fall back to a plain grid. */
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    height: auto;
+    perspective: none;
+  }
+  .ring {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    transform: none;
+    transform-style: flat;
+    animation: none;
+  }
+  .slot {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    transform: none;
+  }
+  .card {
+    height: auto;
+    backface-visibility: visible;
+  }
+}

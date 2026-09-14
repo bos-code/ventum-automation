@@ -1,40 +1,51 @@
-.section { background: #f2f3f1; color: #101827; padding: 64px 0 48px; scroll-margin-top: 80px; }
+.section { color: var(--color-offwhite); padding: 72px 0 56px; scroll-margin-top: 80px; }
 .container { max-width: 1152px; padding: 0 32px; margin: 0 auto; }
 .header { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 30px; }
-.eyebrow { color: #b50c11; font-size: 10px; font-weight: 600; letter-spacing: .15em; }
+.eyebrow { color: var(--color-ventum-red-400); font-size: 10px; font-weight: 600; letter-spacing: .15em; }
 .title { margin-top: 12px; font-size: clamp(29px, 3.3vw, 42px); font-weight: 650; line-height: 1.15; letter-spacing: -.045em; }
-.intro { margin-top: 14px; max-width: 560px; color: #58616b; font-size: 15px; line-height: 1.6; }
-.catalogue { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; flex-shrink: 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid #9fa4a9; }
+.intro { margin-top: 14px; max-width: 560px; color: var(--color-steel-200); font-size: 15px; line-height: 1.6; }
+.catalogue { display: inline-flex; align-items: center; gap: 16px; min-height: 44px; flex-shrink: 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid color-mix(in oklab, var(--color-offwhite) 30%, transparent); }
 .catalogue svg, .enquire svg { width: 18px; height: 18px; flex-shrink: 0; }
-.catalogue:hover { color: #b50c11; border-color: #b50c11; }
+.catalogue:hover { color: var(--color-ventum-red-400); border-color: var(--color-ventum-red-400); }
 .section a:focus-visible { outline: 2px solid #372adc; outline-offset: 5px; }
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-.card { display: flex; flex-direction: column; min-width: 0; height: 100%; border: 1px solid #d8dcd9; border-radius: 6px; background: #fff; overflow: hidden; }
-.cardTop { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 17px 22px; border-bottom: 1px solid #e4e6e3; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.card { display: flex; flex-direction: column; min-width: 0; height: 100%; border-radius: 10px; overflow: hidden; }
+/* The grid children are Reveal wrappers, not the cards, so span rules must
+   target the direct children. Lead card spans the row; a trailing odd card
+   spans too, so the grid never leaves a hole beside a lone card. */
+.grid > :first-child,
+.grid > :last-child:nth-child(even) { grid-column: 1 / -1; }
+.grid > :first-child .media { min-height: 340px; }
+.grid > :first-child .name { font-size: clamp(26px, 2.6vw, 34px); }
+.grid > :first-child .cardBody { grid-template-columns: 1fr 1fr; }
+.cardTop { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 15px 20px; border-bottom: 1px solid color-mix(in oklab, var(--color-offwhite) 10%, transparent); }
 .brand { font-size: 10px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; overflow-wrap: anywhere; }
-.number { color: #7c858d; font-family: ui-monospace, monospace; font-size: 11px; }
+.number { color: var(--color-steel-400); font-family: ui-monospace, monospace; font-size: 11px; }
 .cardBody { display: grid; grid-template-columns: .8fr 1.2fr; flex: 1; min-width: 0; }
-.media { position: relative; min-height: 290px; background: #e9ece9; }
-.image { object-fit: contain; padding: 12px; }
-.noImage { display: flex; height: 100%; min-height: 220px; align-items: center; justify-content: center; text-align: center; padding: 20px; font-size: 13px; color: #58616b; }
+.media { position: relative; min-height: 260px; background: var(--color-navy-950); }
+.image { object-fit: cover; }
+.tag { padding: 3px 7px; font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #fff; background: var(--color-ventum-blue-600); }
+.tagStock { background: #046c4e; }
+.noImage { display: flex; height: 100%; min-height: 220px; align-items: center; justify-content: center; text-align: center; padding: 20px; font-size: 13px; color: var(--color-steel-400); }
 .info { min-width: 0; padding: 25px 22px; }
-.model { font-size: 10px; color: #65707a; letter-spacing: .06em; overflow-wrap: anywhere; }
-.name { margin-top: 9px; font-size: 23px; font-weight: 650; line-height: 1.2; letter-spacing: -.035em; overflow-wrap: anywhere; }
-.description { margin-top: 13px; font-size: 13px; line-height: 1.6; color: #58616b; }
-.specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; border-top: 1px solid #e4e6e3; margin-top: 18px; padding-top: 16px; }
-.specs dt { font-size: 9px; line-height: 1.4; color: #65707a; text-transform: uppercase; letter-spacing: .035em; }
+.model { font-size: 10px; color: var(--color-steel-400); letter-spacing: .06em; overflow-wrap: anywhere; }
+.name { margin-top: 9px; font-size: 21px; font-weight: 650; line-height: 1.2; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.description { margin-top: 13px; font-size: 13px; line-height: 1.6; color: var(--color-steel-200); }
+.specs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; border-top: 1px solid color-mix(in oklab, var(--color-offwhite) 10%, transparent); margin-top: 18px; padding-top: 16px; }
+.specs dt { font-size: 9px; line-height: 1.4; color: var(--color-steel-400); text-transform: uppercase; letter-spacing: .035em; }
 .specs dd { margin-top: 3px; font-size: 12px; font-weight: 600; overflow-wrap: anywhere; }
-.unavailable { margin-top: 14px; color: #963c18; font-size: 12px; }
-.cardFooter { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid #e4e6e3; padding: 20px 22px; }
+.unavailable { margin-top: 14px; color: var(--color-ventum-red-400); font-size: 12px; }
+.cardFooter { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid color-mix(in oklab, var(--color-offwhite) 10%, transparent); padding: 18px 20px; }
 .priceBlock { min-width: 0; }
-.priceLabel { display: block; color: #65707a; font-size: 9px; letter-spacing: .08em; }
-.price { display: block; margin-top: 3px; font-size: 23px; font-weight: 650; letter-spacing: -.04em; font-family: var(--font-display); overflow-wrap: anywhere; }
-.enquire { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 44px; background: #101827; color: white; padding: 0 15px; border-radius: 4px; font-size: 12px; font-weight: 500; transition: background .18s; }
-.enquire:hover { background: #b50c11; }
-.footnote { display: flex; gap: 10px; margin-top: 22px; font-size: 12px; line-height: 1.6; color: #58616b; }
-.footnote > span { color: #b50c11; }
+.priceLabel { display: block; color: var(--color-steel-400); font-size: 9px; letter-spacing: .08em; }
+.price { display: block; margin-top: 3px; font-size: 24px; font-weight: 650; letter-spacing: -.04em; font-family: var(--font-display); overflow-wrap: anywhere; }
+.enquire { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 44px; background: var(--color-ventum-blue-600); color: #fff; padding: 0 15px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: background .18s; }
+.enquire:hover { background: var(--color-ventum-red-600); }
+.footnote { display: flex; gap: 10px; margin-top: 24px; font-size: 12px; line-height: 1.6; color: var(--color-steel-400); }
+.footnote > span { color: var(--color-ventum-red-400); }
 @media (min-width: 760px) and (max-width: 1099px) {
   .cardBody { grid-template-columns: 1fr; }
+  .grid > :first-child .media { min-height: 300px; }
   .media { min-height: 230px; }
 }
 @media (max-width: 759px) {
