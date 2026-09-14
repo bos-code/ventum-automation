@@ -11,12 +11,14 @@ interface ProductsManagerProps {
   products: Product[];
   categories: Category[];
   imageUrls: Record<string, string | null>;
+  productImages: Record<string, { id: string; url: string }[]>;
 }
 
 export function ProductsManager({
   products,
   categories,
   imageUrls,
+  productImages,
 }: ProductsManagerProps) {
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
@@ -180,17 +182,21 @@ export function ProductsManager({
       </div>
 
       {/* Create Product Modal */}
-      <ProductFormModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        categories={categories}
-      />
+      {isCreateModalOpen && (
+        <ProductFormModal
+          isOpen={true}
+          onClose={() => setIsCreateModalOpen(false)}
+          categories={categories}
+        />
+      )}
 
       {/* Edit Product Modal */}
       {editingProduct && (
         <ProductFormModal
+          key={editingProduct.id}
           isOpen={true}
           product={editingProduct}
+          existingImages={productImages[editingProduct.id] ?? []}
           onClose={() => setEditingProduct(null)}
           categories={categories}
         />

@@ -7,12 +7,14 @@ import {
   type ProductFormState,
 } from "@/app/admin/(protected)/products/actions";
 import { SpecsEditor } from "@/components/admin/specs-editor";
+import { ImageUploader, type ExistingImage } from "@/components/admin/image-uploader";
 import type { Product, Category } from "@/lib/types";
 
 interface ProductFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   product?: Product | null;
+  existingImages?: ExistingImage[];
   categories: Category[];
   onSaved?: () => void;
 }
@@ -23,6 +25,7 @@ export function ProductFormModal({
   isOpen,
   onClose,
   product,
+  existingImages = [],
   categories,
   onSaved,
 }: ProductFormModalProps) {
@@ -39,21 +42,20 @@ export function ProductFormModal({
   const [inStock, setInStock] = useState(product?.inStock ?? true);
   const [isNewArrival, setIsNewArrival] = useState(product?.isNewArrival ?? false);
   const [isNowAvailable, setIsNowAvailable] = useState(product?.isNowAvailable ?? false);
+  const [imageCount, setImageCount] = useState(existingImages.length);
+  const [name, setName] = useState(product?.name ?? "");
+  const [brand, setBrand] = useState(product?.brand ?? "");
 
-  // Sync state when editing product changes
-  useEffect(() => {
-    if (product) {
-      setPublished(product.published);
-      setInStock(product.inStock);
-      setIsNewArrival(product.isNewArrival);
-      setIsNowAvailable(product.isNowAvailable);
-    } else {
-      setPublished(true);
-      setInStock(true);
-      setIsNewArrival(false);
-      setIsNowAvailable(false);
-    }
-  }, [product, isOpen]);
+  // Mirrors the server rule in resolvePublish(); the server still decides.
+  const publishBlockers = [
+    imageCount === 0 ? "an image" : null,
+    name.trim() ? null : "a name",
+    brand.trim() ? null : "a brand",
+  ].filter(Boolean) as string[];
+  const canPublish = publishBlockers.length === 0;
+
+  // No prop->state sync effect: the dialog is mounted fresh per product
+  // (keyed in products-manager), so useState initialisers above are enough.
 
   // Handle successful save
   useEffect(() => {
@@ -117,22 +119,33 @@ export function ProductFormModal({
               </div>
             )}
             {state.status === "success" && (
-              <div className="rounded-xl border border-green-200 bg-green-50 p-3 text-xs font-semibold text-green-800">
+              <div
+                className={`rounded-xl border p-3 text-xs font-semibold ${
+                  state.savedAsDraft
+                    ? "border-amber-300 bg-amber-50 text-amber-800"
+                    : "border-green-200 bg-green-50 text-green-800"
+                }`}
+              >
                 {state.message} Closing...
               </div>
             )}
+
+            <ImageUploader
+              existingImages={existingImages}
+              onCountChange={setImageCount}
+            />
 
             {/* Row 1: Brand & Name */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-steel-700">
-                  Brand <span className="text-ventum-red-500">*</span>
+                  Brand
                 </label>
                 <input
                   type="text"
                   name="brand"
-                  required
-                  defaultValue={product?.brand ?? ""}
+                  value={brand}
+                  onChange={(event) => setBrand(event.target.value)}
                   placeholder="e.g. Schneider Electric, ABB"
                   className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
                 />
@@ -140,13 +153,13 @@ export function ProductFormModal({
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-steel-700">
-                  Product Name <span className="text-ventum-red-500">*</span>
+                  Product Name
                 </label>
                 <input
                   type="text"
                   name="name"
-                  required
-                  defaultValue={product?.name ?? ""}
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
                   placeholder="e.g. Acti9 Miniature Circuit Breaker"
                   className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
                 />
@@ -247,19 +260,28 @@ export function ProductFormModal({
                 Visibility & Marketing Badges
               </span>
               <p className="mt-0.5 text-xs text-steel-500">
-                No quantity numbers — stock is simple boolean availability.
+                {canPublish
+                  ? "This product can go live. Untick to keep it as a draft."
+                  : `Needs ${publishBlockers.join(" and ")} before it can go live — it will save as a draft.`}
               </p>
 
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                <label className="flex items-center gap-2 cursor-pointer select-none">
+                <label
+                  className={`flex items-center gap-2 select-none ${
+                    canPublish ? "cursor-pointer" : "cursor-not-allowed opacity-60"
+                  }`}
+                >
                   <input
                     type="checkbox"
                     name="published"
-                    checked={published}
+                    checked={published && canPublish}
+                    disabled={!canPublish}
                     onChange={(e) => setPublished(e.target.checked)}
                     className="h-4 w-4 rounded border-navy-950/20 text-navy-950 focus:ring-ventum-blue-500"
                   />
-                  <span className="text-xs font-semibold text-navy-950">Published</span>
+                  <span className="text-xs font-semibold text-navy-950">
+                    Live on site
+                  </span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -343,7 +365,15 @@ export function ProductFormModal({
               disabled={pending}
               className="rounded-xl bg-navy-950 px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-navy-900 disabled:opacity-60"
             >
-              {pending ? (isEditing ? "Saving Changes..." : "Creating...") : isEditing ? "Save Changes" : "Create Product"}
+              {pending
+                ? "Saving..."
+                : canPublish && published
+                  ? isEditing
+                    ? "Save & keep live"
+                    : "Create & publish"
+                  : isEditing
+                    ? "Save as draft"
+                    : "Save draft"}
             </button>
           </div>
         </form>

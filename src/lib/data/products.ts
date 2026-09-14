@@ -96,6 +96,22 @@ export async function getProductsByCategory(
   return products.filter((product) => product.categoryId === categoryId);
 }
 
+/** Admin-only: a single product by row id, published or not. */
+export async function getProductById(id: string): Promise<Product | null> {
+  try {
+    const tablesDB = getTablesDB();
+    const row = await tablesDB.getRow({
+      databaseId: appwriteEnv.databaseId,
+      tableId: appwriteEnv.tables.products,
+      rowId: id,
+    });
+    return mapProduct(row as unknown as Record<string, unknown>);
+  } catch (error) {
+    console.error(`getProductById(${id}) failed:`, error);
+    return null;
+  }
+}
+
 /** Admin-only: every product regardless of published status. */
 export async function getAllProductsForAdmin(): Promise<Product[]> {
   const tablesDB = getTablesDB();

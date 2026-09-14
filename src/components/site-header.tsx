@@ -31,63 +31,67 @@ export function SiteHeader({ settings }: { settings: Settings }) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
-          onClick={() => setOpen(false)}
-        >
-          <Image
-            src="/brand/ventum-mark.png"
-            alt={settings.businessName}
-            width={40}
-            height={40}
-            className="h-10 w-10"
-            preload
-          />
-          <span className="font-display text-lg font-bold  tracking-tight text-offwhite">
-          Ventum Global Automation LTD
-          </span>
-        </Link>
+    <>
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/95 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+            onClick={() => setOpen(false)}
+          >
+            <Image
+              src="/brand/ventum-mark.png"
+              alt={settings.businessName}
+              width={40}
+              height={40}
+              className="h-10 w-10"
+              preload
+            />
+            <span className="font-display text-lg font-bold  tracking-tight text-offwhite">
+            Ventum Global Automation LTD
+            </span>
+          </Link>
 
-        <nav aria-label="Primary" className="hidden md:flex md:items-center md:gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={isActive(link.href) ? "page" : undefined}
-              className="rounded-sm text-sm font-medium text-steel-200 transition-colors hover:text-offwhite aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-ventum-red-500 aria-[current=page]:underline-offset-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+          <nav aria-label="Primary" className="hidden md:flex md:items-center md:gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className="rounded-sm text-sm font-medium text-steel-200 transition-colors hover:text-offwhite aria-[current=page]:text-white aria-[current=page]:underline aria-[current=page]:decoration-ventum-red-500 aria-[current=page]:underline-offset-8 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden h-11 items-center rounded-full bg-ventum-red-600 px-5 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:inline-flex"
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+              WhatsApp Us
+            </a>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden h-11 items-center rounded-full bg-ventum-red-600 px-5 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:inline-flex"
-          >
-            WhatsApp Us
-          </a>
-
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 md:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label="Open menu"
-            onClick={() => setOpen(true)}
-          >
-            <MenuIcon />
-          </button>
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-md text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 md:hidden"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label="Open menu"
+              onClick={() => setOpen(true)}
+            >
+              <MenuIcon />
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* Scrim: closes on tap and frosts the page behind the drawer. */}
+      {/* Scrim and drawer sit OUTSIDE <header>: its backdrop-blur creates a
+          containing block for fixed descendants, which trapped the drawer in
+          the header box and let the page scroll sideways into it. */}
       <div
         aria-hidden="true"
         onClick={() => setOpen(false)}
@@ -144,7 +148,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
           WhatsApp Us
         </a>
       </nav>
-    </header>
+    </>
   );
 }
 

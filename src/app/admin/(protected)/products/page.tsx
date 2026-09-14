@@ -9,11 +9,15 @@ export default async function AdminProductsPage() {
     getAllCategoriesForAdmin(),
   ]);
 
+  // URLs are built here because the bucket id is server-only env.
   const imageUrls: Record<string, string | null> = {};
+  const productImages: Record<string, { id: string; url: string }[]> = {};
   for (const product of products) {
-    imageUrls[product.id] = product.imageIds[0]
-      ? productImageUrl(product.imageIds[0])
-      : null;
+    productImages[product.id] = product.imageIds.map((id) => ({
+      id,
+      url: productImageUrl(id),
+    }));
+    imageUrls[product.id] = productImages[product.id][0]?.url ?? null;
   }
 
   return (
@@ -21,6 +25,7 @@ export default async function AdminProductsPage() {
       products={products}
       categories={categories}
       imageUrls={imageUrls}
+      productImages={productImages}
     />
   );
 }
