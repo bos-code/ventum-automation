@@ -16,13 +16,13 @@ interface AudienceItem {
 }
 
 const AUDIENCES: AudienceItem[] = [
-  { id: "electrical-contractors", title: "Electrical Contractors", query: "breaker" },
+  { id: "electrical-contractors", title: "Electrical Contractors", query: "breaker", image: "/audiences/electrical-contractors.jpeg" },
   { id: "solar-installers", title: "Solar Installers", query: "solar", image: "/audiences/solar-installers.jpeg" },
   { id: "engineers", title: "Engineers", query: "contactor", image: "/audiences/engineers.jpeg" },
   { id: "industrial-technicians", title: "Industrial Technicians", query: "contactor", image: "/audiences/industrial-technicians.jpeg" },
   { id: "businesses", title: "Businesses", query: "changeover", image: "/audiences/businesses.jpeg" },
   { id: "retailers", title: "Retailers", query: "protection", image: "/audiences/retailers.jpeg" },
-  { id: "homeowners", title: "Homeowners", query: "protector" },
+  { id: "homeowners", title: "Homeowners", query: "protector", image: "/audiences/homeowners.jpeg" },
 ];
 
 export function WhoWeServe() {
