@@ -121,10 +121,7 @@ export default async function ProductDetailPage(
               <AddToEnquiryButton
                 product={product}
                 imageUrl={product.imageIds[0] ? productImageUrl(product.imageIds[0]) : null}
-                className="inline-flex h-12 items-center rounded-full bg-navy-950 px-6 text-sm font-semibold text-offwhite transition-colors hover:bg-navy-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
-              >
-                Add to Enquiry List
-              </AddToEnquiryButton>
+              />
 
               <a
                 href={whatsappLink(settings.whatsapp, enquiryMessage)}

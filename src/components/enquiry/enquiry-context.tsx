@@ -22,6 +22,8 @@ interface EnquiryContextValue {
   items: CartItem[];
   addItem: (product: Product, quantity?: number, imageUrl?: string | null) => void;
   removeItem: (id: string) => void;
+  /** Lets a product button render its own selected state. */
+  hasItem: (id: string) => boolean;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
@@ -59,7 +61,9 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       const existing = current.find((i) => i.id === product.id);
       if (existing) {
         return current.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
+          i.id === product.id
+            ? { ...i, quantity: i.quantity + quantity, imageUrl: imageUrl ?? i.imageUrl }
+            : i
         );
       }
       return [
@@ -78,8 +82,11 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
         },
       ];
     });
-    setDrawerOpen(true); // Auto-open when adding
+    // Deliberately does NOT open the drawer. Selecting a product is a quiet
+    // act — the customer picks several, then opens the list once to send.
   };
+
+  const hasItem = (id: string) => items.some((i) => i.id === id);
 
   const removeItem = (id: string) => {
     setItems((current) => current.filter((i) => i.id !== id));
@@ -107,6 +114,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
         items,
         addItem,
         removeItem,
+        hasItem,
         updateQuantity,
         clearCart,
         totalItems,

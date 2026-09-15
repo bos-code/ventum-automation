@@ -57,18 +57,14 @@ export function ProductCard({ product }: { product: Product }) {
             {formatPrice(product.price, product.currency)}
           </span>
           {/* z-10 lifts the button above the stretched link's ::after overlay.
-              Always visible on phones — hover-reveal hides it on touch. */}
-          <div className="relative z-10 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+              Always visible: it now carries selected state, which must not
+              be hidden behind hover. */}
+          <div className="relative z-10">
             <AddToEnquiryButton
               product={product}
               imageUrl={product.imageIds[0] ? productImageUrl(product.imageIds[0]) : null}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ventum-red-600 text-white hover:bg-ventum-red-500 shadow-md shadow-navy-950/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-400 sm:h-8 sm:w-8"
-            >
-              <span className="sr-only">Add {product.name} to enquiry list</span>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-              </svg>
-            </AddToEnquiryButton>
+              variant="icon"
+            />
           </div>
         </div>
       </div>
