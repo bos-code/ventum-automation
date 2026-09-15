@@ -5,7 +5,11 @@ const bucketId = process.env.APPWRITE_BUCKET_ID;
 /**
  * Builds a public URL for a product image stored in Appwrite Storage.
  * Files in this bucket are readable by anyone (permission `read("any")`),
- * so no API key is needed here — safe to call from Client Components.
+ * so no API key is needed here.
+ *
+ * SERVER ONLY. APPWRITE_BUCKET_ID has no NEXT_PUBLIC_ prefix, so it is
+ * undefined in the browser bundle and this throws. Resolve the URL in a
+ * Server Component and pass the resulting string down to Client Components.
  *
  * Uses the raw `/view` endpoint, not `/preview` — image transformations
  * are blocked on the current Appwrite plan (verified: preview returns

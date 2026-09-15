@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEnquiry } from "./enquiry-context";
 import { submitMultiProductEnquiry } from "@/app/(site)/enquiry/actions";
 import { formatPrice } from "@/lib/format";
-import { productImageUrl } from "@/lib/appwrite/images";
 
 export function EnquiryDrawer({ whatsappNumber }: { whatsappNumber: string }) {
   const {
@@ -113,11 +112,12 @@ export function EnquiryDrawer({ whatsappNumber }: { whatsappNumber: string }) {
               {items.map((item) => (
                 <li key={item.id} className="flex gap-4">
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-white/5 border border-white/10">
-                    {item.imageIds[0] ? (
+                    {item.imageUrl ? (
                       <Image
-                        src={productImageUrl(item.imageIds[0])}
+                        src={item.imageUrl}
                         alt={item.name}
                         fill
+                        sizes="80px"
                         className="object-cover"
                       />
                     ) : (

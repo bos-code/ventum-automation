@@ -13,11 +13,14 @@ export interface CartItem {
   currency: string;
   quantity: number;
   imageIds: string[];
+  /** Resolved on the server at add time — productImageUrl cannot run in the
+      browser, because the bucket id is not a NEXT_PUBLIC env var. */
+  imageUrl?: string | null;
 }
 
 interface EnquiryContextValue {
   items: CartItem[];
-  addItem: (product: Product, quantity?: number) => void;
+  addItem: (product: Product, quantity?: number, imageUrl?: string | null) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -51,7 +54,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     }
   }, [items, isLoaded]);
 
-  const addItem = (product: Product, quantity = 1) => {
+  const addItem = (product: Product, quantity = 1, imageUrl: string | null = null) => {
     setItems((current) => {
       const existing = current.find((i) => i.id === product.id);
       if (existing) {
@@ -70,6 +73,7 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
           price: product.price,
           currency: product.currency,
           imageIds: product.imageIds,
+          imageUrl,
           quantity,
         },
       ];

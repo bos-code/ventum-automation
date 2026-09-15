@@ -5,10 +5,14 @@ import type { Product } from "@/lib/types";
 
 export function AddToEnquiryButton({
   product,
+  imageUrl = null,
   className,
   children,
 }: {
   product: Product;
+  /** Resolved by the Server Component that renders this button. The browser
+      cannot build it: productImageUrl needs the server-only bucket id. */
+  imageUrl?: string | null;
   className?: string;
   children?: React.ReactNode;
 }) {
@@ -20,7 +24,7 @@ export function AddToEnquiryButton({
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        addItem(product);
+        addItem(product, 1, imageUrl);
       }}
       className={
         className ||
@@ -31,4 +35,3 @@ export function AddToEnquiryButton({
     </button>
   );
 }
-
