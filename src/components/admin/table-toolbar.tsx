@@ -31,7 +31,7 @@ export function AdminTableToolbar({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Search Bar */}
         <div className="relative flex-1 sm:max-w-md">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-steel-400">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-steel-600">
             <svg
               className="h-4 w-4"
               fill="none"
@@ -52,13 +52,13 @@ export function AdminTableToolbar({
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
-            className="w-full rounded-xl border border-navy-950/15 bg-mist-100/50 py-2.5 pl-10 pr-9 text-sm text-navy-950 placeholder:text-steel-400 focus:border-ventum-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-ventum-blue-500/20"
+            className="h-11 w-full rounded-xl border border-navy-950/15 bg-mist-100 pl-10 pr-11 text-base text-navy-950 placeholder:text-steel-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
           />
           {searchValue && (
             <button
               type="button"
               onClick={() => onSearchChange("")}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-steel-400 hover:text-navy-950"
+              className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-xl text-steel-600 transition-colors hover:text-navy-950 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ventum-blue-500"
               aria-label="Clear search"
             >
               <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -88,7 +88,7 @@ export function AdminTableToolbar({
                 key={filter.id}
                 type="button"
                 onClick={() => onFilterChange(filter.id)}
-                className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
+                className={`inline-flex min-h-11 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 ${
                   isActive
                     ? "bg-navy-950 text-white shadow-xs"
                     : "bg-mist-200/70 text-steel-600 hover:bg-mist-300/70 hover:text-navy-950"

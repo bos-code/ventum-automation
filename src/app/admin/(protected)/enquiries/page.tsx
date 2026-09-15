@@ -8,7 +8,7 @@ const STATUS_STYLES: Record<EnquiryStatus, string> = {
   new: "bg-ventum-red-600 text-offwhite",
   read: "bg-ventum-blue-600 text-offwhite",
   responded: "bg-green-700 text-offwhite",
-  closed: "bg-steel-400 text-offwhite",
+  closed: "bg-steel-600 text-offwhite",
 };
 
 const NEXT_STATUS: Record<EnquiryStatus, EnquiryStatus[]> = {
@@ -23,7 +23,7 @@ export default async function AdminEnquiriesPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-extrabold tracking-tight text-navy-950">
+      <h1 className="font-display text-xl font-extrabold tracking-tight text-navy-950 sm:text-2xl">
         Enquiries
       </h1>
       <p className="mt-2 text-sm text-steel-600">
@@ -32,7 +32,15 @@ export default async function AdminEnquiriesPage() {
 
       <div className="mt-8 flex flex-col gap-4">
         {enquiries.length === 0 && (
-          <p className="text-sm text-steel-600">No enquiries yet.</p>
+          <div className="rounded-2xl border border-dashed border-navy-950/20 bg-white p-8 text-center">
+            <p className="font-display text-sm font-bold text-navy-950">
+              No enquiries yet
+            </p>
+            <p className="mx-auto mt-1 max-w-xs text-sm text-steel-600">
+              Messages from the website and WhatsApp buttons will appear here as
+              customers send them.
+            </p>
+          </div>
         )}
         {enquiries.map((enquiry) => (
           <div
@@ -81,7 +89,7 @@ export default async function AdminEnquiriesPage() {
             </dl>
 
             {enquiry.message && (
-              <p className="mt-3 rounded-lg bg-offwhite p-3 text-sm text-steel-600">
+              <p className="mt-3 rounded-lg border border-navy-950/10 bg-mist-100 p-3 text-sm text-steel-700">
                 {enquiry.message}
               </p>
             )}
@@ -103,7 +111,7 @@ export default async function AdminEnquiriesPage() {
                 >
                   <button
                     type="submit"
-                    className="rounded-full border border-navy-950/15 px-4 py-2 text-xs font-semibold text-navy-950 transition-colors hover:bg-navy-950 hover:text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+                    className="inline-flex min-h-11 items-center rounded-full border border-navy-950/15 px-4 text-xs font-semibold text-navy-950 transition-colors hover:bg-navy-950 hover:text-offwhite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
                   >
                     Mark {nextStatus}
                   </button>

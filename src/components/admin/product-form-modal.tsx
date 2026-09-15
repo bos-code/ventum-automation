@@ -71,15 +71,15 @@ export function ProductFormModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-navy-950/60 backdrop-blur-xs animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-navy-950/60 backdrop-blur-xs animate-in fade-in sm:items-center sm:p-6">
       <div
-        className="flex max-h-[92vh] w-full max-w-2xl flex-col rounded-2xl border border-navy-950/10 bg-white shadow-2xl animate-in zoom-in-95"
+        className="flex h-dvh w-full max-w-2xl flex-col border-navy-950/10 bg-white shadow-2xl animate-in slide-in-from-bottom-4 sm:h-auto sm:max-h-[92vh] sm:rounded-2xl sm:border sm:zoom-in-95"
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-modal-title"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-navy-950/10 px-6 py-4">
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-navy-950/10 px-4 py-3 sm:px-6 sm:py-4">
           <div>
             <h2
               id="product-modal-title"
@@ -87,7 +87,7 @@ export function ProductFormModal({
             >
               {isEditing ? "Edit Product" : "Add New Product"}
             </h2>
-            <p className="text-xs text-steel-500">
+            <p className="mt-0.5 text-xs text-steel-600">
               {isEditing
                 ? `Editing catalog item: ${product?.name}`
                 : "Fill in the product specifications and marketing flags."}
@@ -96,7 +96,7 @@ export function ProductFormModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1.5 text-steel-400 hover:bg-mist-100 hover:text-navy-950 transition-colors"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-steel-600 transition-colors hover:bg-mist-100 hover:text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
             aria-label="Close dialog"
           >
             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -111,7 +111,7 @@ export function ProductFormModal({
 
         {/* Scrollable Form Body */}
         <form action={formAction} className="flex flex-1 flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-6 space-y-5 text-sm">
+          <div className="flex-1 space-y-5 overflow-y-auto p-4 text-sm sm:p-6">
             {/* Status alerts */}
             {state.status === "error" && (
               <div className="rounded-xl border border-ventum-red-200 bg-ventum-red-50 p-3 text-xs font-semibold text-ventum-red-700">
@@ -147,7 +147,7 @@ export function ProductFormModal({
                   value={brand}
                   onChange={(event) => setBrand(event.target.value)}
                   placeholder="e.g. Schneider Electric, ABB"
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
 
@@ -161,7 +161,7 @@ export function ProductFormModal({
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   placeholder="e.g. Acti9 Miniature Circuit Breaker"
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -177,7 +177,7 @@ export function ProductFormModal({
                   name="model"
                   defaultValue={product?.model ?? ""}
                   placeholder="e.g. iC60N-3P-63A"
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
 
@@ -190,7 +190,7 @@ export function ProductFormModal({
                   name="slug"
                   defaultValue={product?.slug ?? ""}
                   placeholder="Auto-generated if blank"
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
 
@@ -201,7 +201,7 @@ export function ProductFormModal({
                 <select
                   name="categoryId"
                   defaultValue={product?.categoryId ?? ""}
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 >
                   <option value="">-- Select Category --</option>
                   {categories.map((cat) => (
@@ -225,7 +225,7 @@ export function ProductFormModal({
                   min={0}
                   defaultValue={product?.price ?? ""}
                   placeholder="0 (leave blank for Quote)"
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
 
@@ -237,7 +237,7 @@ export function ProductFormModal({
                   type="text"
                   name="currency"
                   defaultValue={product?.currency ?? "NGN"}
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
 
@@ -249,7 +249,7 @@ export function ProductFormModal({
                   type="number"
                   name="sortOrder"
                   defaultValue={product?.sortOrder ?? 0}
-                  className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white px-3 py-2 text-sm text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                  className="mt-1 h-11 w-full rounded-xl border border-navy-950/15 bg-white px-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -329,7 +329,7 @@ export function ProductFormModal({
                 rows={2}
                 defaultValue={product?.shortDescription ?? ""}
                 placeholder="Brief 1-sentence product summary displayed on cards..."
-                className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white p-3 text-xs text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white p-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
               />
             </div>
 
@@ -342,7 +342,7 @@ export function ProductFormModal({
                 rows={4}
                 defaultValue={product?.description ?? ""}
                 placeholder="Detailed commercial, engineering and technical overview..."
-                className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white p-3 text-xs text-navy-950 focus:border-ventum-blue-500 focus:outline-none focus:ring-1 focus:ring-ventum-blue-500"
+                className="mt-1 w-full rounded-xl border border-navy-950/15 bg-white p-3 text-base text-navy-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:text-sm"
               />
             </div>
 
@@ -351,19 +351,19 @@ export function ProductFormModal({
           </div>
 
           {/* Footer Actions */}
-          <div className="flex items-center justify-end gap-3 border-t border-navy-950/10 bg-mist-100/40 px-6 py-4">
+          <div className="flex shrink-0 items-center justify-end gap-3 border-t border-navy-950/10 bg-mist-100 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-4">
             <button
               type="button"
               disabled={pending}
               onClick={onClose}
-              className="rounded-xl border border-navy-950/15 bg-white px-4 py-2.5 text-xs font-semibold text-navy-950 transition-colors hover:bg-mist-100 disabled:opacity-60"
+              className="inline-flex min-h-11 items-center rounded-xl border border-navy-950/15 bg-white px-4 text-xs font-semibold text-navy-950 transition-colors hover:bg-mist-100 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="rounded-xl bg-navy-950 px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-navy-900 disabled:opacity-60"
+              className="inline-flex min-h-11 items-center rounded-xl bg-navy-950 px-5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-navy-900 disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
             >
               {pending
                 ? "Saving..."
