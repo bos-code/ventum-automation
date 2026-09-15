@@ -13,8 +13,8 @@ export default async function AdminLoginPage() {
   if (user) redirect("/admin");
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center bg-offwhite px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-navy-950/10 bg-white p-8">
+    <div className="flex min-h-dvh items-center justify-center bg-mist-100 px-4 py-10">
+      <div className="w-full max-w-sm rounded-2xl border border-navy-950/10 bg-white p-6 shadow-sm sm:p-8">
         <h1 className="font-display text-2xl font-extrabold tracking-tight text-navy-950">
           Ventum Admin
         </h1>

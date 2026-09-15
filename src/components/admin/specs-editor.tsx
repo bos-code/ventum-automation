@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { ProductSpec } from "@/lib/types";
 
 interface SpecsEditorProps {

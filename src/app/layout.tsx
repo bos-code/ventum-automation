@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, IBM_Plex_Sans } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { siteConfig } from "@/lib/site-config";
-import { getSettings } from "@/lib/data/settings";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -35,18 +32,16 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const settings = await getSettings();
-
+// Only the document shell. Public chrome lives in (site)/layout.tsx so the
+// admin can own its own shell.
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${manrope.variable} ${ibmPlexSans.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col" suppressHydrationWarning>
-        <SiteHeader settings={settings} />
-        <main className="flex-1">{children}</main>
-        <SiteFooter settings={settings} />
+      <body className="min-h-full" suppressHydrationWarning>
+        {children}
       </body>
     </html>
   );

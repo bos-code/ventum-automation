@@ -20,6 +20,17 @@
   --color-steel-400: #8891a0;
   --color-steel-200: #c3c9d2;
   --color-mist-200: #ccd4df;
+
+  /* Admin surfaces and text. The admin was using steel-300/500/700 and
+     mist-100/300 with no token behind them, so those utilities emitted no
+     CSS and the text inherited whatever colour was nearest. Contrast is
+     measured against white: steel-700 9.5:1, steel-600 7.6:1, steel-500
+     4.7:1 — all pass AA for body text. steel-300 is borders only. */
+  --color-steel-700: #3b4451;
+  --color-steel-500: #6b7484;
+  --color-steel-300: #aab2be;
+  --color-mist-100: #f1f3f3;
+  --color-mist-300: #dbe1e8;
   --color-offwhite: #f5f6f8;
 
   /* Primitives: Ventum red (reconciled: real logo red is #d30d12).
@@ -29,14 +40,20 @@
   --color-ventum-red-800: #7a0a0e;
   --color-ventum-red-600: #d30d12;
   --color-ventum-red-500: #e8272c;
+  --color-ventum-red-200: #f5b8ba;
+  --color-ventum-red-50: #fdecec;
   --color-ventum-red-400: #f0454a;
+  --color-ventum-red-700: #a80a0e;
 
   /* Primitives: Ventum blue (reconciled: real logo blue is #372adc, more indigo than the doc's guess) */
   --color-ventum-blue-950: #12103a;
   --color-ventum-blue-800: #241d8a;
   --color-ventum-blue-600: #372adc;
   --color-ventum-blue-500: #4f63ff;
+  --color-ventum-blue-300: #a9b5ff;
+  --color-ventum-blue-50: #eef0ff;
   --color-ventum-blue-400: #7b8cff;
+  --color-ventum-blue-700: #2a20a8;
 
   /* Fluid display type scale — mobile-first, clamps from 360px up */
   --text-hero: clamp(2.75rem, 1.5rem + 6vw, 5.5rem);
