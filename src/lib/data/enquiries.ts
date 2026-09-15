@@ -5,16 +5,34 @@ import { appwriteEnv } from "@/lib/appwrite/env";
 import { notifyTelegram } from "@/lib/telegram";
 import type { Enquiry, EnquiryInput, EnquiryStatus } from "@/lib/types";
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function formatTelegramMessage(input: EnquiryInput): string {
+  const safeName = escapeHtml(input.productName);
+  const safeModel = input.productModel ? escapeHtml(input.productModel) : "";
+  const safeCustomerName = escapeHtml(input.customerName);
+  const safePhone = escapeHtml(input.phone);
+  const safeMessage = input.message ? escapeHtml(input.message) : undefined;
+  
   const lines = [
     "<b>New enquiry — Ventum Automation</b>",
     `Product: ${input.productName}${input.productModel ? ` (${input.productModel})` : ""}`,
+    `Product: ${safeName}${safeModel ? ` (${safeModel})` : ""}`,
     input.productPrice
       ? `Price: ${input.productCurrency ?? "NGN"} ${input.productPrice.toLocaleString()}`
       : undefined,
     `Quantity: ${input.quantity}`,
     `From: ${input.customerName} — ${input.phone}`,
     input.message ? `Message: ${input.message}` : undefined,
+    `From: ${safeCustomerName} — ${safePhone}`,
+    safeMessage ? `Message: ${safeMessage}` : undefined,
     `Source: ${input.source}`,
   ];
   return lines.filter(Boolean).join("\n");

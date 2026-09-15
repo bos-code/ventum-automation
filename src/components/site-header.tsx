@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { navLinks, whatsappLink } from "@/lib/site-config";
+import { useEnquiry } from "@/components/enquiry/enquiry-context";
 import type { Settings } from "@/lib/types";
 
 const ENQUIRY_MESSAGE = "Hi Ventum, I'd like to enquire about a product.";
@@ -14,6 +15,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
   const pathname = usePathname();
   const isActive = (href: string) => href === "/" ? pathname === href : pathname.startsWith(href);
   const waLink = whatsappLink(settings.whatsapp, ENQUIRY_MESSAGE);
+  const { totalItems, setDrawerOpen } = useEnquiry();
 
   // Close on Escape and hold the page still while the drawer is over it.
   useEffect(() => {
@@ -32,7 +34,7 @@ export function SiteHeader({ settings }: { settings: Settings }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-navy-950/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-navy-950/95 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link
             href="/"
@@ -45,9 +47,9 @@ export function SiteHeader({ settings }: { settings: Settings }) {
               width={40}
               height={40}
               className="h-10 w-10"
-              preload
+              preload={true}
             />
-            <span className="font-display text-lg font-bold  tracking-tight text-offwhite">
+            <span className="font-display text-lg font-bold tracking-tight text-offwhite hidden sm:block">
             Ventum Global Automation LTD
             </span>
           </Link>
@@ -66,11 +68,23 @@ export function SiteHeader({ settings }: { settings: Settings }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="relative inline-flex h-11 items-center justify-center rounded-full bg-white/5 px-4 text-sm font-semibold text-offwhite transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+            >
+              Enquiry List
+              {totalItems > 0 && (
+                <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-ventum-red-600 text-[10px] font-bold text-white">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden h-11 items-center rounded-full bg-ventum-red-600 px-5 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 sm:inline-flex"
+              className="hidden h-11 items-center rounded-full bg-ventum-red-600 px-5 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500 lg:inline-flex"
             >
               WhatsApp Us
             </a>

@@ -22,6 +22,7 @@ export async function saveSettings(
   const phone = field("phone");
   const secondaryPhone = field("secondaryPhone");
   const address = field("address");
+  const telegramChatId = field("telegramChatId") || null;
 
   if (!businessName || !whatsapp || !address) {
     return {
@@ -40,6 +41,7 @@ export async function saveSettings(
       phone,
       secondaryPhone,
       address,
+      telegramChatId,
     });
   } catch (error) {
     console.error("saveSettings failed:", error);
@@ -52,4 +54,26 @@ export async function saveSettings(
   revalidatePath("/", "layout");
 
   return { status: "success", message: "Settings saved." };
+}
+
+export async function testTelegramNotification(): Promise<{ success: boolean; message: string }> {
+  try {
+    // Import dynamically to avoid circular dependencies if any
+    const { notifyTelegram } = await import("@/lib/telegram");
+    const { getSettings } = await import("@/lib/data/settings");
+    
+    const settings = await getSettings();
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = settings.telegramChatId || process.env.TELEGRAM_CHAT_ID;
+
+    if (!token || !chatId) {
+      return { success: false, message: "Missing Telegram Bot Token or Chat ID." };
+    }
+
+    await notifyTelegram("✅ <b>Test successful.</b>\nVentum Telegram notifications are connected correctly.");
+    return { success: true, message: "Test notification sent successfully." };
+  } catch (error: any) {
+    console.error("Telegram test failed:", error);
+    return { success: false, message: "Failed to send test notification." };
+  }
 }

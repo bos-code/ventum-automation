@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ProductPhoto } from "@/components/product-photo";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/types";
+import { AddToEnquiryButton } from "@/components/enquiry/add-to-enquiry-button";
 
 export function ProductCard({ product }: { product: Product }) {
   // One status marker only — stacked badges competed with the product itself.
@@ -14,7 +15,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-400"
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-400 relative"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-navy-950">
         <ProductPhoto
@@ -41,7 +42,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.model ? ` · ${product.model}` : ""}
         </p>
 
-        <h3 className="mt-1.5 font-display text-base font-bold leading-tight tracking-tight text-offwhite">
+        <h3 className="mt-1.5 font-display text-base font-bold leading-tight tracking-tight text-offwhite pr-8">
           {product.name}
         </h3>
 
@@ -49,12 +50,19 @@ export function ProductCard({ product }: { product: Product }) {
           <span className="font-display text-lg font-bold tracking-tight text-offwhite">
             {formatPrice(product.price, product.currency)}
           </span>
-          <span
-            aria-hidden="true"
-            className="text-steel-400 transition group-hover:translate-x-0.5 group-hover:text-ventum-blue-400"
-          >
-            &rarr;
-          </span>
+          <div className="flex items-center gap-2">
+            <div className="opacity-0 transition-opacity group-hover:opacity-100 sm:block">
+              <AddToEnquiryButton 
+                product={product} 
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-ventum-red-600 text-white hover:bg-ventum-red-500 shadow-md shadow-navy-950/50"
+              >
+                <span className="sr-only">Add</span>
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </AddToEnquiryButton>
+            </div>
+          </div>
         </div>
       </div>
     </Link>

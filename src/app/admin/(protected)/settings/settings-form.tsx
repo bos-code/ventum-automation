@@ -183,6 +183,33 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           </p>
         )}
       </div>
+
+      <Section
+        title="Telegram notifications"
+        description="Receive instant alerts for new enquiries. You must configure the BOT_TOKEN in your environment variables for this to work."
+      >
+        <Field
+          id="telegramChatId"
+          label="Telegram Chat ID"
+          defaultValue={settings.telegramChatId || ""}
+          hint="The ID of the group or user chat where notifications should be sent (e.g., -100123456789)."
+          type="text"
+          inputMode="text"
+        />
+        <div>
+          <button
+            type="button"
+            onClick={async () => {
+              const { testTelegramNotification } = await import("./actions");
+              const res = await testTelegramNotification();
+              alert(res.message);
+            }}
+            className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-steel-200 px-4 text-sm font-semibold text-navy-950 transition-colors hover:bg-steel-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+          >
+            Send Test Notification
+          </button>
+        </div>
+      </Section>
     </form>
   );
 }

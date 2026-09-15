@@ -8,6 +8,7 @@ import { productImageUrl } from "@/lib/appwrite/images";
 import { formatPrice } from "@/lib/format";
 import { whatsappLink } from "@/lib/site-config";
 import { ProductPhoto } from "@/components/product-photo";
+import { AddToEnquiryButton } from "@/components/enquiry/add-to-enquiry-button";
 
 export async function generateMetadata(
   props: PageProps<"/products/[slug]">
@@ -123,6 +124,23 @@ export default async function ProductDetailPage(
             >
               Enquire on WhatsApp
             </a>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <AddToEnquiryButton 
+                product={product} 
+                className="inline-flex h-12 items-center rounded-full bg-navy-950 px-6 text-sm font-semibold text-offwhite transition-colors hover:bg-navy-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+              >
+                Add to Enquiry List
+              </AddToEnquiryButton>
+
+              <a
+                href={whatsappLink(settings.whatsapp, enquiryMessage)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center rounded-full bg-ventum-red-600 px-6 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
+              >
+                Enquire on WhatsApp
+              </a>
+            </div>
 
             <p className="mt-4 text-xs text-steel-600">
               Rating shown exactly as printed on the unit. Availability

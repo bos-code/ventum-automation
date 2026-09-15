@@ -1,6 +1,8 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { getSettings } from "@/lib/data/settings";
+import { EnquiryProvider } from "@/components/enquiry/enquiry-context";
+import { EnquiryDrawer } from "@/components/enquiry/enquiry-drawer";
 
 /**
  * Public site chrome. Lives here rather than in the root layout so /admin
@@ -16,10 +18,13 @@ export default async function SiteLayout({
   const settings = await getSettings();
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <SiteHeader settings={settings} />
-      <main className="flex-1">{children}</main>
-      <SiteFooter settings={settings} />
-    </div>
+    <EnquiryProvider>
+      <div className="flex min-h-dvh flex-col">
+        <SiteHeader settings={settings} />
+        <main className="flex-1">{children}</main>
+        <SiteFooter settings={settings} />
+        <EnquiryDrawer whatsappNumber={settings.whatsapp} />
+      </div>
+    </EnquiryProvider>
   );
 }
