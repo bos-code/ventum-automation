@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getLoggedInUser } from "@/lib/appwrite/session";
 import { logout } from "../login/actions";
-import { AdminSidebarNav, AdminBottomNav } from "@/components/admin/admin-nav";
+import { AdminSidebarNav, AdminMobileNav } from "@/components/admin/admin-nav";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -27,25 +27,30 @@ export default async function AdminProtectedLayout({
             <p className="truncate text-xs text-steel-500">{user.email}</p>
           </div>
 
-          {/* Sign out is kept clear of the nav destinations. */}
-          <form action={logout}>
-            <button
-              type="submit"
-              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-navy-950/15 px-3 text-xs font-semibold text-steel-700 transition-colors hover:border-ventum-red-600 hover:text-ventum-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.6}
-                aria-hidden="true"
-                className="h-4 w-4"
+          <div className="flex shrink-0 items-center gap-2">
+            {/* Sign out is kept clear of the nav destinations. Below lg it
+                moves into the drawer so the bar has room for the menu button. */}
+            <form action={logout} className="hidden lg:block">
+              <button
+                type="submit"
+                className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-navy-950/15 px-3 text-xs font-semibold text-steel-700 transition-colors hover:border-ventum-red-600 hover:text-ventum-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
               >
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" strokeLinejoin="round" />
-              </svg>
-              Sign out
-            </button>
-          </form>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                  className="h-4 w-4"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" strokeLinejoin="round" />
+                </svg>
+                Sign out
+              </button>
+            </form>
+
+            <AdminMobileNav signOut={logout} />
+          </div>
         </div>
       </header>
 
@@ -56,11 +61,8 @@ export default async function AdminProtectedLayout({
           </div>
         </aside>
 
-        {/* pb clears the fixed bottom bar on phones. */}
-        <main className="min-w-0 flex-1 pb-28 lg:pb-0">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
       </div>
-
-      <AdminBottomNav />
     </div>
   );
 }

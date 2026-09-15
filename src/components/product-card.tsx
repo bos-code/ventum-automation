@@ -13,10 +13,10 @@ export function ProductCard({ product }: { product: Product }) {
       : null;
 
   return (
-    <Link
-      href={`/products/${product.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-400 relative"
-    >
+    /* The link is stretched over the card via ::after rather than wrapping it.
+       A <button> inside an <a> is invalid HTML, and before hydration the tap
+       fell through to the anchor and navigated instead of adding to the list. */
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10 focus-within:border-white/25 has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-ventum-blue-400">
       <div className="relative aspect-[4/3] overflow-hidden bg-navy-950">
         <ProductPhoto
           product={product}
@@ -43,28 +43,33 @@ export function ProductCard({ product }: { product: Product }) {
         </p>
 
         <h3 className="mt-1.5 font-display text-base font-bold leading-tight tracking-tight text-offwhite pr-8">
-          {product.name}
+          <Link
+            href={`/products/${product.slug}`}
+            className="outline-none after:absolute after:inset-0 after:content-['']"
+          >
+            {product.name}
+          </Link>
         </h3>
 
         <div className="mt-auto flex items-end justify-between gap-2 pt-4">
           <span className="font-display text-lg font-bold tracking-tight text-offwhite">
             {formatPrice(product.price, product.currency)}
           </span>
-          <div className="flex items-center gap-2">
-            <div className="opacity-0 transition-opacity group-hover:opacity-100 sm:block">
-              <AddToEnquiryButton 
-                product={product} 
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-ventum-red-600 text-white hover:bg-ventum-red-500 shadow-md shadow-navy-950/50"
-              >
-                <span className="sr-only">Add</span>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-              </AddToEnquiryButton>
-            </div>
+          {/* z-10 lifts the button above the stretched link's ::after overlay.
+              Always visible on phones — hover-reveal hides it on touch. */}
+          <div className="relative z-10 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+            <AddToEnquiryButton
+              product={product}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ventum-red-600 text-white hover:bg-ventum-red-500 shadow-md shadow-navy-950/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-400 sm:h-8 sm:w-8"
+            >
+              <span className="sr-only">Add {product.name} to enquiry list</span>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </AddToEnquiryButton>
           </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }
