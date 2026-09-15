@@ -116,14 +116,7 @@ export default async function ProductDetailPage(
               </dl>
             )}
 
-            <a
-              href={whatsappLink(settings.whatsapp, enquiryMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex h-12 items-center rounded-full bg-ventum-red-600 px-6 text-sm font-semibold text-offwhite transition-colors hover:bg-ventum-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ventum-blue-500"
-            >
-              Enquire on WhatsApp
-            </a>
+           
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <AddToEnquiryButton
                 product={product}
