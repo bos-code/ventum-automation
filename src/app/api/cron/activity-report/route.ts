@@ -12,8 +12,8 @@ import { sendTelegramMessage } from "@/lib/telegram";
 export const dynamic = "force-dynamic";
 
 /**
- * Vercel Cron sends `Authorization: Bearer $CRON_SECRET` automatically
- * when the CRON_SECRET env var is set. Manual runs send the same header.
+ * Callers (the GitHub Actions workflow, or a manual curl) must send
+ * `Authorization: Bearer $CRON_SECRET`.
  */
 function isAuthorized(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
@@ -24,7 +24,7 @@ function isAuthorized(request: NextRequest): boolean {
 }
 
 /**
- * Runs daily (vercel.json); sends the activity report on every fifth
+ * Called daily (.github/workflows/activity-report.yml); sends the activity report on every fifth
  * day of the cycle. `?force=1` sends it now regardless of the cycle.
  */
 export async function GET(request: NextRequest) {

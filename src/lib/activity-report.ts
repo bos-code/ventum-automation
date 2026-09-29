@@ -9,7 +9,7 @@ const PAGE_SIZE = 100;
 
 /**
  * Day the 5-day cycle is counted from (UTC). The first report was sent
- * manually on this day; the daily cron only sends on every fifth day
+ * manually on this day; the daily scheduled call only sends on every fifth day
  * after it (2026-10-04, 2026-10-09, ...).
  */
 const CYCLE_ANCHOR_UTC = Date.UTC(2026, 8, 29);

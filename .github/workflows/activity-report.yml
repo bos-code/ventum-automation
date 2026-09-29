@@ -1,0 +1,33 @@
+name: Ventum activity report
+
+# Calls the production report endpoint daily; the endpoint itself only
+# sends on every fifth day of its cycle. "Run workflow" in the Actions
+# tab with force=true sends a report immediately.
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Send the report now, regardless of the 5-day cycle"
+        type: boolean
+        default: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Call activity report endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          REPORT_URL: ${{ vars.REPORT_URL || 'https://ventumautomation.com/api/cron/activity-report' }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force && '1' || '0' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then echo "CRON_SECRET repository secret is not set"; exit 1; fi
+          url="$REPORT_URL"
+          if [ "$FORCE" = "1" ]; then url="$url?force=1"; fi
+          status=$(curl -sS -o response.json -w "%{http_code}" -H "Authorization: Bearer $CRON_SECRET" "$url")
+          cat response.json; echo
+          echo "HTTP $status"
+          [ "$status" = "200" ]
