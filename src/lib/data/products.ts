@@ -3,6 +3,7 @@ import { cache } from "react";
 import { ID, Query } from "node-appwrite";
 import { getTablesDB } from "@/lib/appwrite/client";
 import { appwriteEnv } from "@/lib/appwrite/env";
+import { catalogueSnapshot } from "@/lib/data/catalogue-snapshot";
 import type { Product, ProductSpec } from "@/lib/types";
 
 function parseSpecifications(raw: unknown): ProductSpec[] {
@@ -15,7 +16,7 @@ function parseSpecifications(raw: unknown): ProductSpec[] {
   }
 }
 
-function mapProduct(row: Record<string, unknown>): Product {
+export function mapProduct(row: Record<string, unknown>): Product {
   return {
     id: row.$id as string,
     name: row.name as string,
@@ -37,12 +38,15 @@ function mapProduct(row: Record<string, unknown>): Product {
   };
 }
 
+/** Published products from the last catalogue snapshot (see catalogue-snapshot.ts). */
+function snapshotProducts(): Product[] {
+  return catalogueSnapshot.products.map(mapProduct).filter((product) => product.published);
+}
+
 /**
- * Reads all published products. Returns an empty list (instead of
- * throwing) on an Appwrite/network failure — every homepage section
- * that calls this already handles an empty list gracefully, so a
- * transient outage degrades to "no products shown here" rather than
- * crashing the whole page.
+ * Reads all published products. On an Appwrite/network failure it falls
+ * back to the last catalogue snapshot instead of throwing (an empty list
+ * if no snapshot exists yet — every section handles that gracefully).
  */
 export const getPublishedProducts = cache(async (): Promise<Product[]> => {
   try {
@@ -54,8 +58,8 @@ export const getPublishedProducts = cache(async (): Promise<Product[]> => {
     });
     return rows.map((row) => mapProduct(row as unknown as Record<string, unknown>));
   } catch (error) {
-    console.error("getPublishedProducts failed:", error);
-    return [];
+    console.error("getPublishedProducts failed; serving catalogue snapshot:", error);
+    return snapshotProducts();
   }
 });
 
@@ -84,8 +88,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     const row = rows[0];
     return row ? mapProduct(row as unknown as Record<string, unknown>) : null;
   } catch (error) {
-    console.error(`getProductBySlug(${slug}) failed:`, error);
-    return null;
+    console.error(`getProductBySlug(${slug}) failed; serving catalogue snapshot:`, error);
+    return snapshotProducts().find((product) => product.slug === slug) ?? null;
   }
 }
 

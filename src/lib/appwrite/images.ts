@@ -1,3 +1,5 @@
+import { catalogueSnapshot } from "@/lib/data/catalogue-snapshot";
+
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
 const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
 const bucketId = process.env.APPWRITE_BUCKET_ID;
@@ -15,8 +17,15 @@ const bucketId = process.env.APPWRITE_BUCKET_ID;
  * are blocked on the current Appwrite plan (verified: preview returns
  * 403 storage_image_transformations_blocked). Resizing/format conversion
  * is left to next/image instead.
+ *
+ * Photos already copied into the catalogue snapshot are served from the
+ * site itself (file ids are immutable, so it is the same image) and keep
+ * working while Appwrite is unreachable.
  */
 export function productImageUrl(fileId: string) {
+  const local = catalogueSnapshot.images[fileId];
+  if (local) return local;
+
   if (!endpoint || !projectId || !bucketId) {
     throw new Error(
       "Missing NEXT_PUBLIC_APPWRITE_ENDPOINT, NEXT_PUBLIC_APPWRITE_PROJECT_ID, or APPWRITE_BUCKET_ID"

@@ -1,0 +1,56 @@
+name: Catalogue snapshot
+
+# Copies the live published catalogue out of Appwrite into the repo
+# (src/data/catalogue-snapshot.json + public/catalogue-snapshot/) so the
+# site can keep showing it while Appwrite is unreachable. Commits only
+# when something changed; that push triggers the normal Vercel deploy.
+# If Appwrite is down the job fails and the existing snapshot is kept.
+on:
+  schedule:
+    - cron: "30 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: catalogue-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Snapshot catalogue from Appwrite
+        env:
+          NEXT_PUBLIC_APPWRITE_ENDPOINT: ${{ vars.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://fra.cloud.appwrite.io/v1' }}
+          NEXT_PUBLIC_APPWRITE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_APPWRITE_PROJECT_ID }}
+          APPWRITE_DATABASE_ID: ${{ vars.APPWRITE_DATABASE_ID }}
+          APPWRITE_BUCKET_ID: ${{ vars.APPWRITE_BUCKET_ID || 'product-images' }}
+          APPWRITE_PRODUCTS_COLLECTION_ID: ${{ vars.APPWRITE_PRODUCTS_COLLECTION_ID || 'products' }}
+          APPWRITE_CATEGORIES_COLLECTION_ID: ${{ vars.APPWRITE_CATEGORIES_COLLECTION_ID || 'categories' }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+        run: node scripts/snapshot-catalogue.mjs
+
+      - name: Commit snapshot if changed
+        run: |
+          git add src/data/catalogue-snapshot.json public/catalogue-snapshot
+          if git diff --cached --quiet; then echo "No catalogue changes."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh catalogue snapshot"
+          git push

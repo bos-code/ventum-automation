@@ -3,6 +3,7 @@ import { cache } from "react";
 import { Query } from "node-appwrite";
 import { getTablesDB } from "@/lib/appwrite/client";
 import { appwriteEnv } from "@/lib/appwrite/env";
+import { catalogueSnapshot } from "@/lib/data/catalogue-snapshot";
 import type { Category } from "@/lib/types";
 
 function mapCategory(row: Record<string, unknown>): Category {
@@ -26,8 +27,10 @@ export const getPublishedCategories = cache(async (): Promise<Category[]> => {
     });
     return rows.map((row) => mapCategory(row as unknown as Record<string, unknown>));
   } catch (error) {
-    console.error("getPublishedCategories failed:", error);
-    return [];
+    console.error("getPublishedCategories failed; serving catalogue snapshot:", error);
+    return catalogueSnapshot.categories
+      .map(mapCategory)
+      .filter((category) => category.published);
   }
 });
 
